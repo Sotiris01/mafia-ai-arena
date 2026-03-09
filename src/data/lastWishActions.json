@@ -1,0 +1,47 @@
+{
+  "trigger_probability": 0.40,
+  "timing": "after_lynch_before_night",
+
+  "actions": [
+    {
+      "type": "reveal_evidence",
+      "weight": 0.30,
+      "description": {
+        "en": "The spirit of {lynched} reveals a clue: \"{player} visited me on Night {night}.\"",
+        "gr": "Το πνεύμα του {lynched} αποκαλύπτει ένα στοιχείο: «Ο {player} με επισκέφτηκε τη Νύχτα {night}.»"
+      },
+      "effect": "reveals_visit_clue",
+      "target_selection": "random_alive"
+    },
+    {
+      "type": "force_public_vote",
+      "weight": 0.25,
+      "description": {
+        "en": "With their dying breath, {lynched} points at {player}: \"You must answer for yourself tomorrow!\"",
+        "gr": "Με την τελευταία του πνοή, ο {lynched} δείχνει τον {player}: «Θα πρέπει να απολογηθείς αύριο!»"
+      },
+      "effect": "forces_public_vote_next_day",
+      "target_selection": "random_alive"
+    },
+    {
+      "type": "expose_alignment",
+      "weight": 0.25,
+      "description": {
+        "en": "As {lynched} falls, a truth is revealed: {player} walks with the {alignment}.",
+        "gr": "Καθώς ο {lynched} πέφτει, μια αλήθεια αποκαλύπτεται: Ο {player} βαδίζει με την {alignment}."
+      },
+      "effect": "reveals_alignment",
+      "target_selection": "random_alive"
+    },
+    {
+      "type": "curse",
+      "weight": 0.20,
+      "description": {
+        "en": "{lynched}'s curse falls upon {player}! Their night vision is clouded...",
+        "gr": "Η κατάρα του {lynched} πέφτει στον {player}! Η νυχτερινή τους όραση θολώνει..."
+      },
+      "effect": "reduces_night_info",
+      "target_selection": "random_alive"
+    }
+  ]
+}

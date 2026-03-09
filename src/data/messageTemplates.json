@@ -1,0 +1,736 @@
+{
+  "accuse": {
+    "Aggressive": {
+      "high": [
+        { "en": "I'm telling you, {player} is Mafia! Wake up, people!", "gr": "Σας λέω, ο {player} είναι Μαφία! Ξυπνήστε, ρε!" },
+        { "en": "{player} is 100% guilty! I'll stake my life on it!", "gr": "Ο {player} είναι 100% ένοχος! Βάζω το κεφάλι μου!" },
+        { "en": "How can you not see it?! {player} reeks of Mafia!", "gr": "Πώς δεν το βλέπετε;! Ο {player} μυρίζει Μαφία!" }
+      ],
+      "medium": [
+        { "en": "{player} is acting suspicious. We should vote them out.", "gr": "Ο {player} φέρεται ύποπτα. Πρέπει να τον ψηφίσουμε." },
+        { "en": "Something's not right with {player}. I say we lynch them.", "gr": "Κάτι δεν πάει καλά με τον {player}. Λέω να τον λιντσάρουμε." },
+        { "en": "I don't trust {player} one bit. They're hiding something.", "gr": "Δεν εμπιστεύομαι τον {player} καθόλου. Κρύβει κάτι." }
+      ],
+      "low": [
+        { "en": "Hmm, {player} seems off to me...", "gr": "Χμ, ο {player} μου φαίνεται περίεργος..." },
+        { "en": "I'm keeping my eye on {player}.", "gr": "Ο {player} είναι στο μάτι μου." },
+        { "en": "Not sure about {player}. Just saying.", "gr": "Δεν είμαι σίγουρος για τον {player}. Απλά λέω." }
+      ]
+    },
+    "Cautious": {
+      "high": [
+        { "en": "After careful consideration, I believe {player} is Mafia. The evidence points clearly.", "gr": "Μετά από προσεκτική σκέψη, πιστεύω ότι ο {player} είναι Μαφία. Τα στοιχεία δείχνουν ξεκάθαρα." },
+        { "en": "The pattern of {player}'s behavior is consistent with Mafia. I'm confident.", "gr": "Το μοτίβο συμπεριφοράς του {player} είναι συνεπές με Μαφία. Είμαι σίγουρος." },
+        { "en": "I've been watching {player} carefully. They are definitely hiding something serious.", "gr": "Παρακολουθώ τον {player} προσεκτικά. Σίγουρα κρύβει κάτι σοβαρό." }
+      ],
+      "medium": [
+        { "en": "There are some concerning patterns in {player}'s behavior.", "gr": "Υπάρχουν κάποια ανησυχητικά μοτίβα στη συμπεριφορά του {player}." },
+        { "en": "I have reservations about {player}. Their actions don't add up.", "gr": "Έχω επιφυλάξεις για τον {player}. Οι ενέργειές τους δεν βγάζουν νόημα." },
+        { "en": "{player}'s voting record raises questions.", "gr": "Το ιστορικό ψήφου του {player} εγείρει ερωτήματα." }
+      ],
+      "low": [
+        { "en": "I'd like to hear more from {player} before I make up my mind.", "gr": "Θα ήθελα να ακούσω περισσότερα από τον {player} πριν αποφασίσω." },
+        { "en": "{player} has been... interesting. I'm still gathering thoughts.", "gr": "Ο {player} ήταν... ενδιαφέρων. Ακόμα συγκεντρώνω σκέψεις." },
+        { "en": "Not accusing, but {player} could explain some things.", "gr": "Δεν κατηγορώ, αλλά ο {player} θα μπορούσε να εξηγήσει κάποια πράγματα." }
+      ]
+    },
+    "Paranoid": {
+      "high": [
+        { "en": "I KNEW IT! {player} has been plotting against us this whole time!", "gr": "ΤΟ ΗΞΕΡΑ! Ο {player} συνωμοτούσε εναντίον μας όλη αυτή τη ώρα!" },
+        { "en": "Open your eyes! {player} is working with the Mafia — I can feel it!", "gr": "Ανοίξτε τα μάτια σας! Ο {player} συνεργάζεται με τη Μαφία — το νιώθω!" },
+        { "en": "Nobody is safe while {player} is alive! They're the biggest threat!", "gr": "Κανείς δεν είναι ασφαλής όσο ο {player} ζει! Είναι η μεγαλύτερη απειλή!" }
+      ],
+      "medium": [
+        { "en": "Has anyone else noticed how {player} always changes the subject?", "gr": "Έχει παρατηρήσει κανείς άλλος πώς ο {player} αλλάζει πάντα θέμα;" },
+        { "en": "I've been connecting the dots... {player} is involved somehow.", "gr": "Συνδέω τα κομμάτια... ο {player} εμπλέκεται κάπως." },
+        { "en": "{player}'s silence during key moments is very suspicious.", "gr": "Η σιωπή του {player} σε κρίσιμες στιγμές είναι πολύ ύποπτη." }
+      ],
+      "low": [
+        { "en": "Something about {player} doesn't sit right with me...", "gr": "Κάτι στον {player} δεν μου κάθεται καλά..." },
+        { "en": "I'm watching everyone, but especially {player}.", "gr": "Παρακολουθώ τους πάντες, αλλά ειδικά τον {player}." },
+        { "en": "Trust no one. Especially not {player}.", "gr": "Μην εμπιστεύεστε κανέναν. Ειδικά τον {player}." }
+      ]
+    },
+    "Logical": {
+      "high": [
+        { "en": "Based on the evidence: {player} voted against Town interests twice and stayed silent during accusations. Conclusion: Mafia.", "gr": "Βάσει στοιχείων: ο {player} ψήφισε κατά της Town δύο φορές και σιώπησε κατά τις κατηγορίες. Συμπέρασμα: Μαφία." },
+        { "en": "Let me lay out the case against {player}: inconsistent voting, strategic silence, targeted deflection. The logic is clear.", "gr": "Ας εκθέσω την υπόθεση κατά του {player}: ασυνεπής ψηφοφορία, στρατηγική σιωπή, στοχευμένη εκτροπή. Η λογική είναι ξεκάθαρη." },
+        { "en": "If we follow the evidence chain, {player} is the most likely Mafia member remaining.", "gr": "Αν ακολουθήσουμε την αλυσίδα στοιχείων, ο {player} είναι το πιθανότερο εναπομείναν μέλος Μαφίας." }
+      ],
+      "medium": [
+        { "en": "{player}'s behavior doesn't align with their claimed role. Worth investigating.", "gr": "Η συμπεριφορά του {player} δεν ταιριάζει με τον ρόλο που δηλώνει. Αξίζει έρευνα." },
+        { "en": "Statistically, {player}'s voting pattern is anomalous.", "gr": "Στατιστικά, το μοτίβο ψηφοφορίας του {player} είναι ανώμαλο." },
+        { "en": "The probabilities suggest {player} is worth looking into.", "gr": "Οι πιθανότητες υποδηλώνουν ότι αξίζει να εξετάσουμε τον {player}." }
+      ],
+      "low": [
+        { "en": "I'd like to examine {player}'s voting history more closely.", "gr": "Θα ήθελα να εξετάσω πιο προσεκτικά το ιστορικό ψήφου του {player}." },
+        { "en": "{player} is a potential person of interest. Need more data.", "gr": "Ο {player} είναι ενδεχόμενο πρόσωπο ενδιαφέροντος. Χρειάζομαι περισσότερα δεδομένα." },
+        { "en": "Let's keep {player} on our radar for now.", "gr": "Ας κρατήσουμε τον {player} στο ραντάρ μας." }
+      ]
+    },
+    "Shy": {
+      "high": [
+        { "en": "I... I think {player} might be Mafia... sorry...", "gr": "Ε... νομίζω ο {player} μπορεί να είναι Μαφία... συγγνώμη..." },
+        { "en": "Maybe... maybe we should look at {player}? Just my opinion...", "gr": "Ίσως... ίσως πρέπει να κοιτάξουμε τον {player}; Απλά η γνώμη μου..." },
+        { "en": "I don't want to cause trouble, but {player} seems really suspicious to me...", "gr": "Δεν θέλω να δημιουργήσω πρόβλημα, αλλά ο {player} μου φαίνεται πολύ ύποπτος..." }
+      ],
+      "medium": [
+        { "en": "Um... {player} is acting kind of weird, don't you think?", "gr": "Εμ... ο {player} φέρεται κάπως παράξενα, δεν νομίζετε;" },
+        { "en": "I noticed something about {player}... but I could be wrong.", "gr": "Παρατήρησα κάτι στον {player}... αλλά μπορεί να κάνω λάθος." },
+        { "en": "Has anyone else noticed {player}? Or is it just me?", "gr": "Έχει παρατηρήσει κανείς άλλος τον {player}; Ή είμαι μόνο εγώ;" }
+      ],
+      "low": [
+        { "en": "...", "gr": "..." },
+        { "en": "{player}... hmm...", "gr": "{player}... χμμ..." },
+        { "en": "I don't know... {player} maybe?", "gr": "Δεν ξέρω... ο {player} ίσως;" }
+      ]
+    },
+    "Charismatic": {
+      "high": [
+        { "en": "Friends, I've been thinking, and I believe {player} is our enemy. Hear me out.", "gr": "Φίλοι, σκεφτόμουν, και πιστεύω ο {player} είναι ο εχθρός μας. Ακούστε με." },
+        { "en": "We need to act together against {player}. I've seen enough to be sure.", "gr": "Πρέπει να δράσουμε μαζί εναντίον του {player}. Έχω δει αρκετά για να είμαι σίγουρος." },
+        { "en": "Listen to me carefully — {player} has been manipulating us all. It's time to end this.", "gr": "Ακούστε με προσεκτικά — ο {player} μας χειραγωγεί όλους. Ήρθε η ώρα να τελειώσει αυτό." }
+      ],
+      "medium": [
+        { "en": "I think we should discuss {player}'s role in recent events. Something doesn't add up.", "gr": "Νομίζω πρέπει να συζητήσουμε τον ρόλο του {player} στα πρόσφατα γεγονότα. Κάτι δεν βγαίνει." },
+        { "en": "Let's talk about {player}. I've noticed a few things that concern me.", "gr": "Ας μιλήσουμε για τον {player}. Παρατήρησα κάποια πράγματα που με ανησυχούν." },
+        { "en": "I value everyone's opinion, but I think {player} deserves scrutiny.", "gr": "Εκτιμώ τη γνώμη όλων, αλλά νομίζω ο {player} αξίζει εξέταση." }
+      ],
+      "low": [
+        { "en": "What do you all think about {player}? I have a feeling.", "gr": "Τι πιστεύετε για τον {player}; Έχω ένα αίσθημα." },
+        { "en": "Just putting it out there — {player} caught my attention.", "gr": "Απλά το αναφέρω — ο {player} τράβηξε την προσοχή μου." },
+        { "en": "I wonder about {player}. Anyone else share my concern?", "gr": "Αναρωτιέμαι για τον {player}. Κάποιος άλλος μοιράζεται την ανησυχία μου;" }
+      ]
+    }
+  },
+
+  "defend": {
+    "Aggressive": {
+      "high": [
+        { "en": "Back off! {player} is clean! I'll fight anyone who says otherwise!", "gr": "Απομακρυνθείτε! Ο {player} είναι καθαρός! Θα πολεμήσω όποιον λέει το αντίθετο!" },
+        { "en": "You're all wrong about {player}! Stop wasting time!", "gr": "Κάνετε όλοι λάθος για τον {player}! Σταματήστε να χάνετε χρόνο!" },
+        { "en": "Leave {player} alone! The real killer is still out there!", "gr": "Αφήστε τον {player} ήσυχο! Ο αληθινός δολοφόνος είναι ακόμα εκεί έξω!" }
+      ],
+      "medium": [
+        { "en": "{player} is with us. Focus on the real threats.", "gr": "Ο {player} είναι μαζί μας. Εστιάστε στις αληθινές απειλές." },
+        { "en": "I've seen nothing suspicious from {player}. Move on.", "gr": "Δεν είδα τίποτα ύποπτο από τον {player}. Προχωρήστε." },
+        { "en": "Why are we even discussing {player}? They're clearly Town.", "gr": "Γιατί συζητάμε καν τον {player}; Φανερά Town." }
+      ],
+      "low": [
+        { "en": "{player} seems fine to me.", "gr": "Ο {player} μου φαίνεται εντάξει." },
+        { "en": "I wouldn't worry about {player}.", "gr": "Δεν θα ανησυχούσα για τον {player}." },
+        { "en": "There are worse suspects than {player}.", "gr": "Υπάρχουν χειρότεροι ύποπτοι από τον {player}." }
+      ]
+    },
+    "Cautious": {
+      "high": [
+        { "en": "The evidence simply doesn't support accusing {player}. Let's be rational.", "gr": "Τα στοιχεία απλά δεν υποστηρίζουν την κατηγορία κατά του {player}. Ας είμαστε λογικοί." },
+        { "en": "I've been watching {player} closely. Their behavior is consistent with a Town player.", "gr": "Παρακολουθώ τον {player} στενά. Η συμπεριφορά τους είναι συνεπής με παίκτη Town." },
+        { "en": "Before we rush to judgment, remember that {player} has consistently voted Town.", "gr": "Πριν βιαστούμε να κρίνουμε, θυμηθείτε ότι ο {player} ψηφίζει συνεχώς Town." }
+      ],
+      "medium": [
+        { "en": "I see no solid evidence against {player}. We should look elsewhere.", "gr": "Δεν βλέπω σοβαρά στοιχεία κατά του {player}. Πρέπει να κοιτάξουμε αλλού." },
+        { "en": "{player}'s actions have been reasonable so far.", "gr": "Οι ενέργειες του {player} ήταν λογικές μέχρι τώρα." },
+        { "en": "Let's not waste a vote on {player} without proof.", "gr": "Ας μην σπαταλήσουμε ψήφο στον {player} χωρίς αποδείξεις." }
+      ],
+      "low": [
+        { "en": "I'm not convinced {player} is the right target.", "gr": "Δεν είμαι πεπεισμένος ότι ο {player} είναι ο σωστός στόχος." },
+        { "en": "{player} doesn't concern me much right now.", "gr": "Ο {player} δεν με ανησυχεί ιδιαίτερα αυτή τη στιγμή." },
+        { "en": "Maybe we're looking at the wrong person with {player}.", "gr": "Ίσως κοιτάμε λάθος πρόσωπο με τον {player}." }
+      ]
+    },
+    "Paranoid": {
+      "high": [
+        { "en": "You're being played! The REAL Mafia WANTS you to lynch {player}!", "gr": "Σας χειραγωγούν! Η ΑΛΗΘΙΝΗ Μαφία ΘΕΛΕΙ να λιντσάρετε τον {player}!" },
+        { "en": "Think about it — who benefits from {player}'s death? The Mafia does!", "gr": "Σκεφτείτε — ποιος ωφελείται από τον θάνατο του {player}; Η Μαφία!" },
+        { "en": "This accusation against {player} is a setup! Can't you see the conspiracy?!", "gr": "Αυτή η κατηγορία κατά του {player} είναι παγίδα! Δεν βλέπετε τη συνωμοσία;!" }
+      ],
+      "medium": [
+        { "en": "Wait... why is everyone so eager to lynch {player}? That's suspicious in itself.", "gr": "Περιμένετε... γιατί είναι όλοι τόσο πρόθυμοι να λιντσάρουν τον {player}; Αυτό από μόνο του είναι ύποπτο." },
+        { "en": "I don't think {player} is the one we should be afraid of.", "gr": "Δεν νομίζω ότι ο {player} είναι αυτός που πρέπει να φοβόμαστε." },
+        { "en": "The accusers are more suspicious than {player} right now...", "gr": "Οι κατήγοροι είναι πιο ύποπτοι από τον {player} αυτή τη στιγμή..." }
+      ],
+      "low": [
+        { "en": "Maybe {player} is not the problem here...", "gr": "Ίσως ο {player} δεν είναι το πρόβλημα εδώ..." },
+        { "en": "I'm suspicious of everyone, but less so of {player}.", "gr": "Υποψιάζομαι τους πάντες, αλλά λιγότερο τον {player}." },
+        { "en": "Something tells me {player} is being framed...", "gr": "Κάτι μου λέει ότι ο {player} παγιδεύεται..." }
+      ]
+    },
+    "Logical": {
+      "high": [
+        { "en": "Let me present the counter-evidence: {player} voted correctly on Day 1, stayed consistent, and has no motive. They're Town.", "gr": "Ας παρουσιάσω τα αντίθετα στοιχεία: ο {player} ψήφισε σωστά τη Μέρα 1, παρέμεινε συνεπής, και δεν έχει κίνητρο. Είναι Town." },
+        { "en": "The accusation against {player} is based on emotion, not evidence. Let's stay logical.", "gr": "Η κατηγορία κατά του {player} βασίζεται σε συναίσθημα, όχι στοιχεία. Ας μείνουμε λογικοί." },
+        { "en": "Analyzing the data: {player}'s behavior is entirely consistent with a Town role.", "gr": "Αναλύοντας τα δεδομένα: η συμπεριφορά του {player} είναι απόλυτα συνεπής με ρόλο Town." }
+      ],
+      "medium": [
+        { "en": "The case against {player} has logical gaps. We need stronger evidence.", "gr": "Η υπόθεση κατά του {player} έχει λογικά κενά. Χρειαζόμαστε ισχυρότερα στοιχεία." },
+        { "en": "{player}'s actions are consistent with their behavior pattern. Nothing anomalous.", "gr": "Οι ενέργειες του {player} είναι συνεπείς με το πρότυπο συμπεριφοράς τους. Τίποτα ανώμαλο." },
+        { "en": "We should look for stronger leads before targeting {player}.", "gr": "Πρέπει να βρούμε ισχυρότερα ίχνη πριν στοχεύσουμε τον {player}." }
+      ],
+      "low": [
+        { "en": "I don't see sufficient reason to suspect {player} yet.", "gr": "Δεν βλέπω επαρκή λόγο να υποψιαστώ τον {player} ακόμα." },
+        { "en": "{player} is within expected behavior parameters.", "gr": "Ο {player} είναι εντός αναμενόμενων παραμέτρων συμπεριφοράς." },
+        { "en": "Insufficient data to accuse {player}.", "gr": "Ανεπαρκή δεδομένα για κατηγορία κατά του {player}." }
+      ]
+    },
+    "Shy": {
+      "high": [
+        { "en": "P-please don't lynch {player}... I really think they're innocent...", "gr": "Π-παρακαλώ μην λιντσάρετε τον {player}... πιστεύω πραγματικά ότι είναι αθώος..." },
+        { "en": "I know nobody listens to me, but {player} is good. I can tell.", "gr": "Ξέρω ότι κανείς δεν με ακούει, αλλά ο {player} είναι καλός. Το καταλαβαίνω." },
+        { "en": "{player} has been nice to me... I don't think they're Mafia.", "gr": "Ο {player} ήταν καλός μαζί μου... δεν νομίζω είναι Μαφία." }
+      ],
+      "medium": [
+        { "en": "I think {player} is okay...", "gr": "Νομίζω ο {player} είναι εντάξει..." },
+        { "en": "Maybe we shouldn't rush with {player}...", "gr": "Ίσως δεν πρέπει να βιαστούμε με τον {player}..." },
+        { "en": "I... don't think it's {player}.", "gr": "Ε... δεν νομίζω ότι είναι ο {player}." }
+      ],
+      "low": [
+        { "en": "...", "gr": "..." },
+        { "en": "*shakes head at {player}'s accusation*", "gr": "*κουνά αρνητικά το κεφάλι στην κατηγορία του {player}*" },
+        { "en": "No... not {player}...", "gr": "Όχι... όχι ο {player}..." }
+      ]
+    },
+    "Charismatic": {
+      "high": [
+        { "en": "Everyone, {player} has been a loyal ally. I vouch for them personally.", "gr": "Όλοι, ο {player} υπήρξε πιστός σύμμαχος. Εγγυώμαι προσωπικά." },
+        { "en": "We're making a mistake targeting {player}. Let me explain why they're innocent.", "gr": "Κάνουμε λάθος στοχεύοντας τον {player}. Ας εξηγήσω γιατί είναι αθώος." },
+        { "en": "I know {player} well. They're with us. Let's focus on the real enemy together.", "gr": "Γνωρίζω τον {player} καλά. Είναι μαζί μας. Ας εστιάσουμε μαζί στον πραγματικό εχθρό." }
+      ],
+      "medium": [
+        { "en": "Let's hear {player} out before we decide. Everyone deserves a fair hearing.", "gr": "Ας ακούσουμε τον {player} πριν αποφασίσουμε. Όλοι αξίζουν δίκαιη ακρόαση." },
+        { "en": "I've worked with {player} and I believe in their innocence.", "gr": "Έχω συνεργαστεί με τον {player} και πιστεύω στην αθωότητά τους." },
+        { "en": "We should give {player} the benefit of the doubt for now.", "gr": "Πρέπει να δώσουμε στον {player} το πλεονέκτημα της αμφιβολίας." }
+      ],
+      "low": [
+        { "en": "I wouldn't be so quick to judge {player}.", "gr": "Δεν θα ήμουν τόσο γρήγορος να κρίνω τον {player}." },
+        { "en": "{player} seems alright to me. What does everyone think?", "gr": "Ο {player} μου φαίνεται εντάξει. Τι πιστεύετε;" },
+        { "en": "Let's keep an open mind about {player}.", "gr": "Ας κρατήσουμε ανοιχτό μυαλό για τον {player}." }
+      ]
+    }
+  },
+
+  "agree": {
+    "Aggressive": {
+      "high": [
+        { "en": "YES! Finally someone sees it! {player} is right!", "gr": "ΝΑΙ! Επιτέλους κάποιος το βλέπει! Ο {player} έχει δίκιο!" },
+        { "en": "Exactly what I was thinking! {player} nailed it!", "gr": "Ακριβώς αυτό σκεφτόμουν! Ο {player} τα είπε!" },
+        { "en": "100% agree with {player}! Let's do this!", "gr": "100% συμφωνώ με τον {player}! Πάμε!" }
+      ],
+      "medium": [
+        { "en": "{player} makes a good point.", "gr": "Ο {player} κάνει μια καλή παρατήρηση." },
+        { "en": "I agree with {player}. Let's act on it.", "gr": "Συμφωνώ με τον {player}. Ας δράσουμε." },
+        { "en": "Yeah, {player} is onto something.", "gr": "Ναι, ο {player} κάτι κυνηγά." }
+      ],
+      "low": [
+        { "en": "Sure, what {player} said.", "gr": "Ναι, αυτό που είπε ο {player}." },
+        { "en": "Works for me.", "gr": "Μου κάνει." },
+        { "en": "{player} has a point.", "gr": "Ο {player} έχει ένα δίκιο." }
+      ]
+    },
+    "Cautious": {
+      "high": [
+        { "en": "After reviewing the evidence, I fully concur with {player}'s assessment.", "gr": "Μετά από αξιολόγηση των στοιχείων, συμφωνώ πλήρως με την αξιολόγηση του {player}." },
+        { "en": "{player}'s analysis is thorough and well-reasoned. I support their position.", "gr": "Η ανάλυση του {player} είναι ολοκληρωμένη και εύλογη. Υποστηρίζω τη θέση τους." },
+        { "en": "The evidence supports what {player} is saying. I'm convinced.", "gr": "Τα στοιχεία υποστηρίζουν αυτά που λέει ο {player}. Είμαι πεπεισμένος." }
+      ],
+      "medium": [
+        { "en": "{player} raises valid points that merit consideration.", "gr": "Ο {player} θέτει έγκυρα σημεία που αξίζουν εξέτασης." },
+        { "en": "I'm inclined to agree with {player}'s reasoning.", "gr": "Κλίνω να συμφωνήσω με τη λογική του {player}." },
+        { "en": "{player}'s observation is consistent with what I've noticed.", "gr": "Η παρατήρηση του {player} είναι συνεπής με ό,τι έχω παρατηρήσει." }
+      ],
+      "low": [
+        { "en": "{player} might be onto something. I'll keep watching.", "gr": "Ο {player} μπορεί να κυνηγά κάτι. Θα συνεχίσω να παρακολουθώ." },
+        { "en": "Interesting point from {player}.", "gr": "Ενδιαφέρουσα παρατήρηση από τον {player}." },
+        { "en": "I see where {player} is coming from.", "gr": "Καταλαβαίνω από πού έρχεται ο {player}." }
+      ]
+    },
+    "Paranoid": {
+      "high": [
+        { "en": "SEE?! {player} gets it! At least SOMEONE here isn't blind!", "gr": "ΒΛΕΠΕΤΕ;! Ο {player} το καταλαβαίνει! Τουλάχιστον ΚΑΠΟΙΟΣ δεν είναι τυφλός!" },
+        { "en": "I've been saying this all along! {player} sees the truth!", "gr": "Το λέω εδώ και ώρα! Ο {player} βλέπει την αλήθεια!" },
+        { "en": "Finally! {player} connects the dots like I have!", "gr": "Επιτέλους! Ο {player} συνδέει τα κομμάτια όπως κι εγώ!" }
+      ],
+      "medium": [
+        { "en": "{player} is right... for once, I'm not the only one who sees it.", "gr": "Ο {player} έχει δίκιο... για μία φορά, δεν είμαι ο μόνος που το βλέπει." },
+        { "en": "I agree with {player}... but we should stay vigilant.", "gr": "Συμφωνώ με τον {player}... αλλά πρέπει να μείνουμε σε εγρήγορση." },
+        { "en": "{player} noticed it too... good. We're not alone.", "gr": "Ο {player} το παρατήρησε κι αυτός... καλά. Δεν είμαστε μόνοι." }
+      ],
+      "low": [
+        { "en": "Hmm, {player} might be right... but I trust no one fully.", "gr": "Χμμ, ο {player} μπορεί να έχει δίκιο... αλλά δεν εμπιστεύομαι κανέναν πλήρως." },
+        { "en": "Maybe {player} has a point...", "gr": "Ίσως ο {player} έχει ένα δίκιο..." },
+        { "en": "I'll cautiously agree with {player}... for now.", "gr": "Θα συμφωνήσω με επιφύλαξη με τον {player}... προς το παρόν." }
+      ]
+    },
+    "Logical": {
+      "high": [
+        { "en": "{player}'s logic is sound. The conclusion follows from the evidence.", "gr": "Η λογική του {player} είναι ορθή. Το συμπέρασμα ακολουθεί τα στοιχεία." },
+        { "en": "I've independently reached the same conclusion as {player}. The data supports it.", "gr": "Έχω φτάσει ανεξάρτητα στο ίδιο συμπέρασμα με τον {player}. Τα δεδομένα το υποστηρίζουν." },
+        { "en": "{player}'s reasoning is correct. I strongly concur.", "gr": "Η λογική του {player} είναι σωστή. Συμφωνώ ισχυρά." }
+      ],
+      "medium": [
+        { "en": "{player}'s analysis holds up under scrutiny.", "gr": "Η ανάλυση του {player} αντέχει στον έλεγχο." },
+        { "en": "The evidence supports {player}'s position.", "gr": "Τα στοιχεία υποστηρίζουν τη θέση του {player}." },
+        { "en": "Logically, {player} is correct.", "gr": "Λογικά, ο {player} έχει δίκιο." }
+      ],
+      "low": [
+        { "en": "{player}'s hypothesis is plausible.", "gr": "Η υπόθεση του {player} είναι εύλογη." },
+        { "en": "Noted. {player}'s point has merit.", "gr": "Σημειώθηκε. Η παρατήρηση του {player} έχει αξία." },
+        { "en": "I see the logic in {player}'s argument.", "gr": "Βλέπω τη λογική στο επιχείρημα του {player}." }
+      ]
+    },
+    "Shy": {
+      "high": [
+        { "en": "Y-yes... I agree with {player}...", "gr": "Ν-ναι... συμφωνώ με τον {player}..." },
+        { "en": "*nods* {player} is right...", "gr": "*κουνάει το κεφάλι* Ο {player} έχει δίκιο..." },
+        { "en": "I was thinking the same as {player}... I just didn't say it.", "gr": "Σκεφτόμουν το ίδιο με τον {player}... απλά δεν το είπα." }
+      ],
+      "medium": [
+        { "en": "I think {player} is right...", "gr": "Νομίζω ο {player} έχει δίκιο..." },
+        { "en": "Same... what {player} said.", "gr": "Ομοίως... αυτό που είπε ο {player}." },
+        { "en": "*quietly agrees with {player}*", "gr": "*συμφωνεί ήσυχα με τον {player}*" }
+      ],
+      "low": [
+        { "en": "...yeah.", "gr": "...ναι." },
+        { "en": "*nods*", "gr": "*κουνάει το κεφάλι*" },
+        { "en": "Mhm.", "gr": "Μχμ." }
+      ]
+    },
+    "Charismatic": {
+      "high": [
+        { "en": "Well said, {player}! That's exactly what this town needs to hear!", "gr": "Μπράβο, {player}! Αυτό ακριβώς χρειαζόταν να ακούσει η πόλη!" },
+        { "en": "I couldn't agree more, {player}. Let's rally behind this!", "gr": "Δεν θα μπορούσα να συμφωνήσω περισσότερο, {player}. Ας ενωθούμε πίσω απ' αυτό!" },
+        { "en": "{player} speaks the truth! Are we all with them?", "gr": "Ο {player} λέει την αλήθεια! Είμαστε όλοι μαζί τους;" }
+      ],
+      "medium": [
+        { "en": "Good thinking, {player}. I support that.", "gr": "Καλή σκέψη, {player}. Το υποστηρίζω." },
+        { "en": "{player} brings up an excellent point. Let's consider it together.", "gr": "Ο {player} αναφέρει ένα εξαιρετικό σημείο. Ας το εξετάσουμε μαζί." },
+        { "en": "I'm with {player} on this. Who else agrees?", "gr": "Είμαι με τον {player} σε αυτό. Ποιος άλλος συμφωνεί;" }
+      ],
+      "low": [
+        { "en": "That's fair, {player}.", "gr": "Δίκαιο, {player}." },
+        { "en": "{player} might be onto something there.", "gr": "Ο {player} μπορεί να κυνηγά κάτι εκεί." },
+        { "en": "Worth considering what {player} says.", "gr": "Αξίζει να σκεφτούμε αυτά που λέει ο {player}." }
+      ]
+    }
+  },
+
+  "disagree": {
+    "Aggressive": {
+      "high": [
+        { "en": "That's bull! {player} is WRONG and I'll prove it!", "gr": "Ανοησίες! Ο {player} ΚΑΝΕΙ ΛΑΘΟΣ και θα το αποδείξω!" },
+        { "en": "No way! {player} doesn't know what they're talking about!", "gr": "Με τίποτα! Ο {player} δεν ξέρει τι λέει!" },
+        { "en": "I disagree COMPLETELY with {player}! This is a waste of time!", "gr": "Διαφωνώ ΟΛΟΚΛΗΡΩΤΙΚΑ με τον {player}! Αυτό είναι χάσιμο χρόνου!" }
+      ],
+      "medium": [
+        { "en": "Nah, {player} is off. I don't buy it.", "gr": "Όχι, ο {player} κάνει λάθος. Δεν το αγοράζω." },
+        { "en": "I see it differently than {player}.", "gr": "Το βλέπω διαφορετικά από τον {player}." },
+        { "en": "{player} is barking up the wrong tree.", "gr": "Ο {player} γαβγίζει σε λάθος δέντρο." }
+      ],
+      "low": [
+        { "en": "Meh, not convinced by {player}.", "gr": "Μπα, δεν πείθομαι από τον {player}." },
+        { "en": "I'll pass on {player}'s idea.", "gr": "Πάσο στην ιδέα του {player}." },
+        { "en": "Not really, {player}.", "gr": "Όχι ακριβώς, {player}." }
+      ]
+    },
+    "Cautious": {
+      "high": [
+        { "en": "I've considered {player}'s argument carefully, and I findserious flaws in their reasoning.", "gr": "Εξέτασα το επιχείρημα του {player} προσεκτικά και βρίσκω σοβαρά ελαττώματα στη λογική τους." },
+        { "en": "{player} is overlooking critical evidence. Their conclusion is premature.", "gr": "Ο {player} παραβλέπει κρίσιμα στοιχεία. Το συμπέρασμά τους είναι πρόωρο." },
+        { "en": "With respect, {player}'s analysis has significant gaps.", "gr": "Με σεβασμό, η ανάλυση του {player} έχει σημαντικά κενά." }
+      ],
+      "medium": [
+        { "en": "I'm not sure {player}'s reading of the situation is accurate.", "gr": "Δεν είμαι σίγουρος ότι η ανάγνωση της κατάστασης του {player} είναι ακριβής." },
+        { "en": "{player} may be jumping to conclusions.", "gr": "Ο {player} μπορεί να βγάζει βιαστικά συμπεράσματα." },
+        { "en": "I'd need more evidence before agreeing with {player}.", "gr": "Θα χρειαζόμουν περισσότερα στοιχεία πριν συμφωνήσω με τον {player}." }
+      ],
+      "low": [
+        { "en": "Hmm, I'm not entirely convinced by {player}.", "gr": "Χμμ, δεν είμαι εντελώς πεπεισμένος από τον {player}." },
+        { "en": "{player}'s point needs more support.", "gr": "Η θέση του {player} χρειάζεται περισσότερη στήριξη." },
+        { "en": "I reserve judgment on {player}'s claim.", "gr": "Επιφυλάσσομαι για τον ισχυρισμό του {player}." }
+      ]
+    },
+    "Paranoid": {
+      "high": [
+        { "en": "{player} is LYING! They're trying to mislead us all!", "gr": "Ο {player} ΨΕΥΔΕΤΑΙ! Προσπαθεί να μας παραπλανήσει όλους!" },
+        { "en": "Don't listen to {player}! This is exactly what the Mafia wants you to think!", "gr": "Μην ακούτε τον {player}! Αυτό ακριβώς θέλει η Μαφία να πιστέψετε!" },
+        { "en": "I see right through {player}'s game! They're manipulating us!", "gr": "Βλέπω ξεκάθαρα το παιχνίδι του {player}! Μας χειραγωγεί!" }
+      ],
+      "medium": [
+        { "en": "Something's off about what {player} says. I don't trust it.", "gr": "Κάτι δεν κολλάει σε αυτό που λέει ο {player}. Δεν το εμπιστεύομαι." },
+        { "en": "Why is {player} pushing this so hard? What's their agenda?", "gr": "Γιατί ο {player} πιέζει τόσο πολύ; Ποιο είναι το σχέδιό τους;" },
+        { "en": "{player}'s argument feels rehearsed... like a cover story.", "gr": "Το επιχείρημα του {player} φαίνεται μαθημένο... σαν κάλυψη." }
+      ],
+      "low": [
+        { "en": "I'm not buying what {player} is selling...", "gr": "Δεν αγοράζω αυτό που πουλά ο {player}..." },
+        { "en": "Hmm, {player}'s reasoning seems off...", "gr": "Χμμ, η λογική του {player} φαίνεται λαθεμένη..." },
+        { "en": "I have my doubts about {player}'s theory.", "gr": "Έχω αμφιβολίες για τη θεωρία του {player}." }
+      ]
+    },
+    "Logical": {
+      "high": [
+        { "en": "{player}'s argument contains a logical fallacy. The premises don't support the conclusion.", "gr": "Το επιχείρημα του {player} περιέχει λογικό σφάλμα. Οι προκείμενες δεν υποστηρίζουν το συμπέρασμα." },
+        { "en": "I've verified the data, and {player}'s analysis is incorrect.", "gr": "Επαλήθευσα τα δεδομένα και η ανάλυση του {player} είναι λανθασμένη." },
+        { "en": "The evidence contradicts {player}'s position. Let me explain why.", "gr": "Τα στοιχεία αντικρούουν τη θέση του {player}. Ας εξηγήσω γιατί." }
+      ],
+      "medium": [
+        { "en": "{player}'s conclusion doesn't follow from the available evidence.", "gr": "Το συμπέρασμα του {player} δεν ακολουθεί τα διαθέσιμα στοιχεία." },
+        { "en": "There's a flaw in {player}'s reasoning.", "gr": "Υπάρχει ελάττωμα στη λογική του {player}." },
+        { "en": "I respectfully disagree with {player}. The data suggests otherwise.", "gr": "Διαφωνώ με σεβασμό με τον {player}. Τα δεδομένα υποδηλώνουν το αντίθετο." }
+      ],
+      "low": [
+        { "en": "{player}'s hypothesis is unverified.", "gr": "Η υπόθεση του {player} δεν έχει επαληθευτεί." },
+        { "en": "I lean a different direction than {player}.", "gr": "Κλίνω σε διαφορετική κατεύθυνση από τον {player}." },
+        { "en": "Insufficient evidence for {player}'s claim.", "gr": "Ανεπαρκή στοιχεία για τον ισχυρισμό του {player}." }
+      ]
+    },
+    "Shy": {
+      "high": [
+        { "en": "I... I don't think that's right, {player}... sorry...", "gr": "Ε... δεν νομίζω ότι είναι σωστό, {player}... συγγνώμη..." },
+        { "en": "Um... I see it differently than {player}...", "gr": "Εμ... το βλέπω διαφορετικά από τον {player}..." },
+        { "en": "I disagree... but don't be mad at me...", "gr": "Διαφωνώ... αλλά μη θυμώνετε μαζί μου..." }
+      ],
+      "medium": [
+        { "en": "I'm not sure about that, {player}...", "gr": "Δεν είμαι σίγουρος, {player}..." },
+        { "en": "Hmm... I don't think so...", "gr": "Χμμ... δεν νομίζω..." },
+        { "en": "Maybe not, {player}...", "gr": "Ίσως όχι, {player}..." }
+      ],
+      "low": [
+        { "en": "*shakes head*", "gr": "*κουνά αρνητικά το κεφάλι*" },
+        { "en": "...no.", "gr": "...όχι." },
+        { "en": "Mm...", "gr": "Μμ..." }
+      ]
+    },
+    "Charismatic": {
+      "high": [
+        { "en": "I appreciate {player}'s perspective, but I think they're mistaken. Here's another way to look at it.", "gr": "Εκτιμώ την οπτική του {player}, αλλά νομίζω κάνει λάθος. Ιδού ένας άλλος τρόπος να το δούμε." },
+        { "en": "With all due respect to {player}, I see things very differently.", "gr": "Με όλο τον σεβασμό στον {player}, βλέπω τα πράγματα πολύ διαφορετικά." },
+        { "en": "I hear {player}, but I think we need to consider the bigger picture.", "gr": "Ακούω τον {player}, αλλά νομίζω πρέπει να δούμε τη μεγαλύτερη εικόνα." }
+      ],
+      "medium": [
+        { "en": "I see {player}'s point, but I'm not fully convinced.", "gr": "Βλέπω το σημείο του {player}, αλλά δεν είμαι πλήρως πεπεισμένος." },
+        { "en": "Interesting take, {player}, but let me offer an alternative view.", "gr": "Ενδιαφέρουσα θέση, {player}, αλλά ας προσφέρω μια εναλλακτική." },
+        { "en": "I respect {player}'s opinion, though I disagree.", "gr": "Σέβομαι τη γνώμη του {player}, αν και διαφωνώ." }
+      ],
+      "low": [
+        { "en": "Hmm, not sure I'm with {player} on this one.", "gr": "Χμμ, δεν είμαι σίγουρος ότι συμφωνώ με τον {player} σε αυτό." },
+        { "en": "I might see it a little differently, {player}.", "gr": "Ίσως το βλέπω λίγο διαφορετικά, {player}." },
+        { "en": "Let's keep exploring options before committing to {player}'s idea.", "gr": "Ας συνεχίσουμε να εξερευνούμε επιλογές πριν δεσμευτούμε στην ιδέα του {player}." }
+      ]
+    }
+  },
+
+  "claim": {
+    "Aggressive": {
+      "high": [
+        { "en": "I'm the {role}! Deal with it!", "gr": "Είμαι ο {role}! Αντέξτε το!" },
+        { "en": "Listen up — I'm {role}. Anyone who doubts me can go next!", "gr": "Ακούστε — είμαι {role}. Όποιος αμφιβάλλει μπορεί να πάει επόμενος!" },
+        { "en": "I'll say it loud: I AM the {role}! Live with it!", "gr": "Θα το πω δυνατά: ΕΙΜΑΙ ο {role}! Ζήστε μ' αυτό!" }
+      ],
+      "medium": [
+        { "en": "I'm {role}. That's all you need to know.", "gr": "Είμαι {role}. Αυτό είναι όλο που πρέπει να ξέρετε." },
+        { "en": "Just so you know, I'm the {role}.", "gr": "Για να ξέρετε, είμαι ο {role}." },
+        { "en": "{role}, right here. Now focus on the real problem.", "gr": "{role}, εδώ. Τώρα εστιάστε στο πραγματικό πρόβλημα." }
+      ],
+      "low": [
+        { "en": "I'm {role}, if it matters.", "gr": "Είμαι {role}, αν σας ενδιαφέρει." },
+        { "en": "Fine. {role}.", "gr": "Εντάξει. {role}." },
+        { "en": "I happen to be {role}.", "gr": "Τυχαίνει να είμαι {role}." }
+      ]
+    },
+    "Cautious": {
+      "high": [
+        { "en": "I want to be transparent with everyone. I am the {role}, and I can prove it through my actions.", "gr": "Θέλω να είμαι διαφανής με όλους. Είμαι ο {role} και μπορώ να το αποδείξω μέσα από τις πράξεις μου." },
+        { "en": "I've been hesitant to reveal this, but I am the {role}. The evidence supports my claim.", "gr": "Δίσταζα να το αποκαλύψω, αλλά είμαι ο {role}. Τα στοιχεία υποστηρίζουν τον ισχυρισμό μου." },
+        { "en": "For the good of the town, I must reveal: I am {role}.", "gr": "Για το καλό της πόλης, πρέπει να αποκαλύψω: είμαι {role}." }
+      ],
+      "medium": [
+        { "en": "I'm {role}. I've been waiting for the right time to say this.", "gr": "Είμαι {role}. Περίμενα τη σωστή στιγμή." },
+        { "en": "For the record, I'm playing as {role}.", "gr": "Για το αρχείο, παίζω ως {role}." },
+        { "en": "I'll claim {role}. Make of it what you will.", "gr": "Δηλώνω {role}. Κρίνετε μόνοι σας." }
+      ],
+      "low": [
+        { "en": "If it helps, I'm {role}.", "gr": "Αν βοηθά, είμαι {role}." },
+        { "en": "I'm {role}, but I understand if you need more proof.", "gr": "Είμαι {role}, αλλά καταλαβαίνω αν χρειάζεστε περισσότερες αποδείξεις." },
+        { "en": "My role is {role}.", "gr": "Ο ρόλος μου είναι {role}." }
+      ]
+    },
+    "Paranoid": {
+      "high": [
+        { "en": "I didn't want to say this because the Mafia will target me, but I'm {role}!", "gr": "Δεν ήθελα να το πω γιατί η Μαφία θα με στοχεύσει, αλλά είμαι {role}!" },
+        { "en": "They'll probably kill me tonight for this, but I'm {role}! You NEED to believe me!", "gr": "Μάλλον θα με σκοτώσουν απόψε γι' αυτό, αλλά είμαι {role}! ΠΡΕΠΕΙ να με πιστέψετε!" },
+        { "en": "I'm {role}! And I know what I've seen! You're all in danger!", "gr": "Είμαι {role}! Και ξέρω τι έχω δει! Είστε όλοι σε κίνδυνο!" }
+      ],
+      "medium": [
+        { "en": "Fine... I'm {role}. But who knows if they'll even let me live after this.", "gr": "Εντάξει... είμαι {role}. Αλλά ποιος ξέρει αν θα με αφήσουν ζωντανό μετά." },
+        { "en": "I'm {role}. Don't make me regret telling you.", "gr": "Είμαι {role}. Μη με κάνετε να το μετανιώσω." },
+        { "en": "{role}. That's me. The question is — who's going to protect me now?", "gr": "{role}. Αυτός είμαι. Το ερώτημα είναι — ποιος θα με προστατέψει τώρα;" }
+      ],
+      "low": [
+        { "en": "I'm {role}... but I'm not sure I should have said that.", "gr": "Είμαι {role}... αλλά δεν ξέρω αν έπρεπε να το πω." },
+        { "en": "You didn't hear it from me, but... {role}.", "gr": "Δεν το ακούσατε από μένα, αλλά... {role}." },
+        { "en": "*whispers* I'm {role}.", "gr": "*ψιθυρίζει* Είμαι {role}." }
+      ]
+    },
+    "Logical": {
+      "high": [
+        { "en": "Strategically, it's optimal to reveal now: I am {role}. My information can help the town.", "gr": "Στρατηγικά, είναι βέλτιστο να αποκαλυφθώ τώρα: είμαι {role}. Οι πληροφορίες μου μπορούν να βοηθήσουν." },
+        { "en": "The game state necessitates my reveal. I am {role}, and here's what I know.", "gr": "Η κατάσταση του παιχνιδιού απαιτεί αποκάλυψη. Είμαι {role}, και εδώ αυτά που ξέρω." },
+        { "en": "I am {role}. This is a calculated decision to share this now.", "gr": "Είμαι {role}. Αυτή είναι μια μελετημένη απόφαση." }
+      ],
+      "medium": [
+        { "en": "For informational purposes: I'm {role}.", "gr": "Για ενημέρωση: είμαι {role}." },
+        { "en": "I'll claim {role}. The evidence from my actions should corroborate.", "gr": "Δηλώνω {role}. Τα στοιχεία από τις πράξεις μου θα επιβεβαιώσουν." },
+        { "en": "Data point: I am {role}.", "gr": "Δεδομένο: είμαι {role}." }
+      ],
+      "low": [
+        { "en": "If relevant: {role}.", "gr": "Αν είναι σχετικό: {role}." },
+        { "en": "I'm {role}. Factor that into your calculations.", "gr": "Είμαι {role}. Υπολογίστε το." },
+        { "en": "My role is {role}, if that affects anyone's analysis.", "gr": "Ο ρόλος μου είναι {role}, αν αυτό επηρεάζει κάποια ανάλυση." }
+      ]
+    },
+    "Shy": {
+      "high": [
+        { "en": "I-I'm {role}... please believe me...", "gr": "Ε-είμαι {role}... πιστέψτε με παρακαλώ..." },
+        { "en": "This is hard to say but... I'm {role}...", "gr": "Αυτό είναι δύσκολο να το πω αλλά... είμαι {role}..." },
+        { "en": "I'm {role}... I know you might not believe me...", "gr": "Είμαι {role}... ξέρω ίσως δεν με πιστεύετε..." }
+      ],
+      "medium": [
+        { "en": "Um... I'm {role}.", "gr": "Εμ... είμαι {role}." },
+        { "en": "...{role}. That's me.", "gr": "...{role}. Αυτός/ή είμαι." },
+        { "en": "I'm {role}, if anyone cares...", "gr": "Είμαι {role}, αν ενδιαφέρεται κανείς..." }
+      ],
+      "low": [
+        { "en": "*quietly* {role}.", "gr": "*ήσυχα* {role}." },
+        { "en": "...{role}...", "gr": "...{role}..." },
+        { "en": "*mumbles* {role}", "gr": "*μουρμουρίζει* {role}" }
+      ]
+    },
+    "Charismatic": {
+      "high": [
+        { "en": "My friends, the time has come for honesty. I am {role}, and I'm here to help us win.", "gr": "Φίλοι μου, ήρθε η ώρα για ειλικρίνεια. Είμαι {role} και είμαι εδώ να μας βοηθήσω να κερδίσουμε." },
+        { "en": "I trust you all with this: I am {role}. Let's use this information wisely.", "gr": "Σας εμπιστεύομαι όλους με αυτό: είμαι {role}. Ας χρησιμοποιήσουμε αυτή την πληροφορία σοφά." },
+        { "en": "I stand before you as {role}. Together, we can use this to our advantage.", "gr": "Στέκομαι μπροστά σας ως {role}. Μαζί, μπορούμε να το χρησιμοποιήσουμε υπέρ μας." }
+      ],
+      "medium": [
+        { "en": "Between us — I'm {role}. I hope that builds some trust.", "gr": "Μεταξύ μας — είμαι {role}. Ελπίζω αυτό να χτίσει εμπιστοσύνη." },
+        { "en": "I'll share this: I'm {role}. What do you think?", "gr": "Θα το μοιραστώ: είμαι {role}. Τι πιστεύετε;" },
+        { "en": "I'm {role}. Let's work together with this knowledge.", "gr": "Είμαι {role}. Ας συνεργαστούμε με αυτή τη γνώση." }
+      ],
+      "low": [
+        { "en": "By the way, I'm {role}.", "gr": "Παρεμπιπτόντως, είμαι {role}." },
+        { "en": "Heads up — {role} here.", "gr": "Προς ενημέρωση — {role} εδώ." },
+        { "en": "Just thought I'd mention: {role}.", "gr": "Απλά σκέφτηκα να αναφέρω: {role}." }
+      ]
+    }
+  },
+
+  "question": {
+    "Aggressive": {
+      "high": [
+        { "en": "HEY {player}! What were you doing last night?! Answer me!", "gr": "ΕΪ {player}! Τι έκανες χθες βράδυ;! Απάντησέ μου!" },
+        { "en": "Why did you vote like that, {player}?! Explain yourself!", "gr": "Γιατί ψήφισες έτσι, {player};! Εξηγήσου!" },
+        { "en": "{player}! Where were you when we needed you?! SUSPICIOUS!", "gr": "{player}! Πού ήσουν όταν σε χρειαζόμασταν;! ΥΠΟΠΤΟ!" }
+      ],
+      "medium": [
+        { "en": "{player}, what's your role? Spit it out.", "gr": "{player}, ποιος είναι ο ρόλος σου; Πες το." },
+        { "en": "Hey {player}, care to explain your vote?", "gr": "Εγ {player}, θέλεις να εξηγήσεις την ψήφο σου;" },
+        { "en": "What's your deal, {player}?", "gr": "Τι τρέχει, {player};" }
+      ],
+      "low": [
+        { "en": "{player}, got anything to say?", "gr": "{player}, έχεις κάτι να πεις;" },
+        { "en": "So {player}, what's the plan?", "gr": "Λοιπόν {player}, τι σκοπεύετε;" },
+        { "en": "{player}?", "gr": "{player};" }
+      ]
+    },
+    "Cautious": {
+      "high": [
+        { "en": "{player}, could you walk us through your reasoning for that last vote? The details matter.", "gr": "{player}, μπορείς να μας εξηγήσεις τη λογική σου για εκείνη την ψήφο; Οι λεπτομέρειες μετράνε." },
+        { "en": "I'd like {player} to explain their actions last night. Transparency helps everyone.", "gr": "Θα ήθελα ο {player} να εξηγήσει τις πράξεις τους χθες βράδυ. Η διαφάνεια βοηθά." },
+        { "en": "{player}, your behavior pattern has changed. Can you explain why?", "gr": "{player}, το μοτίβο συμπεριφοράς σου άλλαξε. Μπορείς να εξηγήσεις;" }
+      ],
+      "medium": [
+        { "en": "{player}, what information have you gathered so far?", "gr": "{player}, τι πληροφορίες έχεις μαζέψει μέχρι τώρα;" },
+        { "en": "Can {player} share their perspective?", "gr": "Μπορεί ο {player} να μοιραστεί την οπτική τους;" },
+        { "en": "I'm curious about {player}'s take on this.", "gr": "Μ' ενδιαφέρει η άποψη του {player} σε αυτό." }
+      ],
+      "low": [
+        { "en": "{player}, anything to add?", "gr": "{player}, κάτι να προσθέσεις;" },
+        { "en": "What does {player} think?", "gr": "Τι πιστεύει ο {player};" },
+        { "en": "Would like to hear from {player}.", "gr": "Θα ήθελα να ακούσω από τον {player}." }
+      ]
+    },
+    "Paranoid": {
+      "high": [
+        { "en": "{player}! Why were you SO quiet during the last discussion?! What are you HIDING?!", "gr": "{player}! Γιατί ήσουν ΤΟΣΟ σιωπηλός στην τελευταία συζήτηση;! Τι ΚΡΥΒΕΙΣ;!" },
+        { "en": "Tell us the TRUTH, {player}! Who did you visit last night?!", "gr": "Πες μας την ΑΛΗΘΕΙΑ, {player}! Ποιον επισκέφτηκες χθες βράδυ;!" },
+        { "en": "{player}, why do you keep defending the same person?! Are you working TOGETHER?!", "gr": "{player}, γιατί υπερασπίζεσαι συνεχώς τον ίδιο; Δουλεύετε ΜΑΖΙ;!" }
+      ],
+      "medium": [
+        { "en": "{player}, why did you change your vote? I noticed...", "gr": "{player}, γιατί άλλαξες ψήφο; Το πρόσεξα..." },
+        { "en": "Does anyone else find it suspicious that {player} hasn't spoken?", "gr": "Κάποιος άλλος βρίσκει ύποπτο ότι ο {player} δεν μίλησε;" },
+        { "en": "{player}... what do you REALLY know?", "gr": "{player}... τι ΠΡΑΓΜΑΤΙΚΑ ξέρεις;" }
+      ],
+      "low": [
+        { "en": "What's {player} up to, I wonder...", "gr": "Τι κάνει ο {player}, αναρωτιέμαι..." },
+        { "en": "Has anyone watched {player} closely?", "gr": "Έχει παρατηρήσει κανείς τον {player} στενά;" },
+        { "en": "{player}... hmm...", "gr": "{player}... χμμ..." }
+      ]
+    },
+    "Logical": {
+      "high": [
+        { "en": "{player}, can you provide your voting rationale? I'm tracking inconsistencies.", "gr": "{player}, μπορείς να δώσεις τη λογική ψηφοφορίας σου; Παρακολουθώ ασυνέπειες." },
+        { "en": "I need {player} to clarify their Night 1 claim. The timeline doesn't match.", "gr": "Χρειάζομαι ο {player} να διευκρινίσει τον ισχυρισμό τους για τη Νύχτα 1. Το χρονοδιάγραμμα δεν ταιριάζει." },
+        { "en": "{player}, what evidence supports your accusation? Show your work.", "gr": "{player}, ποια στοιχεία υποστηρίζουν την κατηγορία σου; Δείξε τη δουλειά σου." }
+      ],
+      "medium": [
+        { "en": "{player}, what's your analysis of the current situation?", "gr": "{player}, ποια είναι η ανάλυσή σου για την τρέχουσα κατάσταση;" },
+        { "en": "I'd like to cross-reference with {player}'s data.", "gr": "Θα ήθελα να αντιπαραβάλω με τα δεδομένα του {player}." },
+        { "en": "{player}, any new information to share?", "gr": "{player}, κάποια νέα πληροφορία να μοιραστείτε;" }
+      ],
+      "low": [
+        { "en": "{player}, your input would be helpful.", "gr": "{player}, η συμβολή σας θα ήταν χρήσιμη." },
+        { "en": "Requesting data from {player}.", "gr": "Ζητώ δεδομένα από τον {player}." },
+        { "en": "{player}, thoughts?", "gr": "{player}, σκέψεις;" }
+      ]
+    },
+    "Shy": {
+      "high": [
+        { "en": "Um... {player}... can I ask what you did last night...?", "gr": "Εμ... {player}... μπορώ να ρωτήσω τι έκανες χθες βράδυ...;" },
+        { "en": "{player}... I was wondering... why did you vote that way...?", "gr": "{player}... αναρωτιόμουν... γιατί ψήφισες έτσι...;" },
+        { "en": "Sorry to bother you, {player}, but... what's your role?", "gr": "Συγγνώμη που ενοχλώ, {player}, αλλά... ποιος ο ρόλος σου;" }
+      ],
+      "medium": [
+        { "en": "{player}... what do you think...?", "gr": "{player}... τι πιστεύεις...;" },
+        { "en": "Does {player} have anything to say...?", "gr": "Ο {player} έχει κάτι να πει...;" },
+        { "en": "Um... {player}?", "gr": "Εμ... {player};" }
+      ],
+      "low": [
+        { "en": "{player}...?", "gr": "{player}...;" },
+        { "en": "...", "gr": "..." },
+        { "en": "*looks at {player} questioningly*", "gr": "*κοιτά τον {player} με απορία*" }
+      ]
+    },
+    "Charismatic": {
+      "high": [
+        { "en": "{player}, we'd love to hear your side of the story. The floor is yours.", "gr": "{player}, θα θέλαμε να ακούσουμε τη δική σου πλευρά. Η σκηνή είναι δική σου." },
+        { "en": "Let's give {player} a chance to explain. I think we owe them that.", "gr": "Ας δώσουμε στον {player} μια ευκαιρία να εξηγήσει. Νομίζω ότι τους το χρωστάμε." },
+        { "en": "{player}, help us understand your position. We're all in this together.", "gr": "{player}, βοήθησέ μας να καταλάβουμε τη θέση σου. Είμαστε όλοι μαζί." }
+      ],
+      "medium": [
+        { "en": "{player}, what's on your mind? Your input matters.", "gr": "{player}, τι σκέφτεσαι; Η γνώμη σου μετράει." },
+        { "en": "I'd like to hear from {player}. Everyone's voice counts.", "gr": "Θα ήθελα να ακούσω τον {player}. Η φωνή όλων μετράει." },
+        { "en": "{player}, share your thoughts with us.", "gr": "{player}, μοιράσου τις σκέψεις σου μαζί μας." }
+      ],
+      "low": [
+        { "en": "What about you, {player}?", "gr": "Εσύ τι λες, {player};" },
+        { "en": "{player}, any thoughts?", "gr": "{player}, σκέψεις;" },
+        { "en": "Curious to hear {player}'s take.", "gr": "Περίεργος να ακούσω τι λέει ο {player}." }
+      ]
+    }
+  },
+
+  "deflect": {
+    "Aggressive": {
+      "high": [
+        { "en": "Why are you looking at ME?! Look at {player}! THEY'RE the real problem!", "gr": "Γιατί κοιτάτε ΕΜΕΝΑ;! Κοιτάξτε τον {player}! ΑΥΤΟΙ είναι το πραγματικό πρόβλημα!" },
+        { "en": "Stop wasting time on me! {player} is the one you should be worried about!", "gr": "Σταματήστε να χάνετε χρόνο μαζί μου! Ο {player} είναι αυτός που πρέπει να σας ανησυχεί!" },
+        { "en": "This is ridiculous! While you focus on me, {player} gets away with murder!", "gr": "Αυτό είναι γελοίο! Ενώ εστιάζετε σε μένα, ο {player} ξεφεύγει!" }
+      ],
+      "medium": [
+        { "en": "You've got the wrong person. Ask {player} instead.", "gr": "Έχετε λάθος άτομο. Ρωτήστε τον {player}." },
+        { "en": "Can we move on? There are bigger fish — like {player}.", "gr": "Μπορούμε να προχωρήσουμε; Υπάρχουν μεγαλύτερα ψάρια — σαν τον {player}." },
+        { "en": "Focus on {player}, not me.", "gr": "Εστιάστε στον {player}, όχι σε μένα." }
+      ],
+      "low": [
+        { "en": "Whatever. What about {player} though?", "gr": "Ό,τι νά 'ναι. Τι γίνεται με τον {player} όμως;" },
+        { "en": "I'm not that interesting. But {player} is.", "gr": "Εγώ δεν είμαι τόσο ενδιαφέρων. Ο {player} όμως είναι." },
+        { "en": "Let's talk about something else. Like {player}.", "gr": "Ας μιλήσουμε για κάτι άλλο. Σαν τον {player}." }
+      ]
+    },
+    "Cautious": {
+      "high": [
+        { "en": "I understand the suspicion, but I'd suggest examining {player}'s activity instead. The evidence points more clearly in their direction.", "gr": "Καταλαβαίνω την υποψία, αλλά θα πρότεινα να εξετάσετε τη δραστηριότητα του {player} αντ' αυτού. Τα στοιχεία δείχνουν πιο ξεκάθαρα προς αυτούς." },
+        { "en": "Before we go further down this path, shouldn't we consider {player}'s suspicious behavior?", "gr": "Πριν προχωρήσουμε περαιτέρω, δεν πρέπει να εξετάσουμε την ύποπτη συμπεριφορά του {player};" },
+        { "en": "My actions are defensible. I'd rather discuss the anomalies in {player}'s behavior.", "gr": "Οι πράξεις μου είναι υπερασπίσιμες. Θα προτιμούσα να συζητήσουμε τις ανωμαλίες στη συμπεριφορά του {player}." }
+      ],
+      "medium": [
+        { "en": "There are more productive avenues to explore. {player}, for instance.", "gr": "Υπάρχουν πιο παραγωγικές κατευθύνσεις. Ο {player}, για παράδειγμα." },
+        { "en": "I've already addressed this. Perhaps {player} should answer some questions next.", "gr": "Το έχω ήδη αντιμετωπίσει. Ίσως ο {player} πρέπει να απαντήσει κάποιες ερωτήσεις." },
+        { "en": "Let's redirect our attention to {player}.", "gr": "Ας στρέψουμε την προσοχή μας στον {player}." }
+      ],
+      "low": [
+        { "en": "That's a fair concern, but I think {player} deserves more scrutiny.", "gr": "Αυτή είναι δίκαιη ανησυχία, αλλά νομίζω ο {player} αξίζει περισσότερο έλεγχο." },
+        { "en": "Worth noting, but what about {player}?", "gr": "Αξίζει σημείωσης, αλλά τι γίνεται με τον {player};" },
+        { "en": "I'll address that, but first — {player}.", "gr": "Θα το αντιμετωπίσω, αλλά πρώτα — {player}." }
+      ]
+    },
+    "Paranoid": {
+      "high": [
+        { "en": "YOU'RE accusing ME?! It's {player} you should be worried about! They're playing you all!", "gr": "ΕΜΕΝΑ κατηγορείτε;! Ο {player} πρέπει να σας ανησυχεί! Σας χειρίζεται όλους!" },
+        { "en": "This is a SETUP! {player} directed you to accuse me! THEY'RE the traitor!", "gr": "Αυτό είναι ΠΑΓΙΔΑ! Ο {player} σας κατεύθυνε να με κατηγορήσετε! ΑΥΤΟΙ είναι οι προδότες!" },
+        { "en": "Wake up! While you target me, {player} and their allies are laughing at us!", "gr": "Ξυπνήστε! Ενώ με στοχεύετε, ο {player} και οι σύμμαχοί τους γελάνε μαζί μας!" }
+      ],
+      "medium": [
+        { "en": "The real question is: why isn't anyone looking at {player}?", "gr": "Το πραγματικό ερώτημα είναι: γιατί δεν κοιτά κανείς τον {player};" },
+        { "en": "I'm not the threat here. {player} is more suspicious than me.", "gr": "Εγώ δεν είμαι η απειλή. Ο {player} είναι πιο ύποπτος από μένα." },
+        { "en": "Think about who benefits from accusing me — {player}.", "gr": "Σκεφτείτε ποιος ωφελείται από το να κατηγορούν εμένα — ο {player}." }
+      ],
+      "low": [
+        { "en": "I'm not the one you should be watching... {player} is.", "gr": "Εγώ δεν είμαι αυτός που πρέπει να παρακολουθείτε... ο {player} είναι." },
+        { "en": "Something about {player} is more concerning...", "gr": "Κάτι για τον {player} είναι πιο ανησυχητικό..." },
+        { "en": "Leave me out of this. Focus on {player}.", "gr": "Αφήστε με εκτός. Εστιάστε στον {player}." }
+      ]
+    },
+    "Logical": {
+      "high": [
+        { "en": "The focus on me is a diversion from the real threat. Statistically, {player}'s behavior is far more anomalous.", "gr": "Η εστίαση σε μένα είναι αντιπερισπασμός. Στατιστικά, η συμπεριφορά του {player} είναι πολύ πιο ανώμαλη." },
+        { "en": "Let me redirect with data: {player} has voted inconsistently 3 times. I haven't.", "gr": "Ας ανακατευθύνω με δεδομένα: ο {player} ψήφισε ασυνεπώς 3 φορές. Εγώ όχι." },
+        { "en": "If we apply the same logic to {player}, the evidence is much stronger against them.", "gr": "Αν εφαρμόσουμε την ίδια λογική στον {player}, τα στοιχεία είναι πολύ ισχυρότερα εναντίον τους." }
+      ],
+      "medium": [
+        { "en": "I'd suggest we examine {player} next. The data warrants it.", "gr": "Θα πρότεινα να εξετάσουμε τον {player} μετά. Τα δεδομένα το δικαιολογούν." },
+        { "en": "Rather than me, let's analyze {player}'s voting pattern.", "gr": "Αντί για μένα, ας αναλύσουμε το μοτίβο ψήφου του {player}." },
+        { "en": "A more productive line of inquiry would be {player}.", "gr": "Μια πιο παραγωγική γραμμή έρευνας θα ήταν ο {player}." }
+      ],
+      "low": [
+        { "en": "Consider {player} as an alternative subject of analysis.", "gr": "Σκεφτείτε τον {player} ως εναλλακτικό υποκείμενο ανάλυσης." },
+        { "en": "What about {player}? The numbers tell a story.", "gr": "Τι γίνεται με τον {player}; Οι αριθμοί λένε μια ιστορία." },
+        { "en": "I'd prioritize {player} over me for investigation.", "gr": "Θα έδινα προτεραιότητα στον {player} πάνω από μένα." }
+      ]
+    },
+    "Shy": {
+      "high": [
+        { "en": "W-why me?! What about {player}? They're more suspicious...", "gr": "Γ-γιατί εγώ;! Τι γίνεται με τον {player}; Αυτοί είναι πιο ύποπτοι..." },
+        { "en": "Please don't look at me... {player} is the one acting strange...", "gr": "Παρακαλώ μη με κοιτάτε... ο {player} φέρεται παράξενα..." },
+        { "en": "I didn't do anything! Maybe ask {player}...", "gr": "Δεν έκανα τίποτα! Ρωτήστε τον {player} ίσως..." }
+      ],
+      "medium": [
+        { "en": "It's not me... what about {player}?", "gr": "Δεν είμαι εγώ... τι λέτε για τον {player};" },
+        { "en": "Maybe {player} instead...?", "gr": "Ίσως ο {player} αντ' αυτού...;" },
+        { "en": "I'm nobody... {player} is more interesting.", "gr": "Εγώ είμαι κανένας... ο {player} είναι πιο ενδιαφέρων." }
+      ],
+      "low": [
+        { "en": "...{player}.", "gr": "...{player}." },
+        { "en": "*points at {player}*", "gr": "*δείχνει τον {player}*" },
+        { "en": "Not me... maybe {player}...", "gr": "Όχι εγώ... ίσως ο {player}..." }
+      ]
+    },
+    "Charismatic": {
+      "high": [
+        { "en": "I understand the concern, but let me redirect us. The real question is what {player} has been doing all along.", "gr": "Καταλαβαίνω την ανησυχία, αλλά ας ανακατευθυνθούμε. Το πραγματικό ερώτημα είναι τι κάνει ο {player} εδώ και ώρα." },
+        { "en": "Friends, we're wasting precious time on me. {player} is the one we should be discussing.", "gr": "Φίλοι, χάνουμε πολύτιμο χρόνο σε μένα. Ο {player} είναι αυτός που πρέπει να συζητάμε." },
+        { "en": "I appreciate the scrutiny — it keeps us sharp. But I'd love for {player} to receive the same treatment.", "gr": "Εκτιμώ τον έλεγχο — μας κρατά σε εγρήγορση. Αλλά θα ήθελα ο {player} να λάβει την ίδια μεταχείριση." }
+      ],
+      "medium": [
+        { "en": "Fair enough, but let's also examine {player}.", "gr": "Δίκαια, αλλά ας εξετάσουμε και τον {player}." },
+        { "en": "I'm happy to answer questions. But shouldn't {player} answer some too?", "gr": "Χαρούμενος να απαντήσω. Αλλά δεν θα έπρεπε ο {player} να απαντήσει κι αυτός;" },
+        { "en": "Let's spread the focus. {player} has been flying under the radar.", "gr": "Ας απλώσουμε τη Εστίαση. Ο {player} πετά κάτω από το ραντάρ." }
+      ],
+      "low": [
+        { "en": "I'd rather talk about {player}, honestly.", "gr": "Θα ήθελα να μιλήσω για τον {player}, ειλικρινά." },
+        { "en": "Good point, but {player} though...", "gr": "Καλό σημείο, αλλά ο {player} όμως..." },
+        { "en": "What about {player}? Just curious.", "gr": "Τι γίνεται με τον {player}; Απλά περιέργεια." }
+      ]
+    }
+  }
+}

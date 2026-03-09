@@ -1,0 +1,92 @@
+{
+  "total_players": {
+    "min": 7,
+    "max": 16
+  },
+
+  "decay_factor": 0.70,
+  "last_wish_probability": 0.40,
+  "night_echo_max_per_night": 2,
+  "full_moon_probability": 0.15,
+  "full_moon_max_per_game": 3,
+  "full_moon_min_night": 3,
+
+  "balance_thresholds": {
+    "stage_1": 0.05,
+    "stage_2": 0.15
+  },
+
+  "timers": {
+    "discussion_seconds": 120,
+    "trial_seconds": 60,
+    "voting_seconds": 30,
+    "night_action_seconds": 45,
+    "human_window_seconds": 3,
+    "morning_report_seconds": 15,
+    "midday_event_delay_min_seconds": 30,
+    "midday_event_delay_max_seconds": 120
+  },
+
+  "ai": {
+    "speak_cooldown_messages": 3,
+    "max_messages_per_discussion": {
+      "small": { "min_players": 7, "max_players": 9, "min_messages": 8, "max_messages": 12 },
+      "medium": { "min_players": 10, "max_players": 12, "min_messages": 12, "max_messages": 18 },
+      "large": { "min_players": 13, "max_players": 16, "min_messages": 18, "max_messages": 25 }
+    },
+    "indirect_weight_accuse": 0.4,
+    "indirect_weight_defend": 0.3,
+    "role_modifiers": {
+      "town_general": 1.0,
+      "Sheriff": 1.1,
+      "Mayor_pre_reveal": 0.9,
+      "Mayor_post_reveal": 1.3,
+      "mafia_general": 0.7,
+      "Godfather": 1.1,
+      "Consigliere": 0.8,
+      "Janitor": 0.7,
+      "Jester": 1.2,
+      "Survivor": 0.6,
+      "Zombie": 0.8
+    },
+    "cooldown_modifiers": {
+      "last_2_messages": 0.2,
+      "last_5_messages": 0.6,
+      "otherwise": 1.0
+    },
+    "trigger_modifiers": {
+      "directly_accused": 0.95,
+      "has_evidence": 0.85,
+      "ally_defended_or_attacked": 0.40,
+      "saw_something": 0.30,
+      "night_echo_mentions_self_or_ally": 0.25,
+      "mayor_revealed": 0.20,
+      "lover_partner_accused": 0.50
+    },
+    "perception_depth_filters": {
+      "level_1": { "weight_threshold": 0.7, "scope": "current_day_only" },
+      "level_2": { "weight_threshold": 0.2, "scope": "all_days_with_decay" },
+      "level_3": { "weight_threshold": 0.1, "scope": "all_days_plus_indirect" }
+    }
+  },
+
+  "scaling": {
+    "core_min_players": 7,
+    "important_min_players": 8,
+    "advanced_min_players": 10,
+    "expanded_min_players": 13
+  },
+
+  "win_check_order_after_lynch": ["jester", "executioner", "town", "mafia", "zombie"],
+  "win_check_order_after_night": ["executioner_fallback", "town", "mafia", "zombie"],
+
+  "night_resolution_order": {
+    "phase_0": "lovers_passive_visit",
+    "phase_1": "framer_mark",
+    "phase_2": "investigations",
+    "phase_3": "kill_and_protect",
+    "phase_4": "post_kill",
+    "phase_5": "gossip_hint",
+    "phase_6": "cleanup_and_win_check"
+  }
+}

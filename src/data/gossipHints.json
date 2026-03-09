@@ -1,0 +1,111 @@
+{
+  "alignment_hints": {
+    "town": [
+      { "en": "The wind whispers that {player} walks on the side of light...", "gr": "Ο άνεμος ψιθυρίζει ότι ο {player} περπατά στο πλευρό του φωτός..." },
+      { "en": "A warm glow surrounds {player} — their heart seems pure...", "gr": "Μια ζεστή λάμψη περιβάλλει τον {player} — η καρδιά τους φαίνεται αγνή..." },
+      { "en": "The stars suggest {player} means well for the town...", "gr": "Τα αστέρια υποδηλώνουν ότι ο {player} θέλει το καλό της πόλης..." },
+      { "en": "{player} sleeps soundly — a clear conscience, perhaps...", "gr": "Ο {player} κοιμάται ήρεμα — ίσως καθαρή συνείδηση..." },
+      { "en": "The cobblestones remember {player}'s gentle footsteps...", "gr": "Τα πλακόστρωτα θυμούνται τα απαλά βήματα του {player}..." }
+    ],
+    "mafia": [
+      { "en": "Shadows cling to {player} wherever they go...", "gr": "Σκιές ακολουθούν τον {player} όπου κι αν πάει..." },
+      { "en": "The darkness speaks of {player}'s hidden intentions...", "gr": "Το σκοτάδι μιλά για τις κρυφές προθέσεις του {player}..." },
+      { "en": "There is blood on {player}'s hands — figuratively speaking...", "gr": "Υπάρχει αίμα στα χέρια του {player} — μεταφορικά μιλώντας..." },
+      { "en": "{player}'s footsteps echo with menace in the night...", "gr": "Τα βήματα του {player} αντηχούν απειλητικά στη νύχτα..." },
+      { "en": "Something sinister lurks beneath {player}'s smile...", "gr": "Κάτι σκοτεινό κρύβεται πίσω από το χαμόγελο του {player}..." }
+    ],
+    "neutral": [
+      { "en": "{player} walks their own path — allied with neither light nor dark...", "gr": "Ο {player} ακολουθεί τον δικό του δρόμο — σύμμαχος ούτε του φωτός ούτε του σκοταδιού..." },
+      { "en": "The moon watches {player} with curiosity — their allegiance is uncertain...", "gr": "Το φεγγάρι παρακολουθεί τον {player} με περιέργεια — η πίστη τους είναι αβέβαιη..." },
+      { "en": "{player} serves no master but themselves...", "gr": "Ο {player} δεν υπηρετεί κανέναν παρά μόνο τον εαυτό του..." },
+      { "en": "A strange aura surrounds {player} — they play by their own rules...", "gr": "Μια παράξενη αύρα περιβάλλει τον {player} — παίζει με τους δικούς του κανόνες..." },
+      { "en": "The winds carry no clear answer about {player}'s loyalties...", "gr": "Οι άνεμοι δεν φέρνουν ξεκάθαρη απάντηση για την πίστη του {player}..." }
+    ]
+  },
+
+  "role_hints": {
+    "Sheriff": [
+      { "en": "{player} carries the weight of truth on their shoulders...", "gr": "Ο {player} κουβαλά το βάρος της αλήθειας στους ώμους του..." },
+      { "en": "Someone in town has the eyes to see through lies... perhaps {player}?", "gr": "Κάποιος στην πόλη έχει τα μάτια να δει μέσα από τα ψέματα... μήπως ο {player};" }
+    ],
+    "Doctor": [
+      { "en": "The scent of herbs follows {player} wherever they go...", "gr": "Η μυρωδιά βοτάνων ακολουθεί τον {player} όπου κι αν πάει..." },
+      { "en": "{player}'s hands carry the touch of healing...", "gr": "Τα χέρια του {player} φέρουν το άγγιγμα της θεραπείας..." }
+    ],
+    "Lookout": [
+      { "en": "{player} never sleeps — always watching from the shadows...", "gr": "Ο {player} ποτέ δεν κοιμάται — πάντα παρατηρεί από τις σκιές..." },
+      { "en": "Eyes that never rest watch over the town... {player} sees much...", "gr": "Μάτια που δεν κλείνουν ποτέ φρουρούν την πόλη... ο {player} βλέπει πολλά..." }
+    ],
+    "Godfather": [
+      { "en": "The puppet master hides behind a mask of innocence... {player} perhaps?", "gr": "Ο κουκλοπαίχτης κρύβεται πίσω από μάσκα αθωότητας... ο {player} ίσως;" },
+      { "en": "{player} commands respect — or is it fear?", "gr": "Ο {player} εμπνέει σεβασμό — ή μήπως φόβο;" }
+    ],
+    "Framer": [
+      { "en": "{player} has a talent for making things appear other than what they are...", "gr": "Ο {player} έχει ταλέντο να κάνει τα πράγματα να φαίνονται διαφορετικά από ό,τι είναι..." },
+      { "en": "Someone weaves illusions in the night... the trail leads near {player}...", "gr": "Κάποιος πλέκει ψευδαισθήσεις στη νύχτα... το ίχνος οδηγεί κοντά στον {player}..." }
+    ],
+    "Jester": [
+      { "en": "{player} laughs when they should cry — is it madness or a game?", "gr": "Ο {player} γελάει όταν θα έπρεπε να κλαίει — τρέλα ή παιχνίδι;" },
+      { "en": "A strange gleam in {player}'s eye suggests they desire something... unusual...", "gr": "Μια παράξενη λάμψη στο μάτι του {player} υποδηλώνει ότι επιθυμεί κάτι... ασυνήθιστο..." }
+    ],
+    "Zombie": [
+      { "en": "The air grows cold around {player}... an unnatural presence...", "gr": "Ο αέρας κρυώνει γύρω από τον {player}... μια αφύσικη παρουσία..." },
+      { "en": "{player} moves with an unsettling stillness... as if not entirely alive...", "gr": "Ο {player} κινείται με μια ανησυχητική ακινησία... σαν να μην είναι εντελώς ζωντανός..." }
+    ],
+    "Silencer": [
+      { "en": "Where {player} passes, voices tend to fall silent...", "gr": "Εκεί που περνά ο {player}, οι φωνές τείνουν να σιωπούν..." },
+      { "en": "Someone holds the power to steal voices... {player} knows something about silence...", "gr": "Κάποιος κρατά τη δύναμη να κλέβει φωνές... ο {player} ξέρει κάτι για τη σιωπή..." }
+    ],
+    "Bodyguard": [
+      { "en": "{player} stands tall and vigilant — a protector, perhaps?", "gr": "Ο {player} στέκεται ψηλά και σε εγρήγορση — προστάτης, ίσως;" },
+      { "en": "A shield dwells among us... {player} has the bearing of a guardian...", "gr": "Μια ασπίδα κατοικεί ανάμεσά μας... ο {player} έχει τη στάση φρουρού..." }
+    ],
+    "Survivor": [
+      { "en": "{player} clings to life with unusual determination...", "gr": "Ο {player} κρατιέται στη ζωή με ασυνήθιστη αποφασιστικότητα..." },
+      { "en": "Self-preservation is the only creed {player} follows...", "gr": "Η αυτοσυντήρηση είναι το μόνο δόγμα που ακολουθεί ο {player}..." }
+    ],
+    "Mayor": [
+      { "en": "{player} carries an air of authority that others lack...", "gr": "Ο {player} κουβαλά μια αύρα εξουσίας που δεν έχουν οι άλλοι..." },
+      { "en": "Someone in town holds more power than they show... {player}'s voice carries weight...", "gr": "Κάποιος στην πόλη κρύβει περισσότερη δύναμη... η φωνή του {player} έχει βάρος..." }
+    ],
+    "Executioner": [
+      { "en": "{player} fixates on someone with unnerving intensity...", "gr": "Ο {player} εστιάζει σε κάποιον με ανησυχητική ένταση..." },
+      { "en": "An obsession burns behind {player}'s eyes — they want someone gone...", "gr": "Μια εμμονή καίει πίσω από τα μάτια του {player} — θέλουν κάποιον εξαφανισμένο..." }
+    ],
+    "Tracker": [
+      { "en": "{player} knows the paths others walk — they follow without being seen...", "gr": "Ο {player} γνωρίζει τα μονοπάτια που ακολουθούν οι άλλοι — ακολουθεί χωρίς να φαίνεται..." },
+      { "en": "Footprints don't lie... and {player} reads them like a book...", "gr": "Τα αποτυπώματα δεν ψεύδονται... και ο {player} τα διαβάζει σαν βιβλίο..." }
+    ],
+    "Consigliere": [
+      { "en": "{player} knows secrets that others would kill to learn...", "gr": "Ο {player} ξέρει μυστικά που άλλοι θα σκότωναν για να μάθουν..." },
+      { "en": "Intelligence flows to {player} like water to the sea...", "gr": "Πληροφορίες ρέουν στον {player} σαν νερό στη θάλασσα..." }
+    ],
+    "Janitor": [
+      { "en": "{player} leaves no trace behind... as if erasing the past...", "gr": "Ο {player} δεν αφήνει ίχνη πίσω... σαν να σβήνει το παρελθόν..." },
+      { "en": "Secrets die in the dark near {player}...", "gr": "Τα μυστικά πεθαίνουν στο σκοτάδι κοντά στον {player}..." }
+    ],
+    "Lovers": [
+      { "en": "{player}'s heart beats for another — their bond is unbreakable...", "gr": "Η καρδιά του {player} χτυπά για κάποιον άλλο — ο δεσμός τους είναι άρρηκτος..." },
+      { "en": "Two souls intertwined... {player} is bound to another's fate...", "gr": "Δύο ψυχές δεμένες... ο {player} είναι δεμένος με τη μοίρα κάποιου άλλου..." }
+    ]
+  },
+
+  "behavior_hints": [
+    { "en": "{player} has been unusually quiet — hiding something, or just afraid?", "gr": "Ο {player} ήταν ασυνήθιστα ήσυχος — κρύβει κάτι, ή απλά φοβάται;" },
+    { "en": "{player} asked too many questions yesterday — curiosity or calculation?", "gr": "Ο {player} έκανε πάρα πολλές ερωτήσεις χθες — περιέργεια ή υπολογισμός;" },
+    { "en": "{player} changed their vote at the last moment — conviction or cowardice?", "gr": "Ο {player} άλλαξε ψήφο την τελευταία στιγμή — πεποίθηση ή δειλία;" },
+    { "en": "{player} defended someone passionately — loyalty or deception?", "gr": "Ο {player} υπερασπίστηκε κάποιον με πάθος — πίστη ή εξαπάτηση;" },
+    { "en": "{player} has been pointing fingers at everyone — paranoia or guilt?", "gr": "Ο {player} δείχνει με το δάχτυλο τους πάντες — παράνοια ή ενοχή;" },
+    { "en": "{player} avoided the discussion entirely — what are they hiding?", "gr": "Ο {player} απέφυγε τη συζήτηση εντελώς — τι κρύβουν;" },
+    { "en": "{player} seemed confident about who to lynch — inside knowledge?", "gr": "Ο {player} φαινόταν σίγουρος για το ποιον να λιντσάρει — εσωτερική γνώση;" },
+    { "en": "{player} agreed with everyone — true harmony or dangerous flexibility?", "gr": "Ο {player} συμφώνησε με όλους — αληθινή αρμονία ή επικίνδυνη ευελιξία;" },
+    { "en": "{player}'s accusations always target the weak — strategy or cruelty?", "gr": "Οι κατηγορίες του {player} στοχεύουν πάντα τους αδύναμους — στρατηγική ή σκληρότητα;" },
+    { "en": "{player} never votes for the same faction twice — coincidence or pattern?", "gr": "Ο {player} ποτέ δεν ψηφίζει την ίδια φατρία δύο φορές — σύμπτωση ή μοτίβο;" }
+  ],
+
+  "hint_selection_weights": {
+    "alignment_hints": 0.40,
+    "role_hints": 0.35,
+    "behavior_hints": 0.25
+  }
+}

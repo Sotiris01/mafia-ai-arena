@@ -1,0 +1,12 @@
+{
+  "_comment": "=== Expo app configuration ===",
+  "_purpose": "Defines app name, slug, version, platform configs, and plugins",
+  "_location": "app.json (project root)",
+
+  "_todo_1": "TODO: Set app name, slug, version",
+  "_todo_2": "TODO: Configure iOS + Android platform settings",
+  "_todo_3": "TODO: Add expo-router plugin",
+  "_todo_4": "TODO: Set scheme for deep linking",
+  "_todo_5": "TODO: Configure splash screen + icon assets",
+  "_todo_6": "TODO(LOW): Add EAS build profiles"
+}

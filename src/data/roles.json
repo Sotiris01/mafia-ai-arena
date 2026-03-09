@@ -1,0 +1,542 @@
+{
+  "roles": [
+    {
+      "role": "Citizen",
+      "alignment": "Town",
+      "importance_tier": "core",
+      "min_players": 7,
+      "count_scaling": { "7-9": 2, "10-12": 3, "13-16": 3 },
+      "description": {
+        "en": "An ordinary townsperson with no special abilities. Your power is your vote.",
+        "gr": "Ένας απλός κάτοικος χωρίς ειδικές ικανότητες. Η δύναμή σου είναι η ψήφος σου."
+      },
+      "night_action": {
+        "type": "none",
+        "resolution_phase": -1,
+        "can_self_target": false,
+        "target_rules": {
+          "valid_targets": "none",
+          "excludes_self": true,
+          "max_targets": 0
+        },
+        "description": "No night action"
+      },
+      "special_rules": [],
+      "win_condition": "All Mafia members are eliminated"
+    },
+    {
+      "role": "Sheriff",
+      "alignment": "Town",
+      "importance_tier": "core",
+      "min_players": 7,
+      "count_scaling": { "7-16": 1 },
+      "description": {
+        "en": "The town's investigator. Each night, check one player's alignment — but beware the Godfather's disguise and the Framer's deception.",
+        "gr": "Ο ερευνητής της πόλης. Κάθε νύχτα, ελέγχεις την πίστη ενός παίκτη — αλλά πρόσεχε τη μεταμφίεση του Νονού και την εξαπάτηση του Framer."
+      },
+      "night_action": {
+        "type": "investigate",
+        "resolution_phase": 2,
+        "can_self_target": false,
+        "target_rules": {
+          "valid_targets": "alive",
+          "excludes_self": true,
+          "max_targets": 1
+        },
+        "description": "Check a player's alignment (Town/Mafia)"
+      },
+      "special_rules": [
+        "godfather_appears_town",
+        "framed_targets_appear_mafia",
+        "zombie_appears_town_but_victims_appear_zombie"
+      ],
+      "win_condition": "All Mafia members are eliminated"
+    },
+    {
+      "role": "Doctor",
+      "alignment": "Town",
+      "importance_tier": "core",
+      "min_players": 7,
+      "count_scaling": { "7-16": 1 },
+      "description": {
+        "en": "The town's healer. Each night, choose to Protect one player from being killed OR Cure a zombie victim — but not both.",
+        "gr": "Ο γιατρός της πόλης. Κάθε νύχτα, διάλεξε να Προστατέψεις έναν παίκτη από θάνατο Ή να Θεραπεύσεις ένα θύμα zombie — αλλά όχι και τα δυο."
+      },
+      "night_action": {
+        "type": "protect",
+        "resolution_phase": 3,
+        "can_self_target": false,
+        "target_rules": {
+          "valid_targets": "alive",
+          "excludes_self": true,
+          "max_targets": 1
+        },
+        "description": "Protect a player from kill OR cure a zombie victim"
+      },
+      "special_rules": [
+        "dual_action_protect_or_cure",
+        "cannot_self_protect",
+        "doctor_save_overrides_bodyguard"
+      ],
+      "win_condition": "All Mafia members are eliminated"
+    },
+    {
+      "role": "Lookout",
+      "alignment": "Town",
+      "importance_tier": "important",
+      "min_players": 8,
+      "count_scaling": { "8-16": 1 },
+      "description": {
+        "en": "A vigilant watcher. Each night, watch a player's house and see who visited them.",
+        "gr": "Ένας άγρυπνος παρατηρητής. Κάθε νύχτα, παρατηρείς το σπίτι ενός παίκτη και βλέπεις ποιος τον επισκέφτηκε."
+      },
+      "night_action": {
+        "type": "watch",
+        "resolution_phase": 2,
+        "can_self_target": false,
+        "target_rules": {
+          "valid_targets": "alive",
+          "excludes_self": true,
+          "max_targets": 1
+        },
+        "description": "See who visited the target player"
+      },
+      "special_rules": [
+        "sees_all_visitors_to_target",
+        "can_detect_lovers_visit"
+      ],
+      "win_condition": "All Mafia members are eliminated"
+    },
+    {
+      "role": "Gossip",
+      "alignment": "Town",
+      "importance_tier": "advanced",
+      "min_players": 10,
+      "count_scaling": { "10-16": 1 },
+      "description": {
+        "en": "The town's ears on the ground. Each night, passively receive a cryptic hint about a random player's nature.",
+        "gr": "Τα αυτιά της πόλης. Κάθε νύχτα, λαμβάνεις παθητικά ένα κρυπτικό στοιχείο για τη φύση ενός τυχαίου παίκτη."
+      },
+      "night_action": {
+        "type": "passive_hint",
+        "resolution_phase": 5,
+        "can_self_target": false,
+        "target_rules": {
+          "valid_targets": "alive",
+          "excludes_self": true,
+          "max_targets": 1
+        },
+        "description": "Receive a cryptic clue about a random player"
+      },
+      "special_rules": [
+        "passive_action_no_visit",
+        "hint_is_cryptic_not_definitive",
+        "target_selected_randomly"
+      ],
+      "win_condition": "All Mafia members are eliminated"
+    },
+    {
+      "role": "Bodyguard",
+      "alignment": "Town",
+      "importance_tier": "advanced",
+      "min_players": 10,
+      "count_scaling": { "10-16": 1 },
+      "description": {
+        "en": "A brave protector. Guard a player at night — if they're attacked, you die instead and take one random attacker with you.",
+        "gr": "Ένας γενναίος προστάτης. Φρουρείς έναν παίκτη τη νύχτα — αν δεχτεί επίθεση, πεθαίνεις εσύ και παίρνεις μαζί σου έναν τυχαίο επιτιθέμενο."
+      },
+      "night_action": {
+        "type": "guard",
+        "resolution_phase": 3,
+        "can_self_target": false,
+        "target_rules": {
+          "valid_targets": "alive",
+          "excludes_self": true,
+          "max_targets": 1
+        },
+        "description": "Guard a player — sacrifice self to save them, kill one attacker"
+      },
+      "special_rules": [
+        "dies_to_save_target",
+        "kills_one_random_attacker",
+        "doctor_save_takes_priority_over_bodyguard",
+        "excluded_from_full_moon_boost"
+      ],
+      "win_condition": "All Mafia members are eliminated"
+    },
+    {
+      "role": "Lovers",
+      "alignment": "Town",
+      "importance_tier": "advanced",
+      "min_players": 10,
+      "count_scaling": { "10-16": 2 },
+      "description": {
+        "en": "Two Citizens bonded by love. If one dies, the other dies of heartbreak. You visit each other every night — detectable by Lookout and Tracker.",
+        "gr": "Δύο Πολίτες δεμένοι με αγάπη. Αν πεθάνει ο ένας, ο άλλος πεθαίνει από θλίψη. Επισκέπτεστε ο ένας τον άλλον κάθε νύχτα — ανιχνεύσιμο από Lookout και Tracker."
+      },
+      "night_action": {
+        "type": "passive_visit",
+        "resolution_phase": 0,
+        "can_self_target": false,
+        "target_rules": {
+          "valid_targets": "lover_partner",
+          "excludes_self": true,
+          "max_targets": 1
+        },
+        "description": "Passively visit your lover each night (detectable)"
+      },
+      "special_rules": [
+        "linked_death",
+        "nightly_visit_detectable",
+        "fight_chance_15_percent",
+        "both_are_citizens",
+        "excluded_from_full_moon_boost"
+      ],
+      "win_condition": "All Mafia members are eliminated"
+    },
+    {
+      "role": "Tracker",
+      "alignment": "Town",
+      "importance_tier": "advanced",
+      "min_players": 12,
+      "count_scaling": { "12-16": 1 },
+      "description": {
+        "en": "A skilled tracker. Each night, follow a player and see who they visited.",
+        "gr": "Ένας ικανός ιχνηλάτης. Κάθε νύχτα, ακολουθείς έναν παίκτη και βλέπεις ποιον επισκέφτηκε."
+      },
+      "night_action": {
+        "type": "track",
+        "resolution_phase": 2,
+        "can_self_target": false,
+        "target_rules": {
+          "valid_targets": "alive",
+          "excludes_self": true,
+          "max_targets": 1
+        },
+        "description": "Follow a player and see who they visited"
+      },
+      "special_rules": [
+        "sees_target_destination",
+        "can_detect_lovers_visit"
+      ],
+      "win_condition": "All Mafia members are eliminated"
+    },
+    {
+      "role": "Mayor",
+      "alignment": "Town",
+      "importance_tier": "expanded",
+      "min_players": 13,
+      "count_scaling": { "13-16": 1 },
+      "description": {
+        "en": "The town's leader. You can reveal yourself during the day — your vote then counts as ×2. The only role that can provably confirm its alignment.",
+        "gr": "Ο αρχηγός της πόλης. Μπορείς να αποκαλυφθείς κατά τη διάρκεια της ημέρας — η ψήφος σου μετράει ×2. Ο μόνος ρόλος που μπορεί να αποδείξει την πίστη του."
+      },
+      "night_action": {
+        "type": "none",
+        "resolution_phase": -1,
+        "can_self_target": false,
+        "target_rules": {
+          "valid_targets": "none",
+          "excludes_self": true,
+          "max_targets": 0
+        },
+        "description": "No night action — day ability: Reveal for ×2 vote"
+      },
+      "special_rules": [
+        "day_action_reveal",
+        "votes_count_as_2_after_reveal",
+        "only_provable_town_role",
+        "high_value_mafia_target"
+      ],
+      "win_condition": "All Mafia members are eliminated"
+    },
+
+    {
+      "role": "Godfather",
+      "alignment": "Mafia",
+      "importance_tier": "core",
+      "min_players": 7,
+      "count_scaling": { "7-16": 1 },
+      "description": {
+        "en": "The head of the Mafia family. You lead the kill decision each night and appear as Town to the Sheriff's investigation.",
+        "gr": "Ο αρχηγός της οικογένειας Μαφίας. Οδηγείς την απόφαση θανάτου κάθε νύχτα και φαίνεσαι Town στην έρευνα του Sheriff."
+      },
+      "night_action": {
+        "type": "kill_vote",
+        "resolution_phase": 3,
+        "can_self_target": false,
+        "target_rules": {
+          "valid_targets": "non_mafia",
+          "excludes_self": true,
+          "max_targets": 1
+        },
+        "description": "Cast the deciding vote on who the Mafia kills"
+      },
+      "appears_as": "Town",
+      "special_rules": [
+        "appears_town_to_sheriff",
+        "leads_mafia_kill_vote",
+        "immune_to_basic_investigation"
+      ],
+      "win_condition": "Mafia members equal or outnumber Town-aligned players"
+    },
+    {
+      "role": "Mafia Goon",
+      "alignment": "Mafia",
+      "importance_tier": "core",
+      "min_players": 7,
+      "count_scaling": { "7-9": 1, "10-12": 2, "13-16": 2 },
+      "description": {
+        "en": "A loyal Mafia enforcer. You participate in the collective kill vote each night and know all Mafia members.",
+        "gr": "Ένας πιστός εκτελεστής της Μαφίας. Συμμετέχεις στην ομαδική ψήφο θανάτου κάθε νύχτα και γνωρίζεις όλα τα μέλη της Μαφίας."
+      },
+      "night_action": {
+        "type": "kill_vote",
+        "resolution_phase": 3,
+        "can_self_target": false,
+        "target_rules": {
+          "valid_targets": "non_mafia",
+          "excludes_self": true,
+          "max_targets": 1
+        },
+        "description": "Participate in collective Mafia kill vote"
+      },
+      "special_rules": [
+        "collective_kill_vote",
+        "knows_all_mafia_members"
+      ],
+      "win_condition": "Mafia members equal or outnumber Town-aligned players"
+    },
+    {
+      "role": "Framer",
+      "alignment": "Mafia",
+      "importance_tier": "important",
+      "min_players": 9,
+      "count_scaling": { "9-16": 1 },
+      "description": {
+        "en": "A Mafia deceiver. Each night, frame a player to make them appear as Mafia to the Sheriff's investigation.",
+        "gr": "Ένας απατεώνας της Μαφίας. Κάθε νύχτα, παγιδεύεις έναν παίκτη ώστε να φαίνεται Mafia στην έρευνα του Sheriff."
+      },
+      "night_action": {
+        "type": "frame",
+        "resolution_phase": 1,
+        "can_self_target": false,
+        "target_rules": {
+          "valid_targets": "non_mafia",
+          "excludes_self": true,
+          "max_targets": 1
+        },
+        "description": "Frame a player to appear as Mafia to Sheriff"
+      },
+      "special_rules": [
+        "frame_applied_before_investigation",
+        "knows_all_mafia_members"
+      ],
+      "win_condition": "Mafia members equal or outnumber Town-aligned players"
+    },
+    {
+      "role": "Silencer",
+      "alignment": "Mafia",
+      "importance_tier": "advanced",
+      "min_players": 11,
+      "count_scaling": { "11-16": 1 },
+      "description": {
+        "en": "The Mafia's enforcer of silence. Each night, silence a player — they cannot speak during the next day's discussion (but can still vote).",
+        "gr": "Ο εκτελεστής σιωπής της Μαφίας. Κάθε νύχτα, σιωπαίνεις έναν παίκτη — δεν μπορεί να μιλήσει κατά τη συζήτηση της επόμενης ημέρας (αλλά μπορεί να ψηφίσει)."
+      },
+      "night_action": {
+        "type": "silence",
+        "resolution_phase": 4,
+        "can_self_target": false,
+        "target_rules": {
+          "valid_targets": "non_mafia",
+          "excludes_self": true,
+          "max_targets": 1
+        },
+        "description": "Silence a player — they can't speak next day"
+      },
+      "special_rules": [
+        "silenced_player_cannot_speak",
+        "silenced_player_can_still_vote",
+        "knows_all_mafia_members"
+      ],
+      "win_condition": "Mafia members equal or outnumber Town-aligned players"
+    },
+    {
+      "role": "Consigliere",
+      "alignment": "Mafia",
+      "importance_tier": "expanded",
+      "min_players": 13,
+      "count_scaling": { "13-16": 1 },
+      "description": {
+        "en": "The Mafia's spy. Each night, investigate a player and learn their exact role — not just alignment.",
+        "gr": "Ο κατάσκοπος της Μαφίας. Κάθε νύχτα, ερευνάς έναν παίκτη και μαθαίνεις τον ακριβή ρόλο του — όχι απλά την πίστη του."
+      },
+      "night_action": {
+        "type": "investigate_role",
+        "resolution_phase": 2,
+        "can_self_target": false,
+        "target_rules": {
+          "valid_targets": "non_mafia",
+          "excludes_self": true,
+          "max_targets": 1
+        },
+        "description": "Learn a player's exact role"
+      },
+      "special_rules": [
+        "learns_exact_role_not_alignment",
+        "knows_all_mafia_members"
+      ],
+      "win_condition": "Mafia members equal or outnumber Town-aligned players"
+    },
+    {
+      "role": "Janitor",
+      "alignment": "Mafia",
+      "importance_tier": "expanded",
+      "min_players": 14,
+      "count_scaling": { "14-16": 1 },
+      "description": {
+        "en": "The Mafia's cleaner. When a player dies at night, you learn their role. The town receives no information about the death.",
+        "gr": "Ο καθαριστής της Μαφίας. Όταν ένας παίκτης πεθάνει τη νύχτα, μαθαίνεις τον ρόλο του. Η πόλη δεν λαμβάνει πληροφορίες για τον θάνατο."
+      },
+      "night_action": {
+        "type": "investigate_dead",
+        "resolution_phase": 4,
+        "can_self_target": false,
+        "target_rules": {
+          "valid_targets": "alive",
+          "excludes_self": true,
+          "max_targets": 1
+        },
+        "description": "Learn the role of a player who dies tonight"
+      },
+      "special_rules": [
+        "learns_dead_player_role",
+        "cleans_death_info_from_town",
+        "knows_all_mafia_members"
+      ],
+      "win_condition": "Mafia members equal or outnumber Town-aligned players"
+    },
+
+    {
+      "role": "Jester",
+      "alignment": "Neutral",
+      "importance_tier": "core",
+      "min_players": 7,
+      "count_scaling": { "7-16": 1 },
+      "description": {
+        "en": "A chaotic fool with a death wish. Your goal is to get yourself lynched by the town. If you succeed, the game ends immediately — only you win.",
+        "gr": "Ένας χαοτικός τρελός με επιθυμία θανάτου. Στόχος σου είναι να σε λιντσάρει η πόλη. Αν τα καταφέρεις, το παιχνίδι τελειώνει αμέσως — μόνο εσύ κερδίζεις."
+      },
+      "night_action": {
+        "type": "none",
+        "resolution_phase": -1,
+        "can_self_target": false,
+        "target_rules": {
+          "valid_targets": "none",
+          "excludes_self": true,
+          "max_targets": 0
+        },
+        "description": "No night action — win by getting lynched"
+      },
+      "special_rules": [
+        "wins_if_lynched",
+        "instant_game_over_on_lynch",
+        "checked_before_all_other_win_conditions"
+      ],
+      "win_condition": "Get lynched by the town — game ends, only Jester wins"
+    },
+    {
+      "role": "Survivor",
+      "alignment": "Neutral",
+      "importance_tier": "important",
+      "min_players": 9,
+      "count_scaling": { "9-16": 1 },
+      "description": {
+        "en": "A lone wolf who just wants to live. You have a limited-use bulletproof vest to protect yourself at night. If you survive to the end, you co-win with the winning faction.",
+        "gr": "Ένας μοναχικός λύκος που απλά θέλει να ζήσει. Έχεις αλεξίσφαιρο γιλέκο περιορισμένης χρήσης για να προστατευτείς τη νύχτα. Αν επιβιώσεις ως το τέλος, κερδίζεις μαζί με τη νικήτρια φατρία."
+      },
+      "night_action": {
+        "type": "vest",
+        "resolution_phase": 3,
+        "can_self_target": true,
+        "target_rules": {
+          "valid_targets": "self_only",
+          "excludes_self": false,
+          "max_targets": 1
+        },
+        "vest_uses": 3,
+        "description": "Use bulletproof vest to survive a kill attempt (limited uses)"
+      },
+      "special_rules": [
+        "limited_use_self_protect",
+        "co_wins_with_any_faction",
+        "excluded_from_full_moon_boost"
+      ],
+      "win_condition": "Survive until the game ends — co-win with any faction"
+    },
+    {
+      "role": "Executioner",
+      "alignment": "Neutral",
+      "importance_tier": "advanced",
+      "min_players": 12,
+      "count_scaling": { "12-16": 1 },
+      "description": {
+        "en": "An obsessed vigilante. You win if your assigned target gets lynched by the town. If your target dies at night, you become a Jester.",
+        "gr": "Ένας εμμονικός τιμωρός. Κερδίζεις αν ο στόχος σου λιντσαριστεί από την πόλη. Αν ο στόχος σου πεθάνει τη νύχτα, γίνεσαι Jester."
+      },
+      "night_action": {
+        "type": "none",
+        "resolution_phase": -1,
+        "can_self_target": false,
+        "target_rules": {
+          "valid_targets": "none",
+          "excludes_self": true,
+          "max_targets": 0
+        },
+        "description": "No night action — win by getting your target lynched"
+      },
+      "special_rules": [
+        "assigned_target_at_game_start",
+        "target_must_be_town",
+        "wins_when_target_lynched",
+        "game_continues_after_executioner_win",
+        "becomes_jester_if_target_dies_at_night",
+        "checked_after_jester_win_condition"
+      ],
+      "win_condition": "Your assigned target gets lynched — game continues, Executioner wins"
+    },
+    {
+      "role": "Zombie",
+      "alignment": "Neutral",
+      "importance_tier": "expanded",
+      "min_players": 14,
+      "count_scaling": { "14-16": 1 },
+      "description": {
+        "en": "A creature of the night. Each night, infect a player — they lose their role abilities and voting rights. If all alive players are zombified, you win.",
+        "gr": "Ένα πλάσμα της νύχτας. Κάθε νύχτα, μολύνεις έναν παίκτη — χάνει τις ικανότητες του ρόλου του και το δικαίωμα ψήφου. Αν όλοι οι ζωντανοί παίκτες γίνουν zombie, κερδίζεις."
+      },
+      "night_action": {
+        "type": "infect",
+        "resolution_phase": 4,
+        "can_self_target": false,
+        "target_rules": {
+          "valid_targets": "alive",
+          "excludes_self": true,
+          "max_targets": 1
+        },
+        "description": "Infect a player — they lose abilities and voting"
+      },
+      "special_rules": [
+        "infected_lose_role_abilities",
+        "infected_cannot_vote",
+        "infected_memory_frozen",
+        "doctor_can_cure_infection",
+        "zombie_appears_town_to_sheriff",
+        "zombie_victims_appear_zombie_to_sheriff",
+        "excluded_from_full_moon_boost"
+      ],
+      "win_condition": "All alive non-zombie players are zombified"
+    }
+  ]
+}

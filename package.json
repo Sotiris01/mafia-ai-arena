@@ -1,0 +1,14 @@
+{
+  "_comment": "=== Package manifest ===",
+  "_purpose": "Dependencies, scripts, and project metadata",
+  "_location": "package.json (project root)",
+
+  "_todo_1": "TODO: Set name, version, description",
+  "_todo_2": "TODO: Add dependencies — expo, react, react-native, expo-router",
+  "_todo_3": "TODO: Add dev dependencies — typescript, @types/react, jest",
+  "_todo_4": "TODO: Add scripts (start, android, ios, web, test, lint)",
+  "_todo_5": "TODO: Add @react-native-async-storage/async-storage",
+  "_todo_6": "TODO: Add expo-file-system for JSON data storage",
+  "_todo_7": "TODO(PHASE2): Add @anthropic-ai/sdk or Gemma API client",
+  "_todo_8": "TODO(PHASE3): Add @mediapipe/tasks-genai for on-device Gemma"
+}
