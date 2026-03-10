@@ -4,34 +4,74 @@
 // LOCATION: src/hooks/useChat.ts
 // =============================================================================
 
-// TODO(APPROACH): Manages the chat experience during Discussion and Mafia Chat
-// sub-phases. Handles:
-//   - Displaying messages in order (public or Mafia channel)
-//   - Human player text input → ChatAnalyzer processing
-//   - AI player message generation (via AIEngine)
-//   - Message timing and delays (Human Window)
-//   - Silenced player overlay
-//
-// Collaborating files:
-// - src/state/ChatState.ts            — reads/writes messages + chat events
-// - src/engine/ChatAnalyzer.ts        — analyzes human messages
-// - src/engine/AIEngine.ts            — generates AI messages during discussion
-// - src/state/MemoryManager.ts        — updates memory from chat events
-// - src/data/config.json              — human_window_seconds, max_messages
-// - src/components/chat/PublicChat.tsx — renders public chat
-// - src/components/chat/MafiaChat.tsx  — renders Mafia chat
-// - src/components/chat/ChatInput.tsx  — human text input
-// - src/components/chat/ChatBubble.tsx — individual message rendering
-// - src/components/chat/SilencedOverlay.tsx — when human is silenced
-// - app/game/day.tsx                  — uses this hook for Discussion sub-phase
-// - app/game/night.tsx                — uses this hook for Mafia Chat sub-phase
+// Phase 3 — Minimal implementation: human-only public chat.
+// AI messages + Mafia channel + silenced overlay added in Phase 4–5.
 
-// TODO(HIGH): Implement useChat(channel) hook — "public" or "mafia"
-// TODO(HIGH): Implement sendMessage(text) — human player sends message
-// TODO: Implement getMessages(channel) — return Message[] for display
-// TODO: Implement handleAIMessages() — trigger AI message generation with delays
-// TODO: Implement isSilenced(playerId) — check if player is currently silenced
-// TODO: Implement getHumanWindowTimer() — countdown for human input opportunity
+import { useState, useCallback } from "react";
+import type { Message, Channel } from "../types/chat.types";
+import * as ChatState from "../state/ChatState";
+import * as GameState from "../state/GameState";
 
-// TODO(REVIEW): Message ordering — timestamp-based or queue-based?
-// TODO(LOW): Add typing indicator for AI players (immersion)
+// ---------------------------------------------------------------------------
+// Types
+// ---------------------------------------------------------------------------
+
+export interface UseChatReturn {
+  /** Messages for the active channel */
+  messages: Message[];
+  /** Send a human player message to the active channel */
+  sendMessage: (text: string) => void;
+  /** Active channel */
+  channel: Channel;
+}
+
+// ---------------------------------------------------------------------------
+// Counter for unique message IDs
+// ---------------------------------------------------------------------------
+
+let messageCounter = 0;
+
+/** Reset counter when a new game starts */
+export function resetMessageCounter(): void {
+  messageCounter = 0;
+}
+
+// ---------------------------------------------------------------------------
+// Hook
+// ---------------------------------------------------------------------------
+
+export function useChat(channel: Channel = "public"): UseChatReturn {
+  const [messages, setMessages] = useState<Message[]>([]);
+
+  const sendMessage = useCallback(
+    (text: string) => {
+      const trimmed = text.trim();
+      if (trimmed.length === 0) return;
+
+      const msg: Message = {
+        id: `msg_${++messageCounter}`,
+        sender_id: "human",
+        sender_name: "Player",
+        text: trimmed,
+        timestamp: Date.now(),
+        channel,
+        is_human: true,
+      };
+
+      // Persist to ChatState for AI context later
+      ChatState.addMessage(msg);
+
+      // Update local state for immediate UI render
+      setMessages((prev) => [...prev, msg]);
+    },
+    [channel],
+  );
+
+  // TODO(Phase 4): Integrate AIEngine.runDiscussionTurn() — AI messages appear with delays
+  // TODO(Phase 4): Add ChatAnalyzer.analyzeMessage() on human text → ChatEvent → memory updates
+  // TODO(Phase 5): Support "mafia" channel for Mafia chat sub-phase
+  // TODO(Phase 5): Add isSilenced check — block sendMessage when human is silenced
+  // TODO(LOW): Add typing indicator state for AI players
+
+  return { messages, sendMessage, channel };
+}

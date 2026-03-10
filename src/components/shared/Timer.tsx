@@ -4,21 +4,103 @@
 // LOCATION: src/components/shared/Timer.tsx
 // =============================================================================
 
-// TODO(APPROACH): Reusable countdown timer displayed during timed phases
-// (Discussion, Trial, Voting, Night Actions). Shows mm:ss format.
-// Changes color as time runs low (green → yellow → red).
-//
-// Collaborating files:
-// - src/data/config.json              — timer durations per phase
-// - src/engine/PhaseManager.ts        — provides timer duration
-// - src/utils/formatters.ts           — formatTime(seconds)
-// - src/hooks/useGameLoop.ts          — timer management
-// - app/game/day.tsx                  — discussion + trial timers
-// - app/game/vote.tsx                 — voting timer
-// - app/game/night.tsx                — night action timer
+import React, { useEffect, useRef, useState } from "react";
+import { View, Text, StyleSheet } from "react-native";
+import { formatTime } from "../../utils/formatters";
 
-// TODO: Define TimerProps (seconds: number, onExpire: () => void, isWarning?: boolean)
-// TODO: Implement Timer component with countdown logic
-// TODO: Color coding: green → yellow (30s) → red (10s)
-// TODO: Call onExpire callback when timer reaches 0
-// TODO(LOW): Add tick sound effect in final seconds
+// ---------------------------------------------------------------------------
+// Props
+// ---------------------------------------------------------------------------
+
+export interface TimerProps {
+  /** Total seconds for the countdown */
+  seconds: number;
+  /** Called once when the timer hits 0 */
+  onExpire: () => void;
+  /** If true, start in yellow "warning" mode regardless of seconds left */
+  isWarning?: boolean;
+  /** If true, timer is frozen (e.g., game paused) */
+  paused?: boolean;
+}
+
+// ---------------------------------------------------------------------------
+// Color thresholds
+// ---------------------------------------------------------------------------
+
+const COLOR_GREEN = "#43a047";
+const COLOR_YELLOW = "#f9a825";
+const COLOR_RED = "#e53935";
+
+function timerColor(remaining: number, isWarning?: boolean): string {
+  if (remaining <= 10) return COLOR_RED;
+  if (remaining <= 30 || isWarning) return COLOR_YELLOW;
+  return COLOR_GREEN;
+}
+
+// ---------------------------------------------------------------------------
+// Component
+// ---------------------------------------------------------------------------
+
+export default function Timer({
+  seconds,
+  onExpire,
+  isWarning,
+  paused = false,
+}: TimerProps) {
+  const [remaining, setRemaining] = useState(seconds);
+  const expiredRef = useRef(false);
+
+  // Reset when seconds prop changes (new phase)
+  useEffect(() => {
+    setRemaining(seconds);
+    expiredRef.current = false;
+  }, [seconds]);
+
+  // Countdown interval
+  useEffect(() => {
+    if (paused || remaining <= 0) return;
+    const id = setInterval(() => {
+      setRemaining((prev) => {
+        const next = prev - 1;
+        if (next <= 0 && !expiredRef.current) {
+          expiredRef.current = true;
+          // Defer callback to avoid state-update-during-render
+          setTimeout(onExpire, 0);
+          return 0;
+        }
+        return next;
+      });
+    }, 1000);
+    return () => clearInterval(id);
+  }, [paused, remaining, onExpire]);
+
+  const color = timerColor(remaining, isWarning);
+
+  return (
+    <View style={[styles.container, { borderColor: color }]}>
+      <Text style={[styles.time, { color }]}>{formatTime(remaining)}</Text>
+    </View>
+  );
+}
+
+// TODO(LOW): Add tick sound effect in final 5 seconds (expo-av)
+// TODO(LOW): Pulse / scale animation when remaining < 10
+
+// ---------------------------------------------------------------------------
+// Styles
+// ---------------------------------------------------------------------------
+
+const styles = StyleSheet.create({
+  container: {
+    alignSelf: "center",
+    paddingHorizontal: 20,
+    paddingVertical: 8,
+    borderRadius: 8,
+    borderWidth: 2,
+  },
+  time: {
+    fontSize: 28,
+    fontWeight: "700",
+    fontVariant: ["tabular-nums"],
+  },
+});

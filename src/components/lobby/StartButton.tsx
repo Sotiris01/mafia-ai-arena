@@ -4,19 +4,76 @@
 // LOCATION: src/components/lobby/StartButton.tsx
 // =============================================================================
 
-// TODO(APPROACH): Large "Start Game" button in the lobby. Validates:
-//   - Player count is within range (7–16)
-//   - Settings are configured
-// Triggers game initialization flow.
-//
-// Collaborating files:
-// - src/hooks/useGameLoop.ts          — startGame(playerCount) callback
-// - src/state/GameState.ts            — initializes game state
-// - src/state/PlayerState.ts          — assigns roles + personalities
-// - src/components/lobby/PlayerCount.tsx — reads selected count
-// - app/index.tsx                     — lobby screen parent
+import React from "react";
+import { Pressable, Text, ActivityIndicator, StyleSheet } from "react-native";
 
-// TODO: Define StartButtonProps (onStart: () => void, disabled: boolean)
-// TODO: Implement StartButton component
-// TODO: Show loading state during game initialization
+// ---------------------------------------------------------------------------
+// Props
+// ---------------------------------------------------------------------------
+
+export interface StartButtonProps {
+  onStart: () => void;
+  disabled?: boolean;
+  loading?: boolean;
+}
+
+// ---------------------------------------------------------------------------
+// Component
+// ---------------------------------------------------------------------------
+
+export default function StartButton({
+  onStart,
+  disabled = false,
+  loading = false,
+}: StartButtonProps) {
+  const isDisabled = disabled || loading;
+
+  return (
+    <Pressable
+      style={[styles.button, isDisabled && styles.buttonDisabled]}
+      onPress={onStart}
+      disabled={isDisabled}
+    >
+      {loading ? (
+        <ActivityIndicator color="#fff" size="small" />
+      ) : (
+        <Text style={[styles.text, isDisabled && styles.textDisabled]}>
+          Start Game
+        </Text>
+      )}
+    </Pressable>
+  );
+}
+
 // TODO(LOW): Add dramatic "game is starting" animation transition
+// TODO(LOW): Haptic feedback on press (expo-haptics)
+
+// ---------------------------------------------------------------------------
+// Styles
+// ---------------------------------------------------------------------------
+
+const styles = StyleSheet.create({
+  button: {
+    backgroundColor: "#e94560",
+    paddingHorizontal: 48,
+    paddingVertical: 16,
+    borderRadius: 12,
+    alignItems: "center",
+    justifyContent: "center",
+    minWidth: 200,
+    minHeight: 56,
+  },
+  buttonDisabled: {
+    backgroundColor: "#4a2030",
+    opacity: 0.6,
+  },
+  text: {
+    color: "#fff",
+    fontSize: 22,
+    fontWeight: "800",
+    letterSpacing: 1,
+  },
+  textDisabled: {
+    color: "#999",
+  },
+});

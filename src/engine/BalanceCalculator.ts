@@ -5,38 +5,90 @@
 // LOCATION: src/engine/BalanceCalculator.ts
 // =============================================================================
 
-// TODO(APPROACH): Pure calculation module. Computes balance_score that
-// determines Full Moon staging. Neutral roles (Survivor, Jester,
-// Executioner, Zombie) count as "non-Mafia" for balance purposes.
-//
-// Formula:
-//   town_count = alive Town + alive Neutral
-//   mafia_count = alive Mafia
-//   total = town_count + mafia_count
-//   expected_ratio = config.expected_town_ratio (default 0.6)
-//   balance_score = (town_count / total) - expected_ratio
-//
-// Interpretation:
-//   Positive score → Town is winning (buff Mafia)
-//   Negative score → Mafia is winning (buff Town)
-//   |score| < 0.05 → balanced (Stage 0)
-//   |score| ≥ 0.05 → imbalanced (Stage 1)
-//   |score| ≥ 0.15 → heavily imbalanced (Stage 2)
-//
-// Collaborating files:
-// - src/types/game.types.ts           — BalanceScore interface
-// - src/types/player.types.ts         — Alignment for faction counting
-// - src/state/GameState.ts            — reads alive_players
-// - src/state/PlayerState.ts          — reads player alignments
-// - src/engine/FullMoonEngine.ts      — consumes balance_score for stage determination
-// - src/data/fullMoonConfig.json      — thresholds (stage_1: 0.05, stage_2: 0.15)
-// - src/data/config.json              — expected_town_ratio
-// - src/utils/balanceScore.ts         — lower-level math helpers
+import type { BalanceScore } from "../types/game.types";
+import type { Alignment } from "../types/player.types";
+import type { FullMoonStage } from "../types/event.types";
+import * as GameState from "../state/GameState";
+import * as PlayerState from "../state/PlayerState";
+import {
+  calculateRatio,
+  getImbalance,
+  mapToStage,
+  getLosingFaction,
+} from "../utils/balanceScore";
 
-// TODO(HIGH): Implement calculateBalance() — return BalanceScore
-// TODO: Implement countByFaction() — count alive players per alignment
-// TODO: Implement getLosingFaction(score) — return which faction is behind
-// TODO: Implement getStage(score) — map score to Full Moon stage (0/1/2)
+// Default expected town ratio (Town+Neutral / total).
+// Not in config.json — derived from typical role distributions (~60% non-Mafia).
+const EXPECTED_TOWN_RATIO = 0.6;
 
-// TODO(REVIEW): How to handle case where all Neutrals are dead? Adjust ratio?
-// TODO(LOW): Add balance trend tracking (is it getting better or worse?)
+// ---------------------------------------------------------------------------
+// Faction counting
+// ---------------------------------------------------------------------------
+
+interface FactionCounts {
+  town: number;
+  mafia: number;
+  neutral: number;
+}
+
+/** Count alive players per alignment */
+export function countByFaction(): FactionCounts {
+  const aliveIds = GameState.getState().alive_player_ids;
+  let town = 0;
+  let mafia = 0;
+  let neutral = 0;
+
+  for (const id of aliveIds) {
+    const alignment = PlayerState.getPlayer(id).alignment;
+    if (alignment === "Town") town++;
+    else if (alignment === "Mafia") mafia++;
+    else neutral++;
+  }
+
+  return { town, mafia, neutral };
+}
+
+// ---------------------------------------------------------------------------
+// Public API
+// ---------------------------------------------------------------------------
+
+/**
+ * Compute balance score from current game state.
+ * Neutral roles count as "non-Mafia" (lumped with Town for ratio).
+ *
+ * Positive score → Town/Neutral side is winning → buff Mafia
+ * Negative score → Mafia side is winning → buff Town
+ */
+export function calculateBalance(): BalanceScore {
+  const { town, mafia, neutral } = countByFaction();
+  const nonMafia = town + neutral;
+  const total = nonMafia + mafia;
+  const ratio = calculateRatio(nonMafia, total);
+  const score = total === 0 ? 0 : ratio - EXPECTED_TOWN_RATIO;
+
+  return {
+    score,
+    town_alive: town,
+    mafia_alive: mafia,
+    neutral_alive: neutral,
+    total_alive: total,
+    expected_ratio: EXPECTED_TOWN_RATIO,
+  };
+}
+
+/** Map a balance score to Full Moon stage (0 / 1 / 2) */
+export function getStage(score: number): FullMoonStage {
+  const config = GameState.getConfig();
+  return mapToStage(
+    getImbalance(score, 0),
+    config.balance_thresholds,
+  );
+}
+
+/** Which faction should be buffed (the losing side) */
+export function getLosing(score: number): Alignment {
+  return getLosingFaction(score);
+}
+
+// TODO(Phase 5): Add balance trend tracking (compare to previous day's score)
+// TODO(Phase 5): Handle edge case — all Neutrals converted to Zombie alignment

@@ -2,7 +2,7 @@
 
 A mobile Mafia/Werewolf game where a single player competes against AI opponents in a psychological strategy game. Built with **React Native + Expo** (TypeScript).
 
-> 🚧 **Status: Phase 2 Complete** — Types, utilities, state management, and unit tests (166 passing) are implemented. Phase 3 (playable shell — lobby, role assignment, chat) is next.
+> 🚧 **Status: Phase 3 Complete** — Playable shell on phone: lobby, role assignment, chat, settings, navigation. 14 test suites / 234 tests passing. Phase 4 (Template AI + Day Cycle) is next.
 
 ---
 
@@ -121,8 +121,10 @@ Mafia_Game/
 ├── __tests__/                  # Test suites (Jest + ts-jest)
 │   ├── utils/                  #   Utility tests (44 tests) ✅
 │   ├── state/                  #   State manager tests (122 tests) ✅
-│   ├── ai/                     #   AI module tests (scaffolds)
-│   └── engine/                 #   Engine module tests (scaffolds)
+│   ├── engine/                 #   BalanceCalculator (15 tests) ✅ + scaffolds
+│   ├── hooks/                  #   useGameLoop (17) + useChat (13) ✅
+│   ├── contexts/               #   GameContext (7) + SettingsContext (16) ✅
+│   └── ai/                     #   AI module tests (scaffolds)
 │
 ├── Game_documentation/         # Obsidian vault — full game design docs
 │   ├── 1_Game_Design/          #   Roles, Phases, Events, Win Conditions
@@ -130,6 +132,7 @@ Mafia_Game/
 │   └── 3_Project_Structure/    #   Architecture, Roadmap, Specs
 │
 ├── start.ps1                   # Dev launch script (version check + Expo start)
+├── test.ps1                    # Test runner (filter, coverage, watch, type-check)
 │
 ├── .github/
 │   └── copilot-instructions.md # AI coding assistant rules
@@ -179,7 +182,25 @@ The `start.ps1` script verifies all dependency versions match Expo SDK 54, kills
 | `-Clean` | Nuke `node_modules` → reinstall → clear cache → start |
 | `-CheckOnly` | Verify versions and exit (no server) |
 
-> **Note:** The project has completed **Phase 2**. Types, utilities, state management, and 166 unit tests are implemented. Screen navigation is functional; engine and AI modules contain TODO scaffolds. See `project_status.md` for the full phase breakdown.
+### Running Tests
+
+```powershell
+.\test.ps1                          # Run all 234 tests
+.\test.ps1 -Suite hooks             # Filter by path pattern
+.\test.ps1 -TypeCheck               # tsc --noEmit before tests
+.\test.ps1 -Coverage                # Generate coverage report
+.\test.ps1 -Watch                   # Re-run on file changes
+.\test.ps1 -Suite contexts -TypeCheck  # Combine flags
+```
+
+| Flag | Effect |
+|------|--------|
+| `-Suite <pattern>` | Run only tests matching the path pattern |
+| `-TypeCheck` | Run `tsc --noEmit` first, abort on errors |
+| `-Coverage` | Generate Jest coverage report |
+| `-Watch` | Re-run tests on file changes |
+
+> **Note:** The project has completed **Phase 3**. The app runs on phone with lobby, role assignment, chat (human only), settings, and navigation. 14 test suites / 234 unit tests pass. Engine and AI modules contain TODO scaffolds for Phases 4+. See `project_status.md` for the full phase breakdown.
 
 ---
 
@@ -193,7 +214,7 @@ The `start.ps1` script verifies all dependency versions match Expo SDK 54, kills
 - [x] Dev launch script (`start.ps1` — version checks + Expo start)
 - [x] **Phase 1** — Types & Utilities (7 type files + 4 utils)
 - [x] **Phase 2** — State Management (5 state modules + 166 unit tests)
-- [ ] **Phase 3** — Playable Shell (lobby, role assignment, chat on phone)
+- [x] **Phase 3** — Playable Shell (lobby, role, chat, settings, navigation + 68 tests)
 - [ ] **Phase 4** — Template AI + Day Cycle (AI talks, voting, day loop)
 - [ ] **Phase 5** — Night Actions + Events + Full Game Loop
 - [ ] **Phase 6** — Smart AI (Gemma API)

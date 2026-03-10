@@ -4,24 +4,106 @@
 // LOCATION: src/components/chat/ChatInput.tsx
 // =============================================================================
 
-// TODO(APPROACH): Text input with send button for human player during
-// Discussion sub-phase. Disabled when player is silenced or when
-// it's not the human window. Shows countdown timer for input deadline.
-//
-// Props:
-//   - onSend: (text: string) => void  — callback when message sent
-//   - disabled: boolean               — silenced or wrong phase
-//   - timeRemaining?: number          — human window countdown
-//
-// Collaborating files:
-// - src/hooks/useChat.ts              — provides onSend callback
-// - src/components/chat/PublicChat.tsx — contains ChatInput at bottom
-// - src/components/chat/SilencedOverlay.tsx — shown when disabled due to silence
-// - src/components/shared/Timer.tsx    — countdown display
+import React, { useState } from "react";
+import { View, TextInput, Pressable, Text, StyleSheet } from "react-native";
 
-// TODO(HIGH): Define ChatInputProps interface
-// TODO(HIGH): Implement ChatInput component (TextInput + Send button)
-// TODO: Handle disabled state (silenced player, wrong phase)
-// TODO: Show human window countdown timer
-// TODO: Clear input after send
+// ---------------------------------------------------------------------------
+// Props
+// ---------------------------------------------------------------------------
+
+export interface ChatInputProps {
+  onSend: (text: string) => void;
+  disabled?: boolean;
+  placeholder?: string;
+}
+
+// ---------------------------------------------------------------------------
+// Component
+// ---------------------------------------------------------------------------
+
+export default function ChatInput({
+  onSend,
+  disabled = false,
+  placeholder = "Type a message...",
+}: ChatInputProps) {
+  const [text, setText] = useState("");
+
+  const handleSend = () => {
+    const trimmed = text.trim();
+    if (trimmed.length === 0) return;
+    onSend(trimmed);
+    setText("");
+  };
+
+  return (
+    <View style={styles.container}>
+      <TextInput
+        style={[styles.input, disabled && styles.inputDisabled]}
+        value={text}
+        onChangeText={setText}
+        placeholder={disabled ? "You are silenced 🔇" : placeholder}
+        placeholderTextColor="#666"
+        editable={!disabled}
+        multiline={false}
+        returnKeyType="send"
+        onSubmitEditing={handleSend}
+      />
+      <Pressable
+        style={[styles.sendBtn, (disabled || text.trim().length === 0) && styles.sendBtnDisabled]}
+        onPress={handleSend}
+        disabled={disabled || text.trim().length === 0}
+      >
+        <Text style={styles.sendText}>➤</Text>
+      </Pressable>
+    </View>
+  );
+}
+
+// TODO(Phase 4): Show human window countdown timer
+// TODO(Phase 5): Show SilencedOverlay when disabled due to Silencer role
 // TODO(LOW): Add character limit indicator
+
+// ---------------------------------------------------------------------------
+// Styles
+// ---------------------------------------------------------------------------
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    borderTopWidth: 1,
+    borderTopColor: "#333",
+    backgroundColor: "#1a1a2e",
+    gap: 8,
+  },
+  input: {
+    flex: 1,
+    backgroundColor: "#2a2a4a",
+    color: "#fff",
+    borderRadius: 20,
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    fontSize: 15,
+  },
+  inputDisabled: {
+    opacity: 0.4,
+  },
+  sendBtn: {
+    width: 42,
+    height: 42,
+    borderRadius: 21,
+    backgroundColor: "#1565c0",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  sendBtnDisabled: {
+    backgroundColor: "#333",
+    opacity: 0.5,
+  },
+  sendText: {
+    color: "#fff",
+    fontSize: 20,
+  },
+});

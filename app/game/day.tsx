@@ -1,70 +1,71 @@
+import React from "react";
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import { useRouter } from "expo-router";
+import { useChat } from "../../src/hooks/useChat";
+import PublicChat from "../../src/components/chat/PublicChat";
 
 export default function DayScreen() {
   const router = useRouter();
+  const { messages, sendMessage } = useChat("public");
 
   return (
     <View style={styles.container}>
-      <Text style={styles.emoji}>💬</Text>
-      <Text style={styles.title}>Day Phase</Text>
-      <Text style={styles.info}>Discussion, accusations, and mid-day events will appear here</Text>
+      {/* Day header */}
+      <View style={styles.header}>
+        <Text style={styles.headerText}>💬 Discussion</Text>
+        <Pressable
+          style={styles.voteBtn}
+          onPress={() => router.replace("/game/vote")}
+        >
+          <Text style={styles.voteBtnText}>Vote →</Text>
+        </Pressable>
+      </View>
 
-      <Pressable
-        style={styles.button}
-        onPress={() => router.replace("/game/vote")}
-      >
-        <Text style={styles.buttonText}>Proceed to Vote →</Text>
-      </Pressable>
+      {/* Chat area */}
+      <PublicChat messages={messages} onSend={sendMessage} />
     </View>
   );
 }
 
+// TODO(Phase 4): Add <Timer /> for discussion countdown (config.timers.discussion_seconds)
+// TODO(Phase 4): Replace manual "Vote" button with auto-transition on timer expire
+// TODO(Phase 4): Wire AIEngine.runDiscussionTurn() for AI messages
+// TODO(Phase 5): Check if human is silenced → pass isSilenced to PublicChat
+// TODO(Phase 5): Handle mid-day NightEcho events (pause chat, show banner)
+// TODO(LOW): Add Mayor reveal button if human is Mayor
+
+// ---------------------------------------------------------------------------
+// Styles
+// ---------------------------------------------------------------------------
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
     backgroundColor: "#1a1a2e",
-    padding: 24,
   },
-  emoji: { fontSize: 64, marginBottom: 16 },
-  title: { fontSize: 28, fontWeight: "bold", color: "#fff", marginBottom: 12 },
-  info: { fontSize: 14, color: "#666", textAlign: "center", marginBottom: 48 },
-  button: {
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "#333",
+  },
+  headerText: {
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "700",
+  },
+  voteBtn: {
     backgroundColor: "#4a9eff",
-    paddingHorizontal: 36,
-    paddingVertical: 14,
-    borderRadius: 10,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 8,
   },
-  buttonText: { color: "#fff", fontSize: 18, fontWeight: "bold" },
+  voteBtnText: {
+    color: "#fff",
+    fontSize: 14,
+    fontWeight: "600",
+  },
 });
-
-// TODO(HIGH): Wire useChat hook (src/hooks/useChat.ts)
-//   — Manages public chat message exchange with AI generation
-//   — AI messages generated via MessageGenerator (src/ai/MessageGenerator.ts)
-//   — Speak timing via SpeakProbability (src/ai/SpeakProbability.ts)
-
-// TODO(HIGH): Replace placeholder with <PublicChat /> + <ChatInput />
-//   — From src/components/chat/PublicChat.tsx, ChatInput.tsx
-//   — PublicChat: scrollable message list with player avatars
-//   — ChatInput: text field for human player messages
-
-// TODO: Add <Timer /> component for discussion countdown
-//   — From src/components/shared/Timer.tsx
-//   — Duration from config.json → timer_durations.discussion
-
-// TODO: Handle sub-phase transitions
-//   — Discussion → Mid-Day Events → Transition to vote
-//   — Mid-Day Events: show <NightEchoBanner /> if events queued
-//   — From src/components/events/NightEchoBanner.tsx
-
-// TODO: Check if human player is Silenced
-//   — Silencer role (src/data/roles.json) blocks target from speaking
-//   — Show SilencedOverlay on ChatInput, disable sending
-
-// TODO: Transition to /game/vote when discussion timer expires
-//   — Remove manual "Proceed to Vote" button once timer is wired
-
-// TODO(LOW): Add Mayor reveal button if human is Mayor
-//   — Mayor reveal doubles vote weight in next phase
