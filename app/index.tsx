@@ -1,28 +1,52 @@
-// =============================================================================
-// FILE: index.tsx
-// PURPOSE: Home / Lobby screen — player count, role preview, game start
-// LOCATION: app/index.tsx
-// =============================================================================
+import { View, Text, Pressable, StyleSheet } from "react-native";
+import { useRouter } from "expo-router";
 
-// TODO(APPROACH): Main lobby screen. Uses lobby/ components:
-//   1. PlayerCount selector (7–16)
-//   2. RolePreview showing roles at current count
-//   3. StartButton to initialize and begin the game
-//
-// On "Start Game":
-//   - Calls useGameLoop.startGame(playerCount)
-//   - Navigates to /game/night (game always starts at Night Phase 0)
-//
-// Collaborating files:
-// - src/components/lobby/PlayerCount.tsx  — count selector
-// - src/components/lobby/RolePreview.tsx  — role distribution preview
-// - src/components/lobby/StartButton.tsx  — start button
-// - src/hooks/useGameLoop.ts              — startGame()
-// - src/state/GameState.ts                — init game state
-// - src/state/PlayerState.ts              — assign roles + personalities
-// - app/_layout.tsx                       — parent layout
+export default function LobbyScreen() {
+  const router = useRouter();
 
-// TODO: Render PlayerCount, RolePreview, StartButton
-// TODO: Manage playerCount state locally
-// TODO: On start → initialize game → router.push("/game/night")
-// TODO(LOW): Add game rules / how-to-play link
+  return (
+    <View style={styles.container}>
+      <Text style={styles.emoji}>🎭</Text>
+      <Text style={styles.title}>Mafia AI Arena</Text>
+      <Text style={styles.subtitle}>Single-Player AI Edition</Text>
+
+      <Pressable
+        style={styles.button}
+        onPress={() => router.push("/game/morning")}
+      >
+        <Text style={styles.buttonText}>Start Game</Text>
+      </Pressable>
+
+      <Pressable
+        style={styles.linkButton}
+        onPress={() => router.push("/settings")}
+      >
+        <Text style={styles.linkText}>⚙️ Settings</Text>
+      </Pressable>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#1a1a2e",
+    padding: 24,
+  },
+  emoji: { fontSize: 80, marginBottom: 16 },
+  title: { fontSize: 32, fontWeight: "bold", color: "#fff", marginBottom: 8 },
+  subtitle: { fontSize: 16, color: "#888", marginBottom: 48 },
+  button: {
+    backgroundColor: "#e94560",
+    paddingHorizontal: 48,
+    paddingVertical: 16,
+    borderRadius: 12,
+    marginBottom: 24,
+  },
+  buttonText: { color: "#fff", fontSize: 20, fontWeight: "bold" },
+  linkButton: { padding: 12 },
+  linkText: { color: "#4a9eff", fontSize: 16 },
+});
+

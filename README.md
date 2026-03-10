@@ -2,7 +2,7 @@
 
 A mobile Mafia/Werewolf game where a single player competes against AI opponents in a psychological strategy game. Built with **React Native + Expo** (TypeScript).
 
-> 🚧 **Status: In Design & Scaffolding Phase** — Game documentation, data files, and project structure are complete. Engine implementation is next.
+> 🚧 **Status: Prototype** — Game documentation, data files, project structure, and navigable prototype UI are complete. Engine implementation is next.
 
 ---
 
@@ -42,7 +42,7 @@ Morning Report → Day Discussion → Mid-Day Events → Trial & Vote → Night 
 
 | Layer | Technology |
 |-------|-----------|
-| **Framework** | React Native + Expo |
+| **Framework** | React Native + Expo (SDK 54) |
 | **Language** | TypeScript (strict mode) |
 | **Navigation** | Expo Router (file-based) |
 | **State** | JSON file-based (AsyncStorage / FileSystem) |
@@ -127,8 +127,13 @@ Mafia_Game/
 │   ├── 2_Technical_Workflow/   #   AI Engine, Memory System, Gameplay Loop
 │   └── 3_Project_Structure/    #   Architecture, Roadmap, Specs
 │
+├── start.ps1                   # Dev launch script (version check + Expo start)
+│
+├── .github/
+│   └── copilot-instructions.md # AI coding assistant rules
+│
 └── .github/
-    └── copilot-instructions.md # AI coding assistant rules
+    └── skills/                 # Copilot skill definitions
 ```
 
 ---
@@ -150,7 +155,7 @@ The `Game_documentation/` folder is a complete **Obsidian vault** with 57+ inter
 
 ## 🚀 Getting Started
 
-> **Prerequisites:** Node.js 18+, npm/yarn, Expo CLI
+> **Prerequisites:** Node.js 18+, npm, Expo Go app on your phone
 
 ```bash
 # Clone the repository
@@ -160,11 +165,19 @@ cd mafia-ai-arena
 # Install dependencies
 npm install
 
-# Start the Expo dev server
-npx expo start
+# Start the Expo dev server (with version checks)
+.\start.ps1
 ```
 
-> ⚠️ The project is currently in the **scaffolding phase**. Source files contain TODO comments outlining the implementation plan. Data files (JSON) are fully implemented.
+The `start.ps1` script verifies all dependency versions match Expo SDK 54, kills any stale process on port 8081, and launches the dev server with a QR code for Expo Go.
+
+| Flag | Effect |
+|------|--------|
+| *(none)* | Verify versions → start Expo |
+| `-Clean` | Nuke `node_modules` → reinstall → clear cache → start |
+| `-CheckOnly` | Verify versions and exit (no server) |
+
+> **Note:** The project is in the **prototype phase**. Screen navigation is functional; game engine and AI modules contain TODO scaffolds. Data files (JSON) are fully implemented.
 
 ---
 
@@ -174,6 +187,8 @@ npx expo start
 - [x] Project structure scaffolding (86 files)
 - [x] Data layer implementation (8 JSON files, 378 message templates)
 - [x] Data review & alignment with documentation
+- [x] Prototype UI (navigable screens via Expo Router)
+- [x] Dev launch script (`start.ps1` — version checks + Expo start)
 - [ ] TypeScript type definitions
 - [ ] State management implementation
 - [ ] Game engine (9 modules)

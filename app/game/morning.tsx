@@ -1,31 +1,42 @@
-// =============================================================================
-// FILE: morning.tsx
-// PURPOSE: Morning Report screen — deaths, events, Full Moon status
-// LOCATION: app/game/morning.tsx
-// =============================================================================
+import { View, Text, Pressable, StyleSheet } from "react-native";
+import { useRouter } from "expo-router";
 
-// TODO(APPROACH): Morning Report is shown at the start of each day.
-// Assembles and displays:
-//   1. Night deaths (who died, cause — unless Janitor cleaned)
-//   2. Night Echo event results (visible effects)
-//   3. Full Moon status update (stage changes, buff announcements)
-//   4. Zombie infection announcements
-//   5. Special announcements (Mayor reveal fallout, etc.)
-//
-// Collaborating files:
-// - src/components/night/MorningReport.tsx — report content component
-// - src/components/events/FullMoonOverlay.tsx — Full Moon visual
-// - src/components/events/ZombieIndicator.tsx — zombie status
-// - src/hooks/useMorningReport.ts         — report assembly
-// - src/hooks/useEvents.ts                — event results
-// - src/engine/FullMoonEngine.ts           — Full Moon stage check
-// - src/state/GameState.ts                — zombie tracking
+export default function MorningScreen() {
+  const router = useRouter();
 
-// TODO: Call useMorningReport to assemble report data
-// TODO: Show death announcements (with Janitor clean check)
-// TODO: Show Night Echo event results
-// TODO: Show Full Moon status changes
-// TODO: Show zombie infection notices
-// TODO: "Continue" button → transition to /game/day
-// TODO: Check WinChecker before advancing (game may end)
+  return (
+    <View style={styles.container}>
+      <Text style={styles.emoji}>🌅</Text>
+      <Text style={styles.title}>Morning Report</Text>
+      <Text style={styles.info}>Deaths, events, and Full Moon status will appear here</Text>
+
+      <Pressable
+        style={styles.button}
+        onPress={() => router.replace("/game/day")}
+      >
+        <Text style={styles.buttonText}>Continue to Day →</Text>
+      </Pressable>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#1a1a2e",
+    padding: 24,
+  },
+  emoji: { fontSize: 64, marginBottom: 16 },
+  title: { fontSize: 28, fontWeight: "bold", color: "#fff", marginBottom: 12 },
+  info: { fontSize: 14, color: "#666", textAlign: "center", marginBottom: 48 },
+  button: {
+    backgroundColor: "#f0a500",
+    paddingHorizontal: 36,
+    paddingVertical: 14,
+    borderRadius: 10,
+  },
+  buttonText: { color: "#1a1a2e", fontSize: 18, fontWeight: "bold" },
+});
 // TODO(LOW): Add death reveal animation

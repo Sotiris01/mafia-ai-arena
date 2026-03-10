@@ -1,32 +1,44 @@
-// =============================================================================
-// FILE: day.tsx
-// PURPOSE: Day Phase screen — Discussion + Mid-Day events
-// LOCATION: app/game/day.tsx
-// =============================================================================
+import { View, Text, Pressable, StyleSheet } from "react-native";
+import { useRouter } from "expo-router";
 
-// TODO(APPROACH): Day Phase has sub-phases:
-//   1. Discussion (timed) — public chat, AI players speak/accuse/defend
-//   2. Mid-Day Events — Night Echo reveals, Last Wish results
-//   3. (Then transitions to vote.tsx for Trial & Voting)
-//
-// Key mechanics:
-//   - Silenced players: overlay via SilencedOverlay
-//   - Mayor can reveal during Discussion
-//   - AI players speak based on SpeakProbability + MessageGenerator
-//   - Chat analysis via ChatAnalyzer
-//
-// Collaborating files:
-// - src/components/chat/PublicChat.tsx     — public discussion chat
-// - src/components/chat/ChatInput.tsx      — human player input
-// - src/components/chat/SilencedOverlay.tsx — if human is silenced
-// - src/components/events/NightEchoBanner.tsx — mid-day event banners
-// - src/components/shared/Timer.tsx        — discussion timer
-// - src/hooks/useChat.ts                  — chat management
-// - src/hooks/useGameLoop.ts              — phase transitions
-// - src/hooks/useEvents.ts                — Night Echo events
-// - src/engine/PhaseManager.ts            — sub-phase sequencing
-// - src/ai/SpeakProbability.ts            — AI speak decisions
-// - src/ai/MessageGenerator.ts            — AI message content
+export default function DayScreen() {
+  const router = useRouter();
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.emoji}>💬</Text>
+      <Text style={styles.title}>Day Phase</Text>
+      <Text style={styles.info}>Discussion, accusations, and mid-day events will appear here</Text>
+
+      <Pressable
+        style={styles.button}
+        onPress={() => router.replace("/game/vote")}
+      >
+        <Text style={styles.buttonText}>Proceed to Vote →</Text>
+      </Pressable>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#1a1a2e",
+    padding: 24,
+  },
+  emoji: { fontSize: 64, marginBottom: 16 },
+  title: { fontSize: 28, fontWeight: "bold", color: "#fff", marginBottom: 12 },
+  info: { fontSize: 14, color: "#666", textAlign: "center", marginBottom: 48 },
+  button: {
+    backgroundColor: "#4a9eff",
+    paddingHorizontal: 36,
+    paddingVertical: 14,
+    borderRadius: 10,
+  },
+  buttonText: { color: "#fff", fontSize: 18, fontWeight: "bold" },
+});
 
 // TODO: Render PublicChat + ChatInput
 // TODO: Show Timer for discussion countdown

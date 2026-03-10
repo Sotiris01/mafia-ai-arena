@@ -1,12 +1,10 @@
 {
-  "_comment": "=== TypeScript configuration ===",
-  "_purpose": "TypeScript strict mode config for React Native + Expo",
-  "_location": "tsconfig.json (project root)",
-
-  "_todo_1": "TODO: Extend expo/tsconfig.base",
-  "_todo_2": "TODO: Enable strict mode (strict: true)",
-  "_todo_3": "TODO: Configure path aliases (@/ → src/)",
-  "_todo_4": "TODO: Include src/, app/, __tests__/ directories",
-  "_todo_5": "TODO: Set jsx to react-native",
-  "_todo_6": "TODO(LOW): Add baseUrl for cleaner imports"
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strict": true,
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "expo-env.d.ts"]
 }

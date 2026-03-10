@@ -1,33 +1,24 @@
-// =============================================================================
-// FILE: _layout.tsx
-// PURPOSE: Game layout — nested Expo Router layout for all game screens
-// LOCATION: app/game/_layout.tsx
-// =============================================================================
+import { Stack } from "expo-router";
 
-// TODO(APPROACH): Nested layout for game screens. Provides:
-//   - Shared game UI (top bar with phase indicator, timer, day count)
-//   - Navigation between game phases (no back button — phases advance linearly)
-//   - Game state context available to all child screens
-//
-// Child routes:
-//   /game/day     → day.tsx (Discussion + Mid-Day Events)
-//   /game/night   → night.tsx (Night Actions + Mafia Chat)
-//   /game/vote    → vote.tsx (Trial & Voting)
-//   /game/morning → morning.tsx (Morning Report)
-//   /game/result  → result.tsx (Game Over)
-//
-// Collaborating files:
-// - src/hooks/useGameLoop.ts          — phase state, transitions
-// - src/components/shared/Timer.tsx   — phase timer in top bar
-// - src/engine/PhaseManager.ts        — current phase info
-// - app/game/day.tsx                  — Day Phase screen
-// - app/game/night.tsx                — Night Phase screen
-// - app/game/vote.tsx                 — Vote screen
-// - app/game/morning.tsx              — Morning Report screen
-// - app/game/result.tsx               — Game Over screen
+export default function GameLayout() {
+  return (
+    <Stack
+      screenOptions={{
+        headerStyle: { backgroundColor: "#16213e" },
+        headerTintColor: "#fff",
+        contentStyle: { backgroundColor: "#1a1a2e" },
+        gestureEnabled: false,
+      }}
+    >
+      <Stack.Screen name="morning" options={{ title: "🌅 Morning" }} />
+      <Stack.Screen name="day" options={{ title: "💬 Day" }} />
+      <Stack.Screen name="vote" options={{ title: "🗳️ Vote" }} />
+      <Stack.Screen name="night" options={{ title: "🌙 Night" }} />
+      <Stack.Screen name="result" options={{ title: "🏆 Result" }} />
+    </Stack>
+  );
+}
 
-// TODO: Import expo-router Stack for game sub-navigation
-// TODO: Render shared top bar (phase name, day count, timer)
 // TODO: Disable back navigation (phases are linear)
 // TODO: Pass game state context to children
 // TODO(LOW): Add phase transition animation between screens

@@ -1,32 +1,44 @@
-// =============================================================================
-// FILE: vote.tsx
-// PURPOSE: Trial & Voting screen — accusations, defense, lynch vote
-// LOCATION: app/game/vote.tsx
-// =============================================================================
+import { View, Text, Pressable, StyleSheet } from "react-native";
+import { useRouter } from "expo-router";
 
-// TODO(APPROACH): Vote Phase sub-phases:
-//   1. Accusation — players nominate suspects
-//   2. Trial — accused defends (timed)
-//   3. Vote — all alive players vote (guilty/innocent/abstain)
-//   4. Last Wish — if lynched, 40% chance of Last Wish action
-//
-// Key mechanics:
-//   - Mayor's vote counts ×2 (if revealed)
-//   - Zombies cannot vote (ZombieState.voting = false)
-//   - Jester WANTS to be lynched (win condition)
-//   - Executioner targets specific player for lynch
-//   - AI voting via VoteDecision module
-//
-// Collaborating files:
-// - src/components/voting/VotePanel.tsx    — voting interface
-// - src/components/voting/VoteCard.tsx     — individual vote display
-// - src/components/voting/VoteResult.tsx   — tally + outcome
-// - src/components/voting/LastWishBanner.tsx — Last Wish result
-// - src/components/shared/MayorBadge.tsx   — Mayor ×2 indicator
-// - src/hooks/useVoting.ts                — vote collection + tally
-// - src/hooks/useEvents.ts                — Last Wish trigger
-// - src/ai/VoteDecision.ts                — AI vote logic
-// - src/engine/LastWishEngine.ts           — Last Wish execution
+export default function VoteScreen() {
+  const router = useRouter();
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.emoji}>🗳️</Text>
+      <Text style={styles.title}>Trial & Vote</Text>
+      <Text style={styles.info}>Accusations, defense, and lynch voting will appear here</Text>
+
+      <Pressable
+        style={styles.button}
+        onPress={() => router.replace("/game/night")}
+      >
+        <Text style={styles.buttonText}>Proceed to Night →</Text>
+      </Pressable>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#1a1a2e",
+    padding: 24,
+  },
+  emoji: { fontSize: 64, marginBottom: 16 },
+  title: { fontSize: 28, fontWeight: "bold", color: "#fff", marginBottom: 12 },
+  info: { fontSize: 14, color: "#666", textAlign: "center", marginBottom: 48 },
+  button: {
+    backgroundColor: "#e94560",
+    paddingHorizontal: 36,
+    paddingVertical: 14,
+    borderRadius: 10,
+  },
+  buttonText: { color: "#fff", fontSize: 18, fontWeight: "bold" },
+});
 
 // TODO: Show nomination/accusation sub-phase UI
 // TODO: Show defense timer during trial
