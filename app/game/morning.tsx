@@ -1,6 +1,23 @@
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import { useRouter } from "expo-router";
 
+// TODO(HIGH): Wire useMorningReport hook (src/hooks/useMorningReport.ts)
+//   — Assembles: night deaths, Night Echo results, Full Moon status,
+//     zombie infections, special announcements
+
+// TODO(HIGH): Replace placeholder with <MorningReport /> component
+//   — From src/components/night/MorningReport.tsx
+//   — Sequential reveal: deaths → events → Full Moon → zombie notices
+
+// TODO: Show <FullMoonOverlay /> if Full Moon stage changed
+//   — From src/components/events/FullMoonOverlay.tsx
+
+// TODO: Check WinChecker (src/engine/WinChecker.ts) before advancing
+//   — If game ended overnight → router.replace("/game/result") instead of day
+
+// TODO: On first morning (Day 1), skip death announcements
+//   — Show role assignment recap or game-start flavor text
+
 export default function MorningScreen() {
   const router = useRouter();
 

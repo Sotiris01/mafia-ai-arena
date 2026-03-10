@@ -39,11 +39,27 @@ const styles = StyleSheet.create({
   },
   buttonText: { color: "#fff", fontSize: 18, fontWeight: "bold" },
 });
-// - app/_layout.tsx                       — navigation back to lobby
+// TODO(HIGH): Receive WinResult from game state context
+//   — WinResult type from src/types/game.types.ts
+//   — Set by WinChecker (src/engine/WinChecker.ts) when game ends
+//   — Contains: winningFaction, winConditionMet, survivors[]
 
-// TODO: Receive WinResult from WinChecker
-// TODO: Display winning faction with FactionBanner
+// TODO(HIGH): Display winning faction with <FactionBanner />
+//   — From src/components/shared/FactionBanner.tsx
+//   — Color-coded: Town (blue), Mafia (red), Neutral (gray)
+
 // TODO: Show all player roles (full reveal)
+//   — Use <PlayerAvatar /> + <RoleCard /> for each player
+//   — From src/components/shared/PlayerAvatar.tsx, RoleCard.tsx
+//   — Show alive/dead status, role, personality
+
 // TODO: Display game stats summary
-// TODO: "Play Again" button → router.replace("/")
+//   — Days survived, total kills, votes cast, Night Echo events triggered
+//   — Derived from GameState and EventState
+
+// TODO: Reset game state on "Play Again"
+//   — Clear GameState, PlayerState, ChatState, EventState
+//   — Then router.replace("/")
+
 // TODO(LOW): Add confetti/celebration animation for winner
+// TODO(LOW): Add "Share Result" screenshot capability

@@ -2,7 +2,7 @@
 
 A mobile Mafia/Werewolf game where a single player competes against AI opponents in a psychological strategy game. Built with **React Native + Expo** (TypeScript).
 
-> 🚧 **Status: Prototype** — Game documentation, data files, project structure, and navigable prototype UI are complete. Engine implementation is next.
+> 🚧 **Status: Phase 2 Complete** — Types, utilities, state management, and unit tests (166 passing) are implemented. Phase 3 (playable shell — lobby, role assignment, chat) is next.
 
 ---
 
@@ -50,13 +50,13 @@ Morning Report → Day Discussion → Mid-Day Events → Trial & Vote → Night 
 | **Testing** | Jest |
 | **Target** | iOS & Android |
 
-### AI Strategy (3-Phase Migration)
+### AI Strategy (3-Tier Migration)
 
-| Phase | Approach | Status |
-|-------|----------|--------|
-| Phase 1 | If-Else / Templates + Probability Engine | 🔄 Current |
-| Phase 2 | Gemma API (cloud) | Planned |
-| Phase 3 | Gemma On-Device (MediaPipe) | Planned |
+| Tier | Approach | Status |
+|------|----------|--------|
+| Template | If-Else / Templates + Probability Engine | Phase 4 |
+| API | Gemma-3-4b-it via Google AI API | Phase 6 |
+| Local | Gemma-3-1b-it on-device via MediaPipe | Phase 7 |
 
 ---
 
@@ -118,9 +118,11 @@ Mafia_Game/
 │   ├── components/             # UI components
 │   └── utils/                  # Helper utilities
 │
-├── __tests__/                  # Test suites
-│   ├── ai/                     #   AI module tests
-│   └── engine/                 #   Engine module tests
+├── __tests__/                  # Test suites (Jest + ts-jest)
+│   ├── utils/                  #   Utility tests (44 tests) ✅
+│   ├── state/                  #   State manager tests (122 tests) ✅
+│   ├── ai/                     #   AI module tests (scaffolds)
+│   └── engine/                 #   Engine module tests (scaffolds)
 │
 ├── Game_documentation/         # Obsidian vault — full game design docs
 │   ├── 1_Game_Design/          #   Roles, Phases, Events, Win Conditions
@@ -177,26 +179,25 @@ The `start.ps1` script verifies all dependency versions match Expo SDK 54, kills
 | `-Clean` | Nuke `node_modules` → reinstall → clear cache → start |
 | `-CheckOnly` | Verify versions and exit (no server) |
 
-> **Note:** The project is in the **prototype phase**. Screen navigation is functional; game engine and AI modules contain TODO scaffolds. Data files (JSON) are fully implemented.
+> **Note:** The project has completed **Phase 2**. Types, utilities, state management, and 166 unit tests are implemented. Screen navigation is functional; engine and AI modules contain TODO scaffolds. See `project_status.md` for the full phase breakdown.
 
 ---
 
 ## 🗺️ Roadmap
 
-- [x] Game design documentation (Obsidian vault)
+- [x] Game design documentation (Obsidian vault — 57+ files)
 - [x] Project structure scaffolding (86 files)
 - [x] Data layer implementation (8 JSON files, 378 message templates)
 - [x] Data review & alignment with documentation
 - [x] Prototype UI (navigable screens via Expo Router)
 - [x] Dev launch script (`start.ps1` — version checks + Expo start)
-- [ ] TypeScript type definitions
-- [ ] State management implementation
-- [ ] Game engine (9 modules)
-- [ ] AI decision system (Phase 1 — probability-based)
-- [ ] UI components & screens
-- [ ] Testing suite
-- [ ] Phase 2 — Gemma API integration
-- [ ] Phase 3 — On-device AI (MediaPipe)
+- [x] **Phase 1** — Types & Utilities (7 type files + 4 utils)
+- [x] **Phase 2** — State Management (5 state modules + 166 unit tests)
+- [ ] **Phase 3** — Playable Shell (lobby, role assignment, chat on phone)
+- [ ] **Phase 4** — Template AI + Day Cycle (AI talks, voting, day loop)
+- [ ] **Phase 5** — Night Actions + Events + Full Game Loop
+- [ ] **Phase 6** — Smart AI (Gemma API)
+- [ ] **Phase 7** — Local AI (Gemma on-device via MediaPipe)
 
 ---
 

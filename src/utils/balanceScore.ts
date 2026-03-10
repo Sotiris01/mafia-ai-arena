@@ -4,28 +4,42 @@
 // LOCATION: src/utils/balanceScore.ts
 // =============================================================================
 
-// TODO(APPROACH): Lower-level math helpers for balance calculation.
-// The main formula lives in BalanceCalculator.ts (engine), but these
-// helpers handle the math primitives.
-//
-// Formula:
-//   balance_score = (town_alive / total_alive) - expected_ratio
-//   where town_alive = Town + Neutral aligned players
-//
-// Stage mapping:
-//   |score| < 0.05  → Stage 0 (balanced)
-//   |score| ≥ 0.05  → Stage 1 (info buff)
-//   |score| ≥ 0.15  → Stage 2 (full buff)
-//
-// Collaborating files:
-// - src/engine/BalanceCalculator.ts   — consumes these helpers
-// - src/engine/FullMoonEngine.ts      — reads stage from balance score
-// - src/data/fullMoonConfig.json      — thresholds (0.05, 0.15)
-// - src/types/game.types.ts           — BalanceScore interface
+import type { FullMoonStage } from "../types/event.types";
+import type { Alignment } from "../types/player.types";
 
-// TODO(HIGH): Implement calculateRatio(townAlive, totalAlive) — number
-// TODO: Implement getImbalance(ratio, expectedRatio) — absolute difference
-// TODO: Implement mapToStage(imbalance, thresholds) — return 0, 1, or 2
-// TODO: Implement getLosingFaction(score) — "Town" or "Mafia" based on sign
+/** town_alive / total_alive (returns 0 if no players alive) */
+export function calculateRatio(townAlive: number, totalAlive: number): number {
+  if (totalAlive === 0) return 0;
+  return townAlive / totalAlive;
+}
+
+/** |ratio - expectedRatio| */
+export function getImbalance(ratio: number, expectedRatio: number): number {
+  return Math.abs(ratio - expectedRatio);
+}
+
+/**
+ * Map imbalance to Full Moon stage:
+ *   |score| < stage_1  → Stage 0 (balanced)
+ *   |score| ≥ stage_1  → Stage 1 (info buff)
+ *   |score| ≥ stage_2  → Stage 2 (full buff)
+ */
+export function mapToStage(
+  imbalance: number,
+  thresholds: { stage_1: number; stage_2: number }
+): FullMoonStage {
+  if (imbalance >= thresholds.stage_2) return 2;
+  if (imbalance >= thresholds.stage_1) return 1;
+  return 0;
+}
+
+/**
+ * Determine which faction is losing based on balance score direction.
+ *   positive score → Town overpowers → Mafia is losing
+ *   negative score → Mafia overpowers → Town is losing
+ */
+export function getLosingFaction(score: number): Alignment {
+  return score > 0 ? "Mafia" : "Town";
+}
 
 // TODO(LOW): Add balance history tracking for trend analysis

@@ -5,41 +5,117 @@
 // LOCATION: src/state/GameState.ts
 // =============================================================================
 
-// TODO(APPROACH): Singleton-style state manager that reads/writes game_state.json
-// via AsyncStorage or Expo FileSystem. Every engine module reads from here.
-// GameState is the central hub — it's updated by PhaseManager on transitions,
-// by FullMoonEngine on activation, and by ResolutionEngine on deaths.
-//
-// State shape matches GameConfig + runtime fields:
-//   - current_phase: Phase
-//   - current_sub_phase: SubPhase
-//   - day_number: number
-//   - alive_players: string[]          — player_ids
-//   - dead_players: string[]
-//   - full_moon: FullMoonState
-//   - zombie_players: string[]
-//   - config: GameConfig               — loaded from src/data/config.json
-//   - is_game_over: boolean
-//   - win_result: WinResult | null
-//
-// Collaborating files:
-// - src/types/game.types.ts           — Phase, SubPhase, FullMoonState, WinResult, GameConfig
-// - src/data/config.json              — static config loaded on init
-// - src/engine/PhaseManager.ts        — updates phase/sub_phase on transitions
-// - src/engine/ResolutionEngine.ts    — updates alive/dead/zombie after night resolution
-// - src/engine/FullMoonEngine.ts      — updates full_moon state
-// - src/engine/WinChecker.ts          — reads alive_players, sets win_result
-// - src/engine/BalanceCalculator.ts   — reads alive counts for balance_score
-// - src/hooks/useGameLoop.ts          — subscribes to game state for UI updates
+import type {
+  Phase,
+  SubPhase,
+  FullMoonState,
+  WinResult,
+  GameConfig,
+  GameState as GameStateType,
+} from "../types/game.types";
+import type { Alignment } from "../types/player.types";
+import configData from "../data/config.json";
 
-// TODO(HIGH): Implement init() — load config.json, create initial game state
-// TODO(HIGH): Implement getState() — read current game_state.json
-// TODO(HIGH): Implement updatePhase(phase, subPhase) — called by PhaseManager
-// TODO: Implement markPlayerDead(playerId) — move from alive to dead
-// TODO: Implement markPlayerZombie(playerId) — add to zombie_players
-// TODO: Implement updateFullMoon(state) — update Full Moon tracking
-// TODO: Implement setGameOver(result) — set is_game_over + win_result
-// TODO: Implement reset() — clear state for new game
+// TODO: Add state change listeners for reactive UI updates (Phase 5 — useGameLoop)
 
-// TODO(LOW): Consider adding state change listeners for reactive UI updates
-// TODO(REVIEW): AsyncStorage vs Expo FileSystem — decide persistence strategy
+const DEFAULT_FULL_MOON: FullMoonState = {
+  is_active: false,
+  stage: 0,
+  balance_score: 0,
+  activations_remaining: 3,
+  buffed_faction: null,
+};
+
+function createInitialState(playerIds: string[]): GameStateType {
+  return {
+    phase: "day",
+    sub_phase: "discussion",
+    day: 1,
+    alive_player_ids: [...playerIds],
+    dead_player_ids: [],
+    full_moon: { ...DEFAULT_FULL_MOON },
+    zombie_player_ids: [],
+    is_game_over: false,
+    win_result: null,
+  };
+}
+
+let state: GameStateType | null = null;
+let config: GameConfig | null = null;
+
+/** Load config.json and create initial game state */
+export function init(playerIds: string[]): void {
+  config = configData as unknown as GameConfig;
+  state = createInitialState(playerIds);
+}
+
+/** Read current game state (throws if not initialized) */
+export function getState(): GameStateType {
+  if (!state) throw new Error("GameState not initialized — call init() first");
+  return state;
+}
+
+/** Read loaded config (throws if not initialized) */
+export function getConfig(): GameConfig {
+  if (!config) throw new Error("GameState not initialized — call init() first");
+  return config;
+}
+
+/** Called by PhaseManager on transitions */
+export function updatePhase(phase: Phase, subPhase: SubPhase): void {
+  const s = getState();
+  s.phase = phase;
+  s.sub_phase = subPhase;
+}
+
+/** Advance day counter (called at start of each new day) */
+export function advanceDay(): void {
+  getState().day += 1;
+}
+
+/** Move player from alive to dead list */
+export function markPlayerDead(playerId: string): void {
+  const s = getState();
+  s.alive_player_ids = s.alive_player_ids.filter((id) => id !== playerId);
+  if (!s.dead_player_ids.includes(playerId)) {
+    s.dead_player_ids.push(playerId);
+  }
+}
+
+/** Add player to zombie tracking list */
+export function markPlayerZombie(playerId: string): void {
+  const s = getState();
+  if (!s.zombie_player_ids.includes(playerId)) {
+    s.zombie_player_ids.push(playerId);
+  }
+}
+
+/** Update Full Moon tracking state */
+export function updateFullMoon(fullMoon: Partial<FullMoonState>): void {
+  const s = getState();
+  s.full_moon = { ...s.full_moon, ...fullMoon };
+}
+
+/** Set game over with win result */
+export function setGameOver(result: WinResult): void {
+  const s = getState();
+  s.is_game_over = true;
+  s.win_result = result;
+}
+
+/** Clear state for new game */
+export function reset(): void {
+  state = null;
+  config = null;
+}
+
+/** Check if a specific player is alive */
+export function isPlayerAlive(playerId: string): boolean {
+  return getState().alive_player_ids.includes(playerId);
+}
+
+/** Get count of alive players by alignment (needs PlayerState in Phase 3) */
+// TODO: Move alignment-aware counting to engine/BalanceCalculator.ts (Phase 3)
+export function getAliveCount(): number {
+  return getState().alive_player_ids.length;
+}

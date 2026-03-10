@@ -1,6 +1,24 @@
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import { useRouter } from "expo-router";
 
+// TODO(HIGH): Import and render lobby components:
+//   — <PlayerCount /> from src/components/lobby/PlayerCount.tsx
+//   — <RolePreview /> from src/components/lobby/RolePreview.tsx
+//   — <StartButton /> from src/components/lobby/StartButton.tsx
+
+// TODO(HIGH): Wire useGameLoop hook (src/hooks/useGameLoop.ts)
+//   — On "Start Game": call useGameLoop.startGame(playerCount)
+//   — Assigns roles + personalities via src/state/PlayerState.ts
+//   — Then router.push("/game/morning") for first morning
+
+// TODO: Add playerCount state (7–16) managed locally
+//   — Pass to PlayerCount and RolePreview components
+//   — Validate minimum count before enabling StartButton
+
+// TODO: Show the human player's assigned role after game starts
+//   — Use <RoleCard /> from src/components/shared/RoleCard.tsx
+//   — Brief reveal screen before transitioning to Morning
+
 export default function LobbyScreen() {
   const router = useRouter();
 

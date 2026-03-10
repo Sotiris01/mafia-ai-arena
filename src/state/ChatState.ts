@@ -4,34 +4,68 @@
 // LOCATION: src/state/ChatState.ts
 // =============================================================================
 
-// TODO(APPROACH): Manages the chat_events.json file that stores all ChatEvent
-// objects produced by ChatAnalyzer. Also manages the raw message log for
-// UI display. Separates public chat from Mafia private chat.
-//
-// Two data stores:
-//   1. ChatEvent[] — structured semantic events (for AI memory)
-//   2. Message[] — raw display messages (for UI rendering)
-//
-// Public chat: visible to all players
-// Mafia chat: visible only to Mafia-aligned players during mafia_chat sub-phase
-//
-// Collaborating files:
-// - src/types/chat.types.ts           — ChatEvent, Message, ActionType
-// - src/engine/ChatAnalyzer.ts        — produces ChatEvent objects → addChatEvent()
-// - src/state/MemoryManager.ts        — reads ChatEvents for relationship updates
-// - src/ai/MessageGenerator.ts        — generates Message objects → addMessage()
-// - src/ai/VoteDecision.ts            — reads chat history for recent accusations
-// - src/hooks/useChat.ts              — subscribes to messages for UI updates
-// - src/components/chat/PublicChat.tsx — renders public message list
-// - src/components/chat/MafiaChat.tsx  — renders Mafia-only message list
+import type { ChatEvent, Message, Channel } from "../types/chat.types";
 
-// TODO(HIGH): Implement addChatEvent(event) — store structured ChatEvent
-// TODO(HIGH): Implement addMessage(message) — store raw Message for UI
-// TODO(HIGH): Implement getEventsByDay(day) — filter ChatEvents by day number
-// TODO: Implement getMessagesByChannel(channel) — "public" or "mafia"
-// TODO: Implement getEventsForPlayer(playerId) — all events where player is speaker/target
-// TODO: Implement getRecentEvents(count) — last N events for AI context window
-// TODO: Implement clearDayEvents() — archive previous day (keep for voting history)
-// TODO: Implement reset() — clear all chat data for new game
+// TODO: Consider message pagination for long games (Phase 6 — PublicChat.tsx)
 
-// TODO(LOW): Consider message pagination for long games
+// ---------------------------------------------------------------------------
+// Internal stores
+// ---------------------------------------------------------------------------
+
+let chatEvents: ChatEvent[] = [];
+let messages: Message[] = [];
+
+// ---------------------------------------------------------------------------
+// Public API
+// ---------------------------------------------------------------------------
+
+/** Store a structured ChatEvent produced by ChatAnalyzer */
+export function addChatEvent(event: ChatEvent): void {
+  chatEvents.push(event);
+}
+
+/** Store a raw Message for UI rendering */
+export function addMessage(message: Message): void {
+  messages.push(message);
+}
+
+/** Filter ChatEvents by day number */
+export function getEventsByDay(day: number): ChatEvent[] {
+  return chatEvents.filter((e) => e.day === day);
+}
+
+/** Filter messages by channel ("public" or "mafia") */
+export function getMessagesByChannel(channel: Channel): Message[] {
+  return messages.filter((m) => m.channel === channel);
+}
+
+/** All events where playerId is speaker or target */
+export function getEventsForPlayer(playerId: string): ChatEvent[] {
+  return chatEvents.filter(
+    (e) =>
+      e.speaker === playerId ||
+      e.target === playerId ||
+      e.indirect_targets.some((t) => t.player_id === playerId),
+  );
+}
+
+/** Last N events for AI context window */
+export function getRecentEvents(count: number): ChatEvent[] {
+  return chatEvents.slice(-count);
+}
+
+/** Last N messages for a given channel */
+export function getRecentMessages(channel: Channel, count: number): Message[] {
+  return messages.filter((m) => m.channel === channel).slice(-count);
+}
+
+/** Get all chat events */
+export function getAllEvents(): ChatEvent[] {
+  return chatEvents;
+}
+
+/** Clear all chat data for new game */
+export function reset(): void {
+  chatEvents = [];
+  messages = [];
+}

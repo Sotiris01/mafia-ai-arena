@@ -33,6 +33,10 @@ $Expected = @{
     "react-native-safe-area-context" = @{ Range = "~5.6"; Prefix = "5.6"  }
     "react-native-screens"          = @{ Range = "~4.16"; Prefix = "4.16" }
     "typescript"                    = @{ Range = "~5.8";  Prefix = "5.8"  }
+    # devDependencies — test toolchain
+    "jest"                          = @{ Range = "^29.7"; Prefix = "29."  }
+    "ts-jest"                       = @{ Range = "^29.4"; Prefix = "29."  }
+    "@types/jest"                   = @{ Range = "^29.5"; Prefix = "29."  }
 }
 
 $failed = 0

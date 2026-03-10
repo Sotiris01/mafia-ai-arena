@@ -5,63 +5,74 @@
 // LOCATION: src/types/event.types.ts
 // =============================================================================
 
-// TODO(APPROACH): Three event systems share types here:
-// 1. Night Echo Events (E01–E14) — triggered during night, revealed morning/mid-day
-// 2. Last Wish — 40% chance on lynch, 4 action types
-// 3. Full Moon — balance mechanic with 3 stages
-// EventTiming determines when events are displayed to players.
-//
-// Collaborating files:
-// - src/engine/NightEchoEngine.ts   — selects events using NightEchoEvent definitions
-// - src/engine/LastWishEngine.ts    — triggers LastWish actions on lynch
-// - src/engine/FullMoonEngine.ts    — manages FullMoon staging
-// - src/state/EventState.ts         — stores pending events + Full Moon state
-// - src/data/nightEchoEvents.json   — static E01–E14 event configs
-// - src/data/lastWishActions.json   — Last Wish action type definitions
-// - src/data/fullMoonConfig.json    — stage thresholds + buff definitions
-// - src/ai/EventReaction.ts         — AI reaction to events (weight → memory)
-// - src/types/memory.types.ts       — EventWitnessed uses NightEchoEventId
-// - src/components/events/NightEchoBanner.tsx — renders Night Echo events
-// - src/components/events/FullMoonOverlay.tsx — renders Full Moon visual
-// - src/hooks/useEvents.ts          — manages event lifecycle in UI
+import type { Role } from "./player.types";
+import type { LocalizedText } from "./game.types";
 
-// TODO(HIGH): Define EventTiming type
-// - "morning" | "midday"
-// - morning: displayed in Morning Report phase
-// - midday: interrupts Discussion phase as mid-day events
+export type EventTiming = "morning" | "midday";
 
-// TODO(HIGH): Define NightEchoEventId type (14 events)
-// - "E01" | "E02" | "E03" | "E04" | "E05" | "E06" | "E07"
-// - "E08" | "E09" | "E10" | "E11" | "E12" | "E13" | "E14"
+export type NightEchoEventId =
+  | "E01" | "E02" | "E03" | "E04" | "E05" | "E06" | "E07"
+  | "E08" | "E09" | "E10" | "E11" | "E12" | "E13" | "E14";
 
-// TODO(HIGH): Define NightEchoEvent interface
-// - id: NightEchoEventId
-// - name: string
-// - timing: EventTiming
-// - probability: number              (0.10 – 0.40)
-// - linked_roles: Role[]             — import from player.types.ts
-// - suspicion_weight: number         — impact on AI memory
-// - description_template: string     — template with {player} placeholders
+export interface NightEchoEvent {
+  id: NightEchoEventId;
+  name: LocalizedText;
+  timing: EventTiming;
+  probability: number | Record<string, number>;
+  suspicion_weight: number;
+  linked_roles: Role[];
+  trigger_condition: string;
+  description_template: LocalizedText;
+}
 
-// TODO: Define LastWishActionType
-// - "reveal_evidence" | "force_public_vote" | "expose_alignment" | "curse"
+// --- Last Wish ---
 
-// TODO: Define LastWish interface
-// - action: LastWishActionType
-// - target_id?: string               — player affected (if applicable)
-// - day: number
-// - lynched_player_id: string        — who was lynched to trigger this
+export type LastWishActionType =
+  | "reveal_evidence"
+  | "force_public_vote"
+  | "expose_alignment"
+  | "curse";
 
-// TODO: Define FullMoonStage type
-// - 0 | 1 | 2
-// - Stage 0: no effect (balance score < 0.05)
-// - Stage 1: info buff for losing faction (score ≥ 0.05)
-// - Stage 2: full buff + Zombie cure (score ≥ 0.15)
+/** Config entry from src/data/lastWishActions.json */
+export interface LastWishActionConfig {
+  type: LastWishActionType;
+  weight: number;
+  description: LocalizedText;
+  effect: string;
+  target_selection: string;
+}
 
-// TODO: Define PendingEvent interface (for EventState queue)
-// - event: NightEchoEvent | LastWish
-// - timing: EventTiming
-// - night: number
-// - delivered: boolean
+/** Runtime Last Wish instance created when a lynch triggers it */
+export interface LastWish {
+  action: LastWishActionType;
+  target_id?: string;
+  day: number;
+  lynched_player_id: string;
+}
 
-// TODO: Export all types
+// --- Full Moon ---
+
+export type FullMoonStage = 0 | 1 | 2;
+
+// --- Event Queue ---
+
+export interface PendingEvent {
+  event: NightEchoEvent | LastWish;
+  timing: EventTiming;
+  night: number;
+  delivered: boolean;
+}
+
+// --- Data file shapes ---
+
+/** Top-level shape of src/data/nightEchoEvents.json */
+export interface NightEchoEventsData {
+  events: NightEchoEvent[];
+}
+
+/** Top-level shape of src/data/lastWishActions.json */
+export interface LastWishData {
+  trigger_probability: number;
+  timing: string;
+  actions: LastWishActionConfig[];
+}

@@ -51,9 +51,30 @@ const styles = StyleSheet.create({
   buttonText: { color: "#fff", fontSize: 18, fontWeight: "bold", textAlign: "center" },
 });
 
-// TODO: Check human player's role → show NightAction UI
-// TODO: If human is Mafia → show MafiaChat alongside actions
+// TODO(HIGH): Wire useNightActions hook (src/hooks/useNightActions.ts)
+//   — Determines human player's available night action based on role
+//   — Shows <NightAction /> from src/components/night/NightAction.tsx
+//   — Submits human action, then triggers AI decisions
+
+// TODO(HIGH): Run 7-phase Night Resolution after all actions submitted
+//   — Via ResolutionEngine (src/engine/ResolutionEngine.ts)
+//   — Phase order: Passive → Info-Alter → Investigate → Kill&Protect
+//     → Post-Kill → Passive-Info → Cleanup
+
+// TODO: If human is Mafia → show <MafiaChat /> component
+//   — From src/components/chat/MafiaChat.tsx
+//   — Wire via useChat hook (src/hooks/useChat.ts)
+
+// TODO: Process Night Echo events via NightEchoEngine
+//   — src/engine/NightEchoEngine.ts — max 2 events per night
+//   — Show <NightEchoBanner /> from src/components/events/NightEchoBanner.tsx
+
 // TODO: Run AI night decisions via NightDecision module
-// TODO: Process Night Echo events
-// TODO: Transition to /game/morning when night resolves
-// TODO(LOW): Add night ambience/UI overlay
+//   — src/ai/NightDecision.ts — calculates targets for each AI player
+
+// TODO: Remove manual "End Game" button once WinChecker is wired
+//   — Game end should be automatic via WinChecker after resolution
+
+// TODO: Transition to /game/morning automatically when night resolves
+
+// TODO(LOW): Add night ambience/UI overlay (darker background, stars)

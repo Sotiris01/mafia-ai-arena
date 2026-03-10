@@ -40,10 +40,31 @@ const styles = StyleSheet.create({
   buttonText: { color: "#fff", fontSize: 18, fontWeight: "bold" },
 });
 
-// TODO: Render PublicChat + ChatInput
-// TODO: Show Timer for discussion countdown
-// TODO: Handle sub-phase transitions (Discussion → Mid-Day Events)
-// TODO: Show NightEchoBanner during Mid-Day Events
-// TODO: Check if human player is silenced → show SilencedOverlay
-// TODO: Transition to /game/vote when day ends
+// TODO(HIGH): Wire useChat hook (src/hooks/useChat.ts)
+//   — Manages public chat message exchange with AI generation
+//   — AI messages generated via MessageGenerator (src/ai/MessageGenerator.ts)
+//   — Speak timing via SpeakProbability (src/ai/SpeakProbability.ts)
+
+// TODO(HIGH): Replace placeholder with <PublicChat /> + <ChatInput />
+//   — From src/components/chat/PublicChat.tsx, ChatInput.tsx
+//   — PublicChat: scrollable message list with player avatars
+//   — ChatInput: text field for human player messages
+
+// TODO: Add <Timer /> component for discussion countdown
+//   — From src/components/shared/Timer.tsx
+//   — Duration from config.json → timer_durations.discussion
+
+// TODO: Handle sub-phase transitions
+//   — Discussion → Mid-Day Events → Transition to vote
+//   — Mid-Day Events: show <NightEchoBanner /> if events queued
+//   — From src/components/events/NightEchoBanner.tsx
+
+// TODO: Check if human player is Silenced
+//   — Silencer role (src/data/roles.json) blocks target from speaking
+//   — Show SilencedOverlay on ChatInput, disable sending
+
+// TODO: Transition to /game/vote when discussion timer expires
+//   — Remove manual "Proceed to Vote" button once timer is wired
+
 // TODO(LOW): Add Mayor reveal button if human is Mayor
+//   — Mayor reveal doubles vote weight in next phase

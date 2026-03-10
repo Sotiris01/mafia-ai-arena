@@ -1,6 +1,14 @@
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 
+// TODO: Wrap children in a GameProvider context (from src/state/GameState.ts)
+//   — All game screens need access to shared game state
+//   — Provider should load/save state via AsyncStorage or expo-file-system
+
+// TODO: Load user settings (language, timers, AI provider) from AsyncStorage
+//   — Pass settings down via context or a SettingsProvider
+//   — See src/data/config.json for default values
+
 export default function RootLayout() {
   return (
     <>

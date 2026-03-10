@@ -40,11 +40,32 @@ const styles = StyleSheet.create({
   buttonText: { color: "#fff", fontSize: 18, fontWeight: "bold" },
 });
 
-// TODO: Show nomination/accusation sub-phase UI
-// TODO: Show defense timer during trial
-// TODO: Render VotePanel for voting
-// TODO: Handle Mayor ×2, Zombie restriction
-// TODO: Show VoteResult with outcome
-// TODO: If lynched → check Last Wish → show LastWishBanner
+// TODO(HIGH): Wire useVoting hook (src/hooks/useVoting.ts)
+//   — Manages accusation, defense, voting phases
+//   — Handles Mayor ×2 weight, Zombie voting restriction
+//   — AI votes via VoteDecision (src/ai/VoteDecision.ts)
+
+// TODO(HIGH): Replace placeholder with voting sub-phase UI:
+//   1. Accusation — show player list, allow nominating suspect
+//   2. Trial — accused defends, show <Timer /> for defense countdown
+//   3. Vote — render <VotePanel /> from src/components/voting/VotePanel.tsx
+//      — Guilty / Innocent / Abstain buttons
+//      — Show <MayorBadge /> for Mayor's ×2 indicator
+
+// TODO: Show <VoteResult /> after tally
+//   — From src/components/voting/VoteResult.tsx
+//   — Shows vote counts, outcome (lynch / acquit)
+
+// TODO: If lynched → check Last Wish (40% chance)
+//   — Via LastWishEngine (src/engine/LastWishEngine.ts)
+//   — Show <LastWishBanner /> from src/components/voting/LastWishBanner.tsx
+//   — 4 possible actions: Reveal, Curse, Pardon, Silence
+
+// TODO: Check WinChecker after lynch
+//   — Jester wins if lynched (immediate game end)
+//   — Executioner wins if their target is lynched
+
 // TODO: Transition to /game/night when vote concludes
+//   — Remove manual button once engine is wired
+
 // TODO(LOW): Add dramatic vote reveal animation
