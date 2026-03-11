@@ -8,17 +8,15 @@ tags:
 # Win Conditions
 ---
 
-Οι συνθήκες νίκης ελέγχονται **αυτόματα** μετά από κάθε [[Day Phase#The Trial & Vote|Lynch]] και μετά από κάθε [[Night Phase#Resolution|Night Resolution]]. Αν πληρείται κάποια συνθήκη, το παιχνίδι τελειώνει αμέσως.
-
 ---
 
 ## Town Victory
 
-| Condition       | Όλα τα μέλη της Μαφίας έχουν εξοντωθεί                    |
+| Condition       |  |
 | --------------- | ---------------------------------------------------------- |
 | **Check**       | `mafia_alive_count == 0`                                   |
-| **When checked**| Μετά από Day Lynch + μετά από Night Resolution              |
-| **Result**      | 🏆 **Town Wins!** — Όλα τα ζωντανά Town μέλη κερδίζουν     |
+| **When checked**| Day Lynch + Night Resolution |
+| **Result**      | 🏆 **Town Wins!**|
 
 ### How Town Wins
 
@@ -27,24 +25,17 @@ if (players.filter(p => p.alignment === "Mafia" && p.is_alive).length === 0):
   game.end(winner = "Town")
 ```
 
-- Ο [[Sheriff]] εντοπίζει Mafia μέλη με investigations.
-- Το Town ψηφίζει τους υπόπτους κατά τη [[Day Phase#The Trial & Vote|Trial]].
-- Ο [[Doctor]] προστατεύει κρίσιμους ρόλους κατά τη νύχτα.
-- Ο [[Lookout]] και ο [[Gossip]] παρέχουν επιπλέον στοιχεία.
-
 ---
 
 ## Mafia Victory
 
-| Condition       | Τα ζωντανά Mafia μέλη ≥ ζωντανά Town μέλη                  |
+| Condition       | Mafia ≥ Town |
 | --------------- | ---------------------------------------------------------- |
 | **Check**       | `mafia_alive_count >= town_alive_count`                    |
-| **When checked**| Μετά από Day Lynch + μετά από Night Resolution              |
-| **Result**      | 🏆 **Mafia Wins!** — Η πόλη δεν μπορεί πλέον να τους ψηφίσει |
+| **When checked**| Day Lynch + Night Resolution |
+| **Result**      | 🏆 **Mafia Wins!**|
 
 ### Why Majority = Victory
-
-Αν η Mafia αποκτήσει **αριθμητική ισοτιμία** ή πλεονέκτημα, το Town δεν μπορεί πλέον να τους ψηφίσει κατά πλειοψηφία — η Mafia ελέγχει τις ψηφοφορίες.
 
 ### Examples
 
@@ -57,25 +48,20 @@ if (players.filter(p => p.alignment === "Mafia" && p.is_alive).length === 0):
 
 ### Neutral Players in Count
 
-- **[[Survivor]]** μετράει ως **Town** στο count check (δεν ανήκει στη Mafia).
-- **[[Jester]]** μετράει ως **Town** στο count check.
-- **[[Executioner]]** μετράει ως **Town** στο count check.
-- **[[Zombie]]** μετράει ως **Town** στο count check (κρύβεται ως Town).
-- **Zombie θύματα** μετράνε ως **ζωντανοί** αλλά **δεν ψηφίζουν** — δεν επηρεάζουν Town/Mafia balance.
+- **[[Survivor]]** **Town** count check.
+- **[[Executioner]]** **Town** count check.
 
 ---
 
 ## Jester Victory (Special)
 
-| Condition       | Ο [[Jester]] ψηφίζεται για εξόντωση κατά τη Day Phase     |
+| Condition       | [[Jester]] Day Phase |
 | --------------- | ---------------------------------------------------------- |
-| **Check**       | Αμέσως μετά τo Lynch, πριν οποιονδήποτε άλλο έλεγχο        |
-| **Result**      | 🏆 **Jester Wins!** — Game Over αμέσως                      |
-| **Others**      | ❌ Ούτε Town, ούτε Mafia κερδίζουν                          |
+| **Check**       | o Lynch, |
+| **Result**      | 🏆 **Jester Wins!**|
+| **Others**      | ❌ Town, Mafia |
 
 ### Priority
-
-Ο Jester Win check γίνεται **ΠΡΙΝ** από τα Town/Mafia checks:
 
 ```
 onLynch(player):
@@ -90,22 +76,16 @@ onLynch(player):
 
 ### Implications
 
-- Αν η Mafia ήταν κοντά στη νίκη αλλά ψηφιστεί ο Jester → **Jester κερδίζει**, η Mafia **χάνει**.
-- Αν το Town είχε εντοπίσει σχεδόν όλη τη Mafia → **Jester κερδίζει**, το Town **χάνει**.
-- Αυτό κάνει τον Jester ένα **wild card** που μπορεί να ανατρέψει τα πάντα.
-
 ---
 
 ## Survivor Win Condition
 
-| Condition       | Ο [[Survivor]] είναι ζωντανός όταν τελειώσει το παιχνίδι  |
+| Condition       | [[Survivor]] |
 | --------------- | ---------------------------------------------------------- |
-| **Check**       | Μετά το Game Over (Town ή Mafia νίκη)                      |
-| **Result**      | 🏆 **Survivor ALSO Wins** — Κερδίζει μαζί με τον νικητή    |
+| **Check**       | Game Over |
+| **Result**      | 🏆 **Survivor ALSO Wins**|
 
 ### Co-Victory
-
-Ο Survivor μπορεί να κερδίσει **μαζί** με το Town ΚΑΙ μαζί με τη Mafia. Δεν αντιτίθεται σε κανέναν — αρκεί να είναι ζωντανός.
 
 ```
 onGameEnd(winner):
@@ -117,35 +97,31 @@ onGameEnd(winner):
 
 ## Executioner Victory
 
-| Condition       | Ο assigned target του [[Executioner]] ψηφίζεται κατά τη Day Phase |
+| Condition       | assigned target [[Executioner]] Day Phase |
 | --------------- | ---------------------------------------------------------- |
-| **Check**       | Αμέσως μετά τo Lynch (μετά τον Jester check)                |
-| **Result**      | 🏆 **Executioner Wins!** — Αλλά το παιχνίδι **ΣΥΝΕΧΙΖΕΙ**   |
-| **Others**      | Το παιχνίδι δεν τελειώνει — Town vs Mafia συνεχίζεται      |
+| **Check**       | o Lynch |
+| **Result**      | 🏆 **Executioner Wins!**|
+| **Others**      |  |
 
 ### Key Differences from Jester
-
-- Ο Jester win **τερματίζει** το παιχνίδι → **κανείς** δεν κερδίζει εκτός Jester.
-- Ο Executioner win **ΔΕΝ τερματίζει** → ο Executioner κερδίζει **αλλά** Town vs Mafia συνεχίζεται.
-- Ο Executioner δεν μπορεί πλέον να χάσει μετά τη νίκη — ακόμα κι αν πεθάνει.
 
 ### Fallback: Target Died at Night
 
 ```
 onNightDeath(player):
   if player == executioner.target:
-    executioner.role = "Jester"  // Fallback — τώρα πρέπει να ψηφιστεί ο ίδιος
+    executioner.role = "Jester"  // Fallback
 ```
 
 ---
 
 ## Zombie Victory
 
-| Condition       | Όλοι οι ζωντανοί παίκτες (εκτός Zombie) είναι zombies     |
+| Condition       | zombies |
 | --------------- | ---------------------------------------------------------- |
-| **Check**       | Μετά κάθε Night Resolution (Phase 6)                        |
-| **Result**      | 🧟 **Zombie Wins!** — Game Over αμέσως                      |
-| **Others**      | ❌ Ούτε Town, ούτε Mafia κερδίζουν                          |
+| **Check**       | Night Resolution (Phase 6) |
+| **Result**      | 🧟 **Zombie Wins!**|
+| **Others**      | ❌ Town, Mafia |
 
 ### Win Logic
 
@@ -157,11 +133,6 @@ onPhaseEnd():
 ```
 
 ### Important Notes
-
-- Ο Zombie κερδίζει **μόνο αν** κάθε ζωντανός παίκτης (εκτός αυτού) είναι zombie.
-- Αν ο Zombie πεθάνει (lynch ή Mafia kill), **χάνει** — αλλά τα θύματά του **παραμένουν** zombies.
-- Ο [[Doctor]] μπορεί να **cure** zombie θύματα → αντίμετρο.
-- Τα zombie θύματα δεν ψηφίζουν → η ψηφοφορία γίνεται ευκολότερη για τους εναπομείναντες.
 
 ---
 

@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, Pressable, ScrollView, StyleSheet } from "react-native";
-import { useSettings, type AppSettings } from "../src/contexts/SettingsContext";
+import { useSettings } from "../src/contexts/SettingsContext";
 import config from "../src/data/config.json";
 
 // ---------------------------------------------------------------------------
@@ -71,20 +71,6 @@ export default function SettingsScreen() {
       style={styles.container}
       contentContainerStyle={styles.content}
     >
-      {/* Language */}
-      <SettingRow label="Language">
-        <ToggleButton
-          options={[
-            { value: "en", label: "English" },
-            { value: "gr", label: "Ελληνικά" },
-          ]}
-          value={settings.language}
-          onChange={(v) =>
-            updateSettings({ language: v as AppSettings["language"] })
-          }
-        />
-      </SettingRow>
-
       {/* Default player count */}
       <SettingRow label="Default Players">
         <View style={styles.stepper}>
@@ -114,7 +100,9 @@ export default function SettingsScreen() {
 
       {/* Reset */}
       <Pressable style={styles.resetBtn} onPress={resetToDefaults}>
-        <Text style={styles.resetText}>Reset to Defaults</Text>
+        <Text style={styles.resetText}>
+          Reset to Defaults
+        </Text>
       </Pressable>
 
       <Text style={styles.version}>Mafia AI Arena v0.1.0</Text>

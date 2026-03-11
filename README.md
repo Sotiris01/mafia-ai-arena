@@ -2,7 +2,7 @@
 
 A mobile Mafia/Werewolf game where a single player competes against AI opponents in a psychological strategy game. Built with **React Native + Expo** (TypeScript).
 
-> 🚧 **Status: Phase 3 Complete** — Playable shell on phone: lobby, role assignment, chat, settings, navigation. 14 test suites / 234 tests passing. Phase 4 (Template AI + Day Cycle) is next.
+> 🚧 **Status: Phase 4 Complete** — Template AI + Day Cycle: AI players discuss via templates, voting with lynch resolution, day→night→morning loop. 17 test suites / 296 tests passing. Phase 5 (Night Actions + Events + Full Game Loop) is next.
 
 ---
 
@@ -18,7 +18,6 @@ A classic social deduction game reimagined for solo play. You are assigned a rol
 - **Full Moon Balance Mechanic** — Catch-up system that buffs the losing faction
 - **Last Wish System** — Dramatic lynch events with 4 possible outcomes
 - **7-Phase Night Resolution** — Deterministic action ordering for fair outcomes
-- **Bilingual Support** — English & Greek (EN/GR)
 
 ### Factions & Roles
 
@@ -46,7 +45,7 @@ Morning Report → Day Discussion → Mid-Day Events → Trial & Vote → Night 
 | **Language** | TypeScript (strict mode) |
 | **Navigation** | Expo Router (file-based) |
 | **State** | JSON file-based (AsyncStorage / FileSystem) |
-| **AI Engine** | Custom probability-based decision system |
+| **AI Engine** | Custom probability-based decision system + template text generation |
 | **Testing** | Jest |
 | **Target** | iOS & Android |
 
@@ -54,7 +53,7 @@ Morning Report → Day Discussion → Mid-Day Events → Trial & Vote → Night 
 
 | Tier | Approach | Status |
 |------|----------|--------|
-| Template | If-Else / Templates + Probability Engine | Phase 4 |
+| Template | If-Else / Templates + Probability Engine | ✅ Phase 4 |
 | API | Gemma-3-4b-it via Google AI API | Phase 6 |
 | Local | Gemma-3-1b-it on-device via MediaPipe | Phase 7 |
 
@@ -111,7 +110,7 @@ Mafia_Game/
 │   │   ├── fullMoonConfig.json  #   Balance mechanic config
 │   │   ├── gossipHints.json     #   Gossip role hint templates
 │   │   ├── lastWishActions.json #   Last Wish action definitions
-│   │   └── messageTemplates.json #  378 bilingual AI message templates
+│   │   ├── messageTemplates.json #  AI message templates (7 actions × 6 personalities × 3 intensities)
 │   │
 │   ├── types/                  # TypeScript type definitions
 │   ├── hooks/                  # React hooks
@@ -121,10 +120,10 @@ Mafia_Game/
 ├── __tests__/                  # Test suites (Jest + ts-jest)
 │   ├── utils/                  #   Utility tests (44 tests) ✅
 │   ├── state/                  #   State manager tests (122 tests) ✅
-│   ├── engine/                 #   BalanceCalculator (15 tests) ✅ + scaffolds
-│   ├── hooks/                  #   useGameLoop (17) + useChat (13) ✅
-│   ├── contexts/               #   GameContext (7) + SettingsContext (16) ✅
-│   └── ai/                     #   AI module tests (scaffolds)
+│   ├── engine/                 #   BalanceCalculator (15) + ChatAnalyzer (26) + AIEngine (10) ✅
+│   ├── hooks/                  #   useGameLoop (17) + useChat (13) + useVoting (13) ✅
+│   ├── contexts/               #   GameContext (7) + SettingsContext (14) ✅
+│   └── ai/                     #   TemplateProvider (15) ✅ + scaffolds
 │
 ├── Game_documentation/         # Obsidian vault — full game design docs
 │   ├── 1_Game_Design/          #   Roles, Phases, Events, Win Conditions
@@ -185,7 +184,7 @@ The `start.ps1` script verifies all dependency versions match Expo SDK 54, kills
 ### Running Tests
 
 ```powershell
-.\test.ps1                          # Run all 234 tests
+.	est.ps1                          # Run all 296 tests
 .\test.ps1 -Suite hooks             # Filter by path pattern
 .\test.ps1 -TypeCheck               # tsc --noEmit before tests
 .\test.ps1 -Coverage                # Generate coverage report
@@ -200,7 +199,7 @@ The `start.ps1` script verifies all dependency versions match Expo SDK 54, kills
 | `-Coverage` | Generate Jest coverage report |
 | `-Watch` | Re-run tests on file changes |
 
-> **Note:** The project has completed **Phase 3**. The app runs on phone with lobby, role assignment, chat (human only), settings, and navigation. 14 test suites / 234 unit tests pass. Engine and AI modules contain TODO scaffolds for Phases 4+. See `project_status.md` for the full phase breakdown.
+> **Note:** The project has completed **Phase 4**. The app runs on phone with lobby, role assignment, AI chat discussions (template-based), voting with lynch resolution, and day→night→morning cycle. 17 test suites / 296 unit tests pass. See `project_status.md` for the full phase breakdown.
 
 ---
 
@@ -208,14 +207,14 @@ The `start.ps1` script verifies all dependency versions match Expo SDK 54, kills
 
 - [x] Game design documentation (Obsidian vault — 57+ files)
 - [x] Project structure scaffolding (86 files)
-- [x] Data layer implementation (8 JSON files, 378 message templates)
+- [x] Data layer implementation (8 JSON files, message templates)
 - [x] Data review & alignment with documentation
 - [x] Prototype UI (navigable screens via Expo Router)
 - [x] Dev launch script (`start.ps1` — version checks + Expo start)
 - [x] **Phase 1** — Types & Utilities (7 type files + 4 utils)
 - [x] **Phase 2** — State Management (5 state modules + 166 unit tests)
 - [x] **Phase 3** — Playable Shell (lobby, role, chat, settings, navigation + 68 tests)
-- [ ] **Phase 4** — Template AI + Day Cycle (AI talks, voting, day loop)
+- [x] **Phase 4** — Template AI + Day Cycle (AI talks, voting, day loop + 62 tests)
 - [ ] **Phase 5** — Night Actions + Events + Full Game Loop
 - [ ] **Phase 6** — Smart AI (Gemma API)
 - [ ] **Phase 7** — Local AI (Gemma on-device via MediaPipe)

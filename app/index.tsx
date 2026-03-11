@@ -52,18 +52,24 @@ export default function LobbyScreen() {
   if (phase === "reveal" && humanPlayer) {
     return (
       <View style={styles.container}>
-        <Text style={styles.revealTitle}>Your Role</Text>
+        <Text style={styles.revealTitle}>
+          Your Role
+        </Text>
 
         <View style={styles.roleCardWrapper}>
           <RoleCard player={humanPlayer} startRevealed={false} />
         </View>
 
         <Pressable style={styles.continueBtn} onPress={handleContinue}>
-          <Text style={styles.continueBtnText}>Continue →</Text>
+          <Text style={styles.continueBtnText}>
+            Continue →
+          </Text>
         </Pressable>
 
         <Pressable style={styles.linkButton} onPress={handleBack}>
-          <Text style={styles.linkText}>← Back to Lobby</Text>
+          <Text style={styles.linkText}>
+            ← Back to Lobby
+          </Text>
         </Pressable>
       </View>
     );
@@ -77,7 +83,9 @@ export default function LobbyScreen() {
     <View style={styles.container}>
       <Text style={styles.emoji}>🎭</Text>
       <Text style={styles.title}>Mafia AI Arena</Text>
-      <Text style={styles.subtitle}>Single-Player AI Edition</Text>
+      <Text style={styles.subtitle}>
+        Single-Player AI Edition
+      </Text>
 
       <View style={styles.playerCountSection}>
         <PlayerCount value={playerCount} onChange={setPlayerCount} />
@@ -86,7 +94,9 @@ export default function LobbyScreen() {
       <StartButton onStart={handleStart} loading={loading} />
 
       <View style={styles.previewSection}>
-        <Text style={styles.previewTitle}>Roles in this game</Text>
+        <Text style={styles.previewTitle}>
+          Roles in this game
+        </Text>
         <ScrollView style={styles.previewScroll} showsVerticalScrollIndicator={false}>
           <RolePreview playerCount={playerCount} />
         </ScrollView>
@@ -96,7 +106,9 @@ export default function LobbyScreen() {
         style={styles.linkButton}
         onPress={() => router.push("/settings")}
       >
-        <Text style={styles.linkText}>⚙️ Settings</Text>
+        <Text style={styles.linkText}>
+          ⚙️ Settings
+        </Text>
       </Pressable>
     </View>
   );

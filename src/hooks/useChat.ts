@@ -4,13 +4,16 @@
 // LOCATION: src/hooks/useChat.ts
 // =============================================================================
 
-// Phase 3 — Minimal implementation: human-only public chat.
-// AI messages + Mafia channel + silenced overlay added in Phase 4–5.
+// Phase 3 — Human-only public chat.
+// Phase 4 — AI discussion integration: human messages are analyzed,
+//           AI messages injected via addAIMessages().
 
 import { useState, useCallback } from "react";
 import type { Message, Channel } from "../types/chat.types";
 import * as ChatState from "../state/ChatState";
-import * as GameState from "../state/GameState";
+import { analyzeHumanMessage } from "../engine/ChatAnalyzer";
+import { runDiscussionRound } from "../engine/AIEngine";
+import type { DiscussionResult } from "../engine/AIEngine";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -23,6 +26,12 @@ export interface UseChatReturn {
   sendMessage: (text: string) => void;
   /** Active channel */
   channel: Channel;
+  /** Trigger one round of AI discussion — returns generated messages */
+  runAIDiscussion: () => Promise<DiscussionResult>;
+  /** Inject AI messages into local state (for staggered display) */
+  addAIMessages: (msgs: Message[]) => void;
+  /** Whether AI discussion is currently running */
+  isAITalking: boolean;
 }
 
 // ---------------------------------------------------------------------------
@@ -42,7 +51,14 @@ export function resetMessageCounter(): void {
 
 export function useChat(channel: Channel = "public"): UseChatReturn {
   const [messages, setMessages] = useState<Message[]>([]);
+  const [isAITalking, setIsAITalking] = useState(false);
 
+  /**
+   * Send a human player message. The message is:
+   *   1. Persisted to ChatState for AI context
+   *   2. Analyzed by ChatAnalyzer to produce a ChatEvent → updates AI memory
+   *   3. Added to local state for immediate UI render
+   */
   const sendMessage = useCallback(
     (text: string) => {
       const trimmed = text.trim();
@@ -58,8 +74,11 @@ export function useChat(channel: Channel = "public"): UseChatReturn {
         is_human: true,
       };
 
-      // Persist to ChatState for AI context later
+      // Persist to ChatState for AI context
       ChatState.addMessage(msg);
+
+      // Analyze human text → ChatEvent → update AI memories
+      analyzeHumanMessage(trimmed, "human");
 
       // Update local state for immediate UI render
       setMessages((prev) => [...prev, msg]);
@@ -67,11 +86,31 @@ export function useChat(channel: Channel = "public"): UseChatReturn {
     [channel],
   );
 
-  // TODO(Phase 4): Integrate AIEngine.runDiscussionTurn() — AI messages appear with delays
-  // TODO(Phase 4): Add ChatAnalyzer.analyzeMessage() on human text → ChatEvent → memory updates
+  /**
+   * Trigger one round of AI discussion. Returns generated messages.
+   * The caller can use addAIMessages() to inject them with delays.
+   */
+  const runAIDiscussion = useCallback(async (): Promise<DiscussionResult> => {
+    setIsAITalking(true);
+    try {
+      const result = await runDiscussionRound();
+      return result;
+    } finally {
+      setIsAITalking(false);
+    }
+  }, []);
+
+  /**
+   * Inject AI-generated messages into local state.
+   * Called by the game loop to stagger AI messages into the chat.
+   */
+  const addAIMessages = useCallback((msgs: Message[]) => {
+    setMessages((prev) => [...prev, ...msgs]);
+  }, []);
+
   // TODO(Phase 5): Support "mafia" channel for Mafia chat sub-phase
   // TODO(Phase 5): Add isSilenced check — block sendMessage when human is silenced
   // TODO(LOW): Add typing indicator state for AI players
 
-  return { messages, sendMessage, channel };
+  return { messages, sendMessage, channel, runAIDiscussion, addAIMessages, isAITalking };
 }

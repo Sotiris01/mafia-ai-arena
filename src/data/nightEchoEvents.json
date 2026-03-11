@@ -2,203 +2,240 @@
   "events": [
     {
       "id": "E01",
-      "name": { "en": "Noise at House", "gr": "Θόρυβος στο Σπίτι" },
+      "name": "Noise at House",
       "timing": "morning",
-      "probability": 0.30,
+      "probability": 0.3,
       "suspicion_weight": 0.15,
-      "linked_roles": ["Sheriff", "Doctor", "Lookout", "Tracker", "Bodyguard", "Framer", "Silencer", "Consigliere", "Janitor", "Godfather", "Mafia Goon", "Zombie", "Lovers"],
+      "linked_roles": [
+        "Sheriff",
+        "Doctor",
+        "Lookout",
+        "Tracker",
+        "Bodyguard",
+        "Framer",
+        "Silencer",
+        "Consigliere",
+        "Janitor",
+        "Godfather",
+        "Mafia Goon",
+        "Zombie",
+        "Lovers"
+      ],
       "trigger_condition": "any_role_visits_a_player",
-      "description_template": {
-        "en": "Strange noises were heard coming from {player}'s house last night...",
-        "gr": "Περίεργοι θόρυβοι ακούστηκαν από το σπίτι του {player} χθες το βράδυ..."
-      }
+      "description_template": "Strange noises were heard coming from {player}'s house last night..."
     },
     {
       "id": "E02",
-      "name": { "en": "Shadow Spotted", "gr": "Σκιά Εντοπίστηκε" },
+      "name": "Shadow Spotted",
       "timing": "morning",
-      "probability": 0.20,
-      "suspicion_weight": 0.30,
-      "linked_roles": ["Godfather", "Mafia Goon", "Zombie"],
+      "probability": 0.2,
+      "suspicion_weight": 0.3,
+      "linked_roles": [
+        "Godfather",
+        "Mafia Goon",
+        "Zombie"
+      ],
       "trigger_condition": "mafia_or_neutral_threat_visits_player",
-      "description_template": {
-        "en": "A dark shadow was spotted lurking near {player}'s residence...",
-        "gr": "Μια σκοτεινή σκιά εντοπίστηκε να παραμονεύει κοντά στην κατοικία του {player}..."
-      }
+      "description_template": "A dark shadow was spotted lurking near {player}'s residence..."
     },
     {
       "id": "E03",
-      "name": { "en": "Footsteps Heard", "gr": "Βήματα Ακούστηκαν" },
+      "name": "Footsteps Heard",
       "timing": "morning",
       "probability": 0.25,
-      "suspicion_weight": 0.10,
-      "linked_roles": ["Sheriff", "Consigliere", "Tracker", "Lookout"],
+      "suspicion_weight": 0.1,
+      "linked_roles": [
+        "Sheriff",
+        "Consigliere",
+        "Tracker",
+        "Lookout"
+      ],
       "trigger_condition": "investigation_or_observation_role_visits",
-      "description_template": {
-        "en": "Quiet footsteps were heard near {player}'s house in the dead of night...",
-        "gr": "Ήσυχα βήματα ακούστηκαν κοντά στο σπίτι του {player} στο βαθύ της νύχτας..."
-      }
+      "description_template": "Quiet footsteps were heard near {player}'s house in the dead of night..."
     },
     {
       "id": "E04",
-      "name": { "en": "Argument Heard", "gr": "Καυγάς Ακούστηκε" },
+      "name": "Argument Heard",
       "timing": "morning",
       "probability": {
         "lovers_fight": 0.15,
-        "bodyguard_sacrifice": 1.00
+        "bodyguard_sacrifice": 1
       },
-      "suspicion_weight": 0.20,
-      "linked_roles": ["Lovers", "Bodyguard"],
+      "suspicion_weight": 0.2,
+      "linked_roles": [
+        "Lovers",
+        "Bodyguard"
+      ],
       "trigger_condition": "lovers_fight_or_bodyguard_sacrifice",
-      "description_template": {
-        "en": "Loud arguing was heard from {player}'s direction during the night...",
-        "gr": "Δυνατός καυγάς ακούστηκε από την κατεύθυνση του {player} κατά τη διάρκεια της νύχτας..."
-      }
+      "description_template": "Loud arguing was heard from {player}'s direction during the night..."
     },
     {
       "id": "E05",
-      "name": { "en": "Someone Seen Leaving", "gr": "Κάποιος Είδε να Φεύγει" },
+      "name": "Someone Seen Leaving",
       "timing": "morning",
       "probability": 0.15,
       "suspicion_weight": 0.15,
-      "linked_roles": ["Sheriff", "Doctor", "Lookout", "Tracker", "Bodyguard", "Framer", "Silencer", "Consigliere", "Janitor", "Godfather", "Mafia Goon", "Zombie", "Lovers"],
+      "linked_roles": [
+        "Sheriff",
+        "Doctor",
+        "Lookout",
+        "Tracker",
+        "Bodyguard",
+        "Framer",
+        "Silencer",
+        "Consigliere",
+        "Janitor",
+        "Godfather",
+        "Mafia Goon",
+        "Zombie",
+        "Lovers"
+      ],
       "trigger_condition": "any_role_departs_target_house",
-      "description_template": {
-        "en": "Someone was seen leaving {player}'s house in the early morning hours...",
-        "gr": "Κάποιος φάνηκε να φεύγει από το σπίτι του {player} τις πρώτες πρωινές ώρες..."
-      }
+      "description_template": "Someone was seen leaving {player}'s house in the early morning hours..."
     },
     {
       "id": "E06",
-      "name": { "en": "Commotion", "gr": "Αναταραχή" },
+      "name": "Commotion",
       "timing": "morning",
-      "probability": 0.40,
+      "probability": 0.4,
       "suspicion_weight": 0.25,
-      "linked_roles": ["Doctor", "Godfather", "Mafia Goon"],
+      "linked_roles": [
+        "Doctor",
+        "Godfather",
+        "Mafia Goon"
+      ],
       "trigger_condition": "doctor_and_mafia_visit_same_player",
-      "description_template": {
-        "en": "A great commotion was heard from {player}'s house — sounds of struggle and then silence...",
-        "gr": "Μεγάλη αναταραχή ακούστηκε από το σπίτι του {player} — ήχοι πάλης και μετά σιωπή..."
-      }
+      "description_template": "A great commotion was heard from {player}'s house — sounds of struggle and then silence..."
     },
     {
       "id": "E07",
-      "name": { "en": "Gun License", "gr": "Άδεια Όπλου" },
+      "name": "Gun License",
       "timing": "midday",
-      "probability": 0.10,
+      "probability": 0.1,
       "suspicion_weight": 0.35,
-      "linked_roles": ["Bodyguard", "Godfather", "Mafia Goon", "Sheriff"],
+      "linked_roles": [
+        "Bodyguard",
+        "Godfather",
+        "Mafia Goon",
+        "Sheriff"
+      ],
       "trigger_condition": "armed_role_exists_alive",
       "role_probability_weights": {
-        "Bodyguard": 0.50,
+        "Bodyguard": 0.5,
         "Mafia": 0.35,
         "Sheriff": 0.15
       },
-      "description_template": {
-        "en": "Rumors circulate that {player} has been seen carrying a weapon...",
-        "gr": "Κυκλοφορούν φήμες ότι ο {player} εθεάθη να κουβαλά όπλο..."
-      }
+      "description_template": "Rumors circulate that {player} has been seen carrying a weapon..."
     },
     {
       "id": "E08",
-      "name": { "en": "Nervous Behavior", "gr": "Νευρική Συμπεριφορά" },
+      "name": "Nervous Behavior",
       "timing": "midday",
       "probability": 0.15,
-      "suspicion_weight": 0.30,
-      "linked_roles": ["Godfather", "Mafia Goon", "Framer", "Silencer", "Consigliere", "Janitor", "Jester"],
+      "suspicion_weight": 0.3,
+      "linked_roles": [
+        "Godfather",
+        "Mafia Goon",
+        "Framer",
+        "Silencer",
+        "Consigliere",
+        "Janitor",
+        "Jester"
+      ],
       "trigger_condition": "mafia_voted_kill_or_jester_bait",
-      "description_template": {
-        "en": "{player} seems unusually nervous today, avoiding eye contact and fidgeting...",
-        "gr": "Ο {player} φαίνεται ασυνήθιστα νευρικός σήμερα, αποφεύγει τη βλεμματική επαφή και κινείται ανήσυχα..."
-      }
+      "description_template": "{player} seems unusually nervous today, avoiding eye contact and fidgeting..."
     },
     {
       "id": "E09",
-      "name": { "en": "Watchful Eyes", "gr": "Προσεκτικά Μάτια" },
+      "name": "Watchful Eyes",
       "timing": "midday",
       "probability": 0.15,
       "suspicion_weight": 0.15,
-      "linked_roles": ["Tracker", "Lookout", "Executioner"],
+      "linked_roles": [
+        "Tracker",
+        "Lookout",
+        "Executioner"
+      ],
       "trigger_condition": "observation_role_watched_someone",
-      "description_template": {
-        "en": "{player} has been watching everyone very carefully, as if studying their movements...",
-        "gr": "Ο {player} παρακολουθεί όλους πολύ προσεκτικά, σαν να μελετά τις κινήσεις τους..."
-      }
+      "description_template": "{player} has been watching everyone very carefully, as if studying their movements..."
     },
     {
       "id": "E10",
-      "name": { "en": "Whispered Conversation", "gr": "Ψιθυριστή Συνομιλία" },
+      "name": "Whispered Conversation",
       "timing": "midday",
       "probability": 0.12,
-      "suspicion_weight": 0.40,
-      "linked_roles": ["Godfather", "Mafia Goon", "Framer", "Silencer", "Consigliere", "Janitor", "Lovers"],
+      "suspicion_weight": 0.4,
+      "linked_roles": [
+        "Godfather",
+        "Mafia Goon",
+        "Framer",
+        "Silencer",
+        "Consigliere",
+        "Janitor",
+        "Lovers"
+      ],
       "trigger_condition": "mafia_chat_or_lovers_met",
-      "description_template": {
-        "en": "{player} was seen whispering with someone in a dark corner...",
-        "gr": "Ο {player} εθεάθη να ψιθυρίζει με κάποιον σε μια σκοτεινή γωνιά..."
-      }
+      "description_template": "{player} was seen whispering with someone in a dark corner..."
     },
     {
       "id": "E11",
-      "name": { "en": "Medical Supplies", "gr": "Ιατρικά Εφόδια" },
+      "name": "Medical Supplies",
       "timing": "morning",
-      "probability": 0.20,
-      "suspicion_weight": -0.10,
-      "linked_roles": ["Doctor"],
+      "probability": 0.2,
+      "suspicion_weight": -0.1,
+      "linked_roles": [
+        "Doctor"
+      ],
       "trigger_condition": "doctor_visited_protect_or_cure",
-      "description_template": {
-        "en": "Medical supplies were found near {player}'s house — someone tended to them last night...",
-        "gr": "Ιατρικά εφόδια βρέθηκαν κοντά στο σπίτι του {player} — κάποιος τον φρόντισε χθες βράδυ..."
-      }
+      "description_template": "Medical supplies were found near {player}'s house — someone tended to them last night..."
     },
     {
       "id": "E12",
-      "name": { "en": "Guard Post", "gr": "Φυλάκιο" },
+      "name": "Guard Post",
       "timing": "morning",
       "probability": 0.25,
       "suspicion_weight": -0.15,
-      "linked_roles": ["Bodyguard"],
+      "linked_roles": [
+        "Bodyguard"
+      ],
       "trigger_condition": "bodyguard_guarded_someone",
-      "description_template": {
-        "en": "Signs of a guard post were found near {player}'s house — someone stood watch all night...",
-        "gr": "Σημάδια φυλακίου βρέθηκαν κοντά στο σπίτι του {player} — κάποιος φρουρούσε όλη νύχτα..."
-      }
+      "description_template": "Signs of a guard post were found near {player}'s house — someone stood watch all night..."
     },
     {
       "id": "E13",
-      "name": { "en": "Strange Illness", "gr": "Παράξενη Ασθένεια" },
+      "name": "Strange Illness",
       "timing": "midday",
-      "probability": 0.20,
-      "suspicion_weight": 0.20,
-      "linked_roles": ["Zombie"],
+      "probability": 0.2,
+      "suspicion_weight": 0.2,
+      "linked_roles": [
+        "Zombie"
+      ],
       "trigger_condition": "zombie_infected_someone",
-      "red_herring_chance": 0.30,
-      "description_template": {
-        "en": "{player} looks pale and unwell today... something seems off about them...",
-        "gr": "Ο {player} φαίνεται χλωμός και αδιάθετος σήμερα... κάτι δεν πάει καλά..."
-      }
+      "red_herring_chance": 0.3,
+      "description_template": "{player} looks pale and unwell today... something seems off about them..."
     },
     {
       "id": "E14",
-      "name": { "en": "Silenced Morning", "gr": "Σιωπηλό Πρωινό" },
+      "name": "Silenced Morning",
       "timing": "morning",
-      "probability": 0.20,
-      "suspicion_weight": 0.10,
-      "linked_roles": ["Silencer"],
+      "probability": 0.2,
+      "suspicion_weight": 0.1,
+      "linked_roles": [
+        "Silencer"
+      ],
       "trigger_condition": "silencer_silenced_someone",
-      "description_template": {
-        "en": "{player} opens their mouth to speak but no words come out... they've been silenced.",
-        "gr": "Ο {player} ανοίγει το στόμα του να μιλήσει αλλά δεν βγαίνει ήχος... τον σιώπησαν."
-      }
+      "description_template": "{player} opens their mouth to speak but no words come out... they've been silenced."
     }
   ],
-
   "rules": {
     "max_per_night": 2,
     "requires_linked_role_alive": true,
     "morning_display": "morning_report_subphase",
     "midday_display": "interrupts_discussion",
-    "midday_delay_range_seconds": [30, 120],
+    "midday_delay_range_seconds": [
+      30,
+      120
+    ],
     "selection_method": "weighted_random_filtered_by_alive_roles"
   }
 }

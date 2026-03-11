@@ -8,8 +8,7 @@ tags:
 # Folder Structure (React Native & Expo)
 ---
 
-Το project είναι γραμμένο σε **TypeScript** με **React Native + Expo**.
-19 ρόλοι (Town 9, Mafia 6, Neutral 4), 6 personalities (17 stats), Night Echo Events (E01–E14), Full Moon balance mechanic, 7-phase Night Resolution.
+19 (Town 9, Mafia 6, Neutral 4), 6 personalities (17 stats), Night Echo Events (E01–E14), Full Moon balance mechanic, 7-phase Night Resolution.
 
 ## Project Root
 

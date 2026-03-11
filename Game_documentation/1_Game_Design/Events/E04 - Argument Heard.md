@@ -6,7 +6,7 @@ tags:
   - game_design
 ---
 
-# E04 — Argument Heard (Καυγάς Ακούστηκε)
+# E04 — Argument Heard
 ---
 
 | Property         | Value                                                         |
@@ -16,7 +16,7 @@ tags:
 | **Timing**       | 🌅 Morning                                                    |
 | **Probability**  | `0.15` (Lovers fight) / `1.00` (Bodyguard sacrifice)          |
 | **Linked Roles** | [[Lovers]], [[Bodyguard]]                                      |
-| **Trigger**      | Lovers μαλώνουν (~15% ανά νύχτα) Ή Bodyguard σκοτώνεται σώζοντας στόχο |
+| **Trigger**      | Lovers Bodyguard |
 | **Suspicion Weight** | +0.20                                                     |
 
 ---
@@ -24,20 +24,10 @@ tags:
 ## Messages
 
 **Lovers fight:**
-> _"Ακούστηκε έντονος καυγάς κοντά στο σπίτι του Player X τη νύχτα."_
 
 **Bodyguard sacrifice:**
-> _"Ένας βίαιος καυγάς ακούστηκε κοντά στο σπίτι του Player X."_
 
 ---
-
-## Τι Αποκαλύπτει
-
-Σύγκρουση στο σπίτι — μπορεί να είναι Lovers fight ή Bodyguard sacrifice.
-
-## Τι Κρύβει
-
-Αν πρόκειται για ζευγάρι που μαλώνει ή μάχη ζωής-θανάτου.
 
 ---
 
@@ -57,7 +47,7 @@ if bodyguard_died_saving_target:
 
 ## Related Links
 
-- [[Dynamic Events#Master Event Table]] — Πίνακας όλων των events
+- [[Dynamic Events#Master Event Table]]
 - [[Lovers]] — Fight trigger
 - [[Bodyguard]] — Sacrifice trigger
-- [[Day Phase#Morning Report]] — Εμφανίζεται εδώ
+- [[Day Phase#Morning Report]]

@@ -8,7 +8,7 @@ tags:
 # AI Architecture
 ---
 
-Αρχιτεκτονική του AI system σε 3 layers: **Decision Layer** (game logic — πάντα if-else), **Text Layer** (γλώσσα — αλλάζει ανά phase), **Provider Layer** (backend — Template / API / Local).
+ AI system 3 layers: **Decision Layer**, **Text Layer**, **Provider Layer** (backend — Template / API / Local).
 
 ---
 
@@ -58,11 +58,7 @@ tags:
 
 ## Decision Layer vs Text Layer
 
-Η **κρίσιμη αρχιτεκτονική απόφαση** — ξεχωρίζουμε τι **αποφασίζει** το AI από τι **λέει**.
-
-### Decision Layer — Πάντα If-Else
-
-Αυτά τα modules **δεν αλλάζουν ποτέ**. Ίδιος κώδικας σε Phase 1, 2, και 3.
+### Decision Layer
 
 | Module               | Input                        | Output                  | Logic              |
 | -------------------- | ---------------------------- | ----------------------- | ------------------- |
@@ -73,14 +69,7 @@ tags:
 | `EventReaction`      | event + personality          | memory weight update    | Weight formula      |
 | `BalanceCalculator`   | alive counts                 | balance_score + stage   | Math formula        |
 
-**Γιατί δεν αλλάζει:** Αν η game logic εξαρτιόταν από AI API, τότε:
-- Offline mode θα ήταν αδύνατος
-- Αν το AI έκανε λάθος output, θα χαλούσε το παιχνίδι
-- Τα αποτελέσματα δεν θα ήταν reproducible/testable
-
-### Text Layer — Αλλάζει ανά Phase
-
-Αυτά τα modules χρησιμοποιούν το `AITextProvider` interface.
+### Text Layer
 
 | Module               | Phase 1                     | Phase 2                    | Phase 3                  |
 | -------------------- | --------------------------- | -------------------------- | ------------------------ |
@@ -374,22 +363,13 @@ class FallbackProvider implements AITextProvider {
 GemmaLocalProvider → GemmaAPIProvider → TemplateProvider
      (offline)           (online)          (always)
 
-Αν Local αποτύξει → πέφτει σε API
-Αν API αποτύξει → πέφτει σε Templates
-Αν Templates → πάντα δουλεύει (Phase 1 logic)
 ```
 
 ---
 
 ## Prompt Engineering Guide
 
-### Αρχές Prompting για Mafia AI
-
-1. **Role adherence:** Το AI δεν πρέπει ποτέ να αποκαλύψει τον ρόλο του σε public chat
-2. **Personality consistency:** Κάθε personality πρέπει να γράφει με μοναδικό τρόπο
-3. **Short output:** 1-2 προτάσεις max — μοιάζει με real mobile chat
-4. **Context window:** Δώσε μόνο τα τελευταία 5 μηνύματα — keep prompts short
-5. **Structured output:** Για ChatAnalyzer, ζήτα JSON format explicitly
+5. **Structured output:** ChatAnalyzer, JSON format explicitly
 
 ### Message Generation Prompt Template
 

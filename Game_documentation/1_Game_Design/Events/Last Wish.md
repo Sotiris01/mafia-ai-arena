@@ -12,27 +12,23 @@ tags:
 | Property       | Value                                                |
 | -------------- | ---------------------------------------------------- |
 | **Type**        | Dynamic Event                                       |
-| **Trigger**    | Παίκτης εξοντώνεται κατά τη [[Day Phase#The Trial & Vote\|ψηφοφορία]] |
-| **Timing**     | Αμέσως μετά την εξόντωση, πριν ξεκινήσει η [[Night Phase]] |
-| **Frequency**  | Κάθε φορά που κάποιος lynched (δεν ενεργοποιείται πάντα) |
+| **Trigger**    | [[Day Phase#The Trial & Vote\ | ]] |
+| **Timing**     | , [[Night Phase]] |
+| **Frequency**  | lynched |
 | **Probability** | `0.40` (40%)                                        |
 
 ---
 
 ## Overview
 
-Όταν ένας παίκτης ψηφίζεται και εξοντώνεται (lynch), υπάρχει 40% πιθανότητα να ενεργοποιηθεί ένα Last Wish event. Ο lynched παίκτης "αφήνει πίσω" μια τελευταία ενέργεια που επηρεάζει το παιχνίδι — δίνοντας στοιχεία, αναγκάζοντας ψήφο, αποκαλύπτοντας alignment, ή καταρώντας κάποιον.
-
 ---
-
-## Πιθανές Last Wish Actions
 
 | Action                   | Description                                                           |
 | ------------------------ | --------------------------------------------------------------------- |
-| **Reveal Evidence**      | Αποκαλύπτει ένα στοιχείο — π.χ. "Ο Player X με επισκέφτηκε τη Νύχτα 2" |
-| **Force Public Vote**    | Αναγκάζει έναν παίκτη να ψηφίσει δημόσια (visible vote) την επόμενη μέρα |
-| **Expose Alignment**     | Αποκαλύπτει το alignment (Town/Mafia) ενός τυχαίου παίκτη              |
-| **Curse**                | Ένας παίκτης θα λάβει μειωμένη πληροφορία τη νύχτα (π.χ. Sheriff lost result) |
+| **Reveal Evidence**      |  |
+| **Force Public Vote**    | (visible vote) |
+| **Expose Alignment**     | alignment (Town/Mafia) |
+| **Curse**                |  |
 
 ---
 
@@ -61,19 +57,17 @@ onPlayerLynched(player):
 
 ---
 
-## Σχεδιαστικές Σημειώσεις
-
-| Αρχή                          | Γιατί                                                          |
+|  |  |
 | ------------------------------ | -------------------------------------------------------------- |
-| **40% probability**            | Δεν πρέπει να εμφανίζεται πάντα — αβεβαιότητα                 |
-| **Random action selection**    | Ο lynched δεν επιλέγει — αποτρέπει meta-gaming                |
-| **Pre-Night timing**           | Εμφανίζεται πριν τη νύχτα — δίνει χρόνο αντίδρασης            |
-| **Affects living players**     | Ο νεκρός αφήνει αντίκτυπο — ακόμα κι αν πεθαίνει, "μιλάει"   |
+| **40% probability**            |  |
+| **Random action selection**    | lynched |
+| **Pre-Night timing**           |  |
+| **Affects living players**     |  |
 
 ---
 
 ## Related Links
 
-- [[Dynamic Events]] — Κεντρικό σύστημα events
+- [[Dynamic Events]]
 - [[Day Phase#The Trial & Vote]] — Trigger point
-- [[Night Phase]] — Last Wish εκτελείται πριν από αυτή
+- [[Night Phase]]

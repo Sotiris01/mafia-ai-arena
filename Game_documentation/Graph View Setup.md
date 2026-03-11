@@ -7,23 +7,15 @@ tags:
 # Graph View Setup Guide
 ---
 
-Οδηγός ρύθμισης του Obsidian Graph View για χρωματική ομαδοποίηση των notes.
-
 ---
 
-## Πώς να ανοίξεις το Graph View
-
 1. `Ctrl + G` → Global Graph View
-2. Ή πάτα στο μενού αριστερά → **Open graph view**
-3. Πάνω δεξιά στο graph, πάτα **⚙️ Settings** (gear icon)
 
 ---
 
 ## Graph View Groups — Copy-Paste Setup
 
-Στο **Settings → Groups**, πρόσθεσε τα παρακάτω groups **με αυτή τη σειρά** (πρώτο = πιο πάνω στη λίστα = υψηλότερη προτεραιότητα):
-
-| #   | Query                   | Color        | Περιγραφή                                                     |
+| #   | Query                   | Color        |  |
 | --- | ----------------------- | ------------ | ------------------------------------------------------------- |
 | 1   | `tag:#role/town`        | 🔵 `#4a9eff` | Town roles (9 notes)                                          |
 | 2   | `tag:#role/mafia`       | 🔴 `#ff4a4a` | Mafia roles (6 notes)                                         |
@@ -37,47 +29,41 @@ tags:
 | 10  | `tag:#mechanic`         | ⚪ `#a0a0a0`  | Win Conditions, Game Setup (2 notes)                          |
 | 11  | `tag:#MOC`              | ⬜ `#ffffff`  | Index / Navigation (1 note)                                   |
 
-> **Tip:** Obsidian αξιολογεί τα groups από πάνω προς τα κάτω. Βάλε τα πιο specific groups (π.χ. `tag:#role/town`) **πριν** τα generic (π.χ. `tag:#role`).
-
 ---
 
 ## Recommended Graph Settings
 
-### Filters (Φίλτρα)
-- ✅ **Tags** → ON (εμφανίζει tag nodes στο graph)
+### Filters
+- ✅ **Tags** → ON
 - ✅ **Attachments** → OFF
 - ✅ **Existing files only** → ON
-- ✅ **Orphans** → ON (βλέπεις αν κάποιο note δεν είναι linked)
+- ✅ **Orphans** → ON
 
-### Display (Εμφάνιση)
-- **Arrows** → ON (δείχνει κατεύθυνση links)
-- **Text fade threshold** → 1.5 (κρύβει κείμενο σε zoom-out)
+### Display
+- **Arrows** → ON
+- **Text fade threshold** → 1.5
 - **Node size** → 5–6
 - **Line thickness** → 0.5
 
-### Forces (Δυνάμεις)
-- **Center force** → 0.3 (κρατάει το graph centered)
-- **Repel force** → 10–12 (απλώνει τα nodes)
-- **Link force** → 0.8 (τραβάει linked notes κοντά)
+### Forces
+- **Center force** → 0.3
+- **Repel force** → 10–12
+- **Link force** → 0.8
 - **Link distance** → 50–60
 
 ---
 
-## Tag Taxonomy (Πλήρης κατάλογος)
+## Tag Taxonomy
 
-Όλα τα tags χρησιμοποιούν **nested/hierarchical** format. Το Obsidian αναγνωρίζει αυτόματα τους γονείς: `#role/town` δημιουργεί και `#role`.
-
-### Category Tags (Κύριες κατηγορίες)
+### Category Tags
 
 ```
-#role                    → Όλοι οι ρόλοι (19)
-  #role/town             → Town ρόλοι (9)
-  #role/mafia            → Mafia ρόλοι (6)
-  #role/neutral          → Neutral ρόλοι (4)
+ #role/town → Town (9)
+ #role/mafia → Mafia (6)
+ #role/neutral → Neutral (4)
 
 #personality             → Personalities (6)
 
-#event                   → Όλα τα events
   #event/night_echo      → Night Echo E01–E14 (14)
   #event/system          → Dynamic Events overview (1)
   #event/lynch           → Last Wish (1)
@@ -120,14 +106,11 @@ tags:
 ### Event Timing Tags
 
 ```
-#timing/morning          → 🌅 Ανακοινώνεται στο Morning Report
-#timing/midday           → 💬 Ανακοινώνεται κατά τη Mid-Day Discussion
 ```
 
 ### Mechanic Tags (Cross-cutting)
 
 ```
-#night_action            → Ρόλοι με νυχτερινή ενέργεια
 #investigation           → Investigation roles (Sheriff, Lookout, Tracker, Consigliere)
 #protection              → Protection roles (Doctor, Bodyguard, Survivor)
 #killing                 → Killing roles (Godfather, Mafia Goon)
@@ -155,17 +138,15 @@ tags:
 
 ## Useful Graph Searches
 
-Χρησιμοποίησε αυτά τα queries στο **Search** ή στο **Graph filter**:
-
-| Σκοπός                                  | Query                          |
+|  | Query                          |
 | --------------------------------------- | ------------------------------ |
-| Μόνο ρόλοι                              | `tag:#role`                    |
-| Roles με night action                   | `tag:#night_action`            |
+|  | `tag:#role`                    |
+| Roles night action | `tag:#night_action`            |
 | Investigation cluster                    | `tag:#investigation`           |
 | Town vs Mafia visual                     | `tag:#role/town OR tag:#role/mafia` |
 | Mafia + deception roles                 | `tag:#role/mafia OR tag:#deception` |
-| Night events μόνο Morning               | `tag:#timing/morning`          |
-| Core roles μόνο                         | `tag:#tier/core`               |
+| Night events Morning | `tag:#timing/morning`          |
+| Core roles | `tag:#tier/core`               |
 | Technical docs                          | `tag:#technical OR tag:#project` |
 | AI-related                              | `tag:#technical/ai OR tag:#ai_strategy` |
 | Game balance mechanics                  | `tag:#mechanic`                |
@@ -174,12 +155,8 @@ tags:
 
 ## Alternative Views: Local Graph
 
-Για κάθε note, μπορείς να δεις **Local Graph** (δεξί panel → More options → Open local graph):
-- Δείχνει μόνο τα direct links + tags του τρέχοντος note
-- Πολύ χρήσιμο για roles → βλέπεις ποια events/phases/mechanics συνδέονται
-
 ---
 
 ## Related Links
 
-- [[Index]] (κεντρική πλοήγηση)
+- [[Index]]

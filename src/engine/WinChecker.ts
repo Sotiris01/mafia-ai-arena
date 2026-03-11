@@ -4,36 +4,134 @@
 // LOCATION: src/engine/WinChecker.ts
 // =============================================================================
 
-// TODO(APPROACH): Checks win conditions after every lynch and night resolution.
 // Priority order (checked top to bottom, first match wins):
 //   1. Jester win     — Jester was lynched (immediate)
 //   2. Executioner win — Executioner's target was lynched
 //   3. Town win        — All Mafia dead (Mafia-aligned count = 0)
-//   4. Mafia win       — Mafia ≥ Town alive (Mafia count ≥ Town + Neutral)
-//   5. Zombie win      — All alive players are zombies (no living non-zombies)
-//   6. Survivor co-win — Survivor is alive when any other win triggers → co-winner
-//
-// Neutral counting: Jester, Survivor, Executioner, Zombie count as "Town"
-// for Mafia-vs-Town balance (they're not Mafia-aligned).
-//
-// Collaborating files:
-// - src/types/game.types.ts           — WinResult interface
-// - src/types/player.types.ts         — PlayerRole, Alignment
-// - src/state/GameState.ts            — reads alive_players, sets game_over
-// - src/state/PlayerState.ts          — reads player alignments + zombie status
-// - src/engine/PhaseManager.ts        — calls checkWinConditions() after events
-// - src/engine/ResolutionEngine.ts    — calls after night resolution
-// - app/game/result.tsx               — displays WinResult on game over screen
-// - src/hooks/useGameLoop.ts          — handles game end transition
+//   4. Mafia win       — Mafia ≥ Town alive (Mafia count ≥ non-Mafia)
+//   5. Zombie win      — All alive players are zombies
+//   6. Survivor co-win — Survivor is alive when any other win triggers
 
-// TODO(HIGH): Implement checkWinConditions() — returns WinResult | null
-// TODO(HIGH): Implement checkJesterWin(lynchedPlayerId) — was Jester lynched?
-// TODO(HIGH): Implement checkExecutionerWin(lynchedPlayerId) — was Executioner's target lynched?
-// TODO(HIGH): Implement checkTownWin() — all Mafia dead?
-// TODO(HIGH): Implement checkMafiaWin() — Mafia ≥ Town+Neutral alive?
-// TODO: Implement checkZombieWin() — all alive players are zombies?
-// TODO: Implement getSurvivorCoWinners() — alive Survivor player_ids
-// TODO: Implement countByAlignment() — helper to count alive players per faction
+import type { WinResult } from "../types/game.types";
+import type { Alignment } from "../types/player.types";
+import * as GameState from "../state/GameState";
+import * as PlayerState from "../state/PlayerState";
 
-// TODO(REVIEW): Edge case: Jester lynched + Mafia would also win same turn → Jester wins
-// TODO(REVIEW): Edge case: Executioner target lynched + Town would win → Executioner wins
+// ---------------------------------------------------------------------------
+// Types
+// ---------------------------------------------------------------------------
+
+export type CheckTrigger = "lynch" | "night";
+
+export interface AlignmentCounts {
+  town: number;
+  mafia: number;
+  neutral: number;
+  total: number;
+}
+
+// ---------------------------------------------------------------------------
+// Public API
+// ---------------------------------------------------------------------------
+
+/**
+ * Check all win conditions in priority order.
+ * @param trigger — "lynch" or "night" (determines check order from config)
+ * @param lynchedPlayerId — the player who was just lynched (if any)
+ * @returns WinResult if a faction has won, null if game continues
+ */
+export function checkWinConditions(
+  trigger: CheckTrigger,
+  lynchedPlayerId?: string,
+): WinResult | null {
+  // TODO(Phase 5): Jester win — check if lynchedPlayerId is Jester
+  // TODO(Phase 5): Executioner win — check if lynchedPlayerId is Executioner's target
+
+  // Town win: all Mafia eliminated
+  const townWin = checkTownWin();
+  if (townWin) {
+    townWin.co_winners = getSurvivorCoWinners();
+    return townWin;
+  }
+
+  // Mafia win: Mafia ≥ non-Mafia alive
+  const mafiaWin = checkMafiaWin();
+  if (mafiaWin) {
+    mafiaWin.co_winners = getSurvivorCoWinners();
+    return mafiaWin;
+  }
+
+  // TODO(Phase 5): Zombie win — all alive players are zombies
+
+  return null;
+}
+
+// ---------------------------------------------------------------------------
+// Individual checks
+// ---------------------------------------------------------------------------
+
+/** Town wins when no Mafia-aligned players remain alive */
+export function checkTownWin(): WinResult | null {
+  const counts = countByAlignment();
+  if (counts.mafia === 0 && counts.total > 0) {
+    return {
+      winner: "Town",
+      co_winners: [],
+      reason: "All Mafia members have been eliminated",
+    };
+  }
+  return null;
+}
+
+/** Mafia wins when they equal or outnumber all non-Mafia alive players */
+export function checkMafiaWin(): WinResult | null {
+  const counts = countByAlignment();
+  const nonMafia = counts.town + counts.neutral;
+  if (counts.mafia > 0 && counts.mafia >= nonMafia) {
+    return {
+      winner: "Mafia",
+      co_winners: [],
+      reason: "Mafia has achieved majority control",
+    };
+  }
+  return null;
+}
+
+// TODO(Phase 5): Implement checkJesterWin(lynchedPlayerId)
+// TODO(Phase 5): Implement checkExecutionerWin(lynchedPlayerId)
+// TODO(Phase 5): Implement checkZombieWin()
+
+// ---------------------------------------------------------------------------
+// Helpers
+// ---------------------------------------------------------------------------
+
+/** Count alive players by alignment */
+export function countByAlignment(): AlignmentCounts {
+  const alive = PlayerState.getAllAlivePlayers();
+  let town = 0;
+  let mafia = 0;
+  let neutral = 0;
+
+  for (const p of alive) {
+    switch (p.alignment) {
+      case "Town":
+        town++;
+        break;
+      case "Mafia":
+        mafia++;
+        break;
+      case "Neutral":
+        neutral++;
+        break;
+    }
+  }
+
+  return { town, mafia, neutral, total: town + mafia + neutral };
+}
+
+/** Find alive Survivor players for co-win credit */
+export function getSurvivorCoWinners(): string[] {
+  return PlayerState.getAllAlivePlayers()
+    .filter((p) => p.role === "Survivor")
+    .map((p) => p.player_id);
+}

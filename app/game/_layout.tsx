@@ -27,7 +27,7 @@ export default function GameLayout() {
       <Stack.Screen name="day" options={{ title: `💬 Day — ${dayLabel}` }} />
       <Stack.Screen name="vote" options={{ title: `🗳️ Vote — ${dayLabel}` }} />
       <Stack.Screen name="night" options={{ title: `🌙 Night — ${dayLabel}` }} />
-      <Stack.Screen name="result" options={{ title: "🏆 Result" }} />
+      <Stack.Screen name="result" options={{ title: `🏆 Result` }} />
     </Stack>
   );
 }

@@ -134,7 +134,7 @@ export function initializePlayers(playerCount: number): string[] {
 
     const playerRole: PlayerRole = {
       player_id: id,
-      player_name: isHuman ? "Player" : `Παίκτης ${i + 1}`,
+      player_name: isHuman ? "Player" : `Player ${i + 1}`,
       role: roleDef.role as Role,
       alignment: roleDef.alignment as Alignment,
       importance_tier: roleDef.importance_tier as ImportanceTier,

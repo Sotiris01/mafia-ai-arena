@@ -5,7 +5,7 @@
 // LOCATION: src/types/personality.types.ts
 // =============================================================================
 
-import type { LocalizedText } from "./game.types";
+
 
 export type PersonalityType =
   | "Aggressive"
@@ -52,7 +52,7 @@ export interface PlayerPersonality {
 export interface PersonalityDefinition extends PlayerPersonality {
   frequency: number;
   traits: string[];
-  description: LocalizedText;
+  description: string;
 }
 
 /** Top-level shape of src/data/personalities.json */

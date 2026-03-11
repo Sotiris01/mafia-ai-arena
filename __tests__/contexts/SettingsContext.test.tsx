@@ -45,7 +45,6 @@ function wrapper({ children }: { children: React.ReactNode }) {
 }
 
 const DEFAULT_SETTINGS: AppSettings = {
-  language: "en",
   defaultPlayerCount: 10,
 };
 
@@ -97,13 +96,6 @@ describe("SettingsContext", () => {
       expect(result.current.settings).toEqual(DEFAULT_SETTINGS);
     });
 
-    it("sets language to 'en' by default", async () => {
-      const { result } = renderHook(() => useSettings(), { wrapper });
-
-      await waitFor(() => expect(result.current.isLoaded).toBe(true));
-      expect(result.current.settings.language).toBe("en");
-    });
-
     it("sets defaultPlayerCount to 10 by default", async () => {
       const { result } = renderHook(() => useSettings(), { wrapper });
 
@@ -113,18 +105,6 @@ describe("SettingsContext", () => {
   });
 
   describe("updateSettings", () => {
-    it("updates language", async () => {
-      const { result } = renderHook(() => useSettings(), { wrapper });
-
-      await waitFor(() => expect(result.current.isLoaded).toBe(true));
-
-      act(() => {
-        result.current.updateSettings({ language: "gr" });
-      });
-
-      expect(result.current.settings.language).toBe("gr");
-    });
-
     it("updates defaultPlayerCount", async () => {
       const { result } = renderHook(() => useSettings(), { wrapper });
 
@@ -143,12 +123,10 @@ describe("SettingsContext", () => {
       await waitFor(() => expect(result.current.isLoaded).toBe(true));
 
       act(() => {
-        result.current.updateSettings({ language: "gr" });
+        result.current.updateSettings({ defaultPlayerCount: 14 });
       });
 
-      // language changed, defaultPlayerCount preserved
-      expect(result.current.settings.language).toBe("gr");
-      expect(result.current.settings.defaultPlayerCount).toBe(10);
+      expect(result.current.settings.defaultPlayerCount).toBe(14);
     });
 
     it("persists settings to AsyncStorage", async () => {
@@ -158,13 +136,13 @@ describe("SettingsContext", () => {
       await waitFor(() => expect(result.current.isLoaded).toBe(true));
 
       act(() => {
-        result.current.updateSettings({ language: "gr" });
+        result.current.updateSettings({ defaultPlayerCount: 14 });
       });
 
       await waitFor(() => {
         expect(AsyncStorage.setItem).toHaveBeenCalledWith(
           "mafia_settings",
-          expect.stringContaining('"language":"gr"'),
+          expect.stringContaining('"defaultPlayerCount":14'),
         );
       });
     });
@@ -178,9 +156,8 @@ describe("SettingsContext", () => {
 
       // Change settings first
       act(() => {
-        result.current.updateSettings({ language: "gr", defaultPlayerCount: 16 });
+        result.current.updateSettings({ defaultPlayerCount: 16 });
       });
-      expect(result.current.settings.language).toBe("gr");
       expect(result.current.settings.defaultPlayerCount).toBe(16);
 
       // Reset
@@ -194,27 +171,24 @@ describe("SettingsContext", () => {
 
   describe("AsyncStorage loading", () => {
     it("loads saved settings from AsyncStorage on mount", async () => {
-      const saved: AppSettings = { language: "gr", defaultPlayerCount: 12 };
+      const saved: AppSettings = { defaultPlayerCount: 12 };
       mockStorage["mafia_settings"] = JSON.stringify(saved);
 
       const { result } = renderHook(() => useSettings(), { wrapper });
 
       await waitFor(() => expect(result.current.isLoaded).toBe(true));
 
-      expect(result.current.settings.language).toBe("gr");
       expect(result.current.settings.defaultPlayerCount).toBe(12);
     });
 
     it("merges partial saved data with defaults", async () => {
-      // Only language was saved, defaultPlayerCount should come from defaults
-      mockStorage["mafia_settings"] = JSON.stringify({ language: "gr" });
+      mockStorage["mafia_settings"] = JSON.stringify({ defaultPlayerCount: 8 });
 
       const { result } = renderHook(() => useSettings(), { wrapper });
 
       await waitFor(() => expect(result.current.isLoaded).toBe(true));
 
-      expect(result.current.settings.language).toBe("gr");
-      expect(result.current.settings.defaultPlayerCount).toBe(10); // default
+      expect(result.current.settings.defaultPlayerCount).toBe(8);
     });
 
     it("falls back to defaults when AsyncStorage is empty", async () => {

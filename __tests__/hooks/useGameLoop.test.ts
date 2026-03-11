@@ -19,6 +19,8 @@ jest.mock("../../src/state/PlayerState");
 jest.mock("../../src/state/ChatState");
 jest.mock("../../src/state/EventState");
 jest.mock("../../src/state/MemoryManager");
+jest.mock("../../src/engine/PhaseManager");
+jest.mock("../../src/engine/ChatAnalyzer");
 
 const mockedGameState = GameState as jest.Mocked<typeof GameState>;
 const mockedPlayerState = PlayerState as jest.Mocked<typeof PlayerState>;

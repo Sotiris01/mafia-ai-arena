@@ -6,7 +6,6 @@
 // =============================================================================
 
 import type { Role } from "./player.types";
-import type { LocalizedText } from "./game.types";
 
 export type EventTiming = "morning" | "midday";
 
@@ -16,13 +15,13 @@ export type NightEchoEventId =
 
 export interface NightEchoEvent {
   id: NightEchoEventId;
-  name: LocalizedText;
+  name: string;
   timing: EventTiming;
   probability: number | Record<string, number>;
   suspicion_weight: number;
   linked_roles: Role[];
   trigger_condition: string;
-  description_template: LocalizedText;
+  description_template: string;
 }
 
 // --- Last Wish ---
@@ -37,7 +36,7 @@ export type LastWishActionType =
 export interface LastWishActionConfig {
   type: LastWishActionType;
   weight: number;
-  description: LocalizedText;
+  description: string;
   effect: string;
   target_selection: string;
 }

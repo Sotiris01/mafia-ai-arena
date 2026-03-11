@@ -9,7 +9,6 @@ import { View, Text, Pressable, StyleSheet } from "react-native";
 import type { PlayerRole } from "../../types/player.types";
 import type { RoleDefinition } from "../../types/role.types";
 import { formatRole } from "../../utils/formatters";
-import { localize } from "../../utils/formatters";
 import FactionBanner from "./FactionBanner";
 import rolesData from "../../data/roles.json";
 
@@ -49,7 +48,9 @@ export default function RoleCard({
     return (
       <Pressable style={styles.cardHidden} onPress={() => setRevealed(true)}>
         <Text style={styles.hiddenIcon}>🎭</Text>
-        <Text style={styles.hiddenText}>Tap to reveal your role</Text>
+        <Text style={styles.hiddenText}>
+          Tap to reveal your role
+        </Text>
       </Pressable>
     );
   }
@@ -65,14 +66,16 @@ export default function RoleCard({
       {/* Description */}
       {def && (
         <Text style={styles.description}>
-          {localize(def.description)}
+          {def.description}
         </Text>
       )}
 
       {/* Night action */}
       {def && def.night_action.type !== "none" && (
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>🌙 Night Action</Text>
+          <Text style={styles.sectionTitle}>
+            🌙 Night Action
+          </Text>
           <Text style={styles.sectionBody}>{def.night_action.description}</Text>
         </View>
       )}
@@ -80,7 +83,9 @@ export default function RoleCard({
       {/* Special rules */}
       {player.special_rules.length > 0 && (
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>⚡ Special Rules</Text>
+          <Text style={styles.sectionTitle}>
+            ⚡ Special Rules
+          </Text>
           {player.special_rules.map((rule) => (
             <Text key={rule} style={styles.ruleItem}>
               • {rule.replaceAll("_", " ")}

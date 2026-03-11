@@ -8,12 +8,7 @@ tags:
 # Implementation Roadmap
 ---
 
-Αυτό το αρχείο περιγράφει τη **στρατηγική υλοποίησης σε 3 φάσεις** — από απλή if-else λογική μέχρι on-device AI με Gemma.
-Κάθε φάση χτίζεται πάνω στην προηγούμενη. Ο κώδικας σχεδιάζεται αρχιτεκτονικά ώστε η αλλαγή AI backend να μην απαιτεί rewrite.
-
 ---
-
-## Overview: 3 Φάσεις
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -38,20 +33,15 @@ tags:
 
 ## Phase 1: If-Else Logic (MVP)
 
-### Στόχος
-Πλήρως λειτουργικό παιχνίδι με **deterministic AI** βασισμένο σε κανόνες. Κανένα εξωτερικό dependency — καθαρό TypeScript. Αυτή η φάση **ολοκληρώνει ΟΛΗ τη game logic** και τα UI.
-
-### Τι περιλαμβάνει
-
 | Component                | Description                                               |
 | ------------------------ | --------------------------------------------------------- |
-| **Game Engine** (9 modules) | PhaseManager, ResolutionEngine, WinChecker, 3 Event Engines, ChatAnalyzer, AIEngine, BalanceCalculator — **ΟΛΑ ολοκληρωμένα** |
+| **Game Engine** (9 modules) | PhaseManager, ResolutionEngine, WinChecker, 3 Event Engines, ChatAnalyzer, AIEngine, BalanceCalculator|
 | **AI Decision System**    | If-else + probability weights: SpeakProbability, VoteDecision, NightDecision, PerceptionFilter, EventReaction |
-| **Message Generation**    | Template-based. Predefined message pools ανά action type × personality × role |
-| **Chat Analysis**         | Pattern matching + keyword detection (δεν χρειάζεται NLP) |
-| **Full UI**               | Όλα τα screens, components, animations — **τελειωμένα** |
-| **State Management**      | Όλα τα JSON schemas functional                             |
-| **Testing**               | Unit + integration tests για κάθε engine module             |
+| **Message Generation**    | Template-based. Predefined message pools action type × personality × role |
+| **Chat Analysis**         | Pattern matching + keyword detection |
+| **Full UI**               | screens, components, animations|
+| **State Management**      | JSON schemas functional |
+| **Testing**               | Unit + integration tests engine module |
 
 ### AI Logic Architecture (Phase 1)
 
@@ -114,41 +104,27 @@ Templates organized by:
 
 ### Phase 1 Deliverables
 
-- ✅ Πλήρως παίξιμο παιχνίδι
-- ✅ Όλοι οι 19 ρόλοι functional
-- ✅ Όλα τα 6 personalities με distinct behavior
+- ✅ 6 personalities distinct behavior
 - ✅ Night Echo Events (E01–E14) + Full Moon + Last Wish
 - ✅ 7-phase Night Resolution
 - ✅ 6 win conditions
 - ✅ Complete UI
-- ✅ Offline ready (δεν χρειάζεται internet)
-
-### Περιορισμοί Phase 1
-
-- Τα μηνύματα AI είναι templated → μπορεί να γίνουν repetitive
-- Δεν κατανοεί real text input — pattern matching μόνο
-- Δεν μπορεί να κάνει σύνθετους συλλογισμούς (multi-step deduction)
-- Η "προσωπικότητα" εκφράζεται μέσω template selection, όχι μέσω γλώσσας
+- ✅ Offline ready
 
 ---
 
 ## Phase 2: Gemma API (Cloud AI)
 
-### Στόχος
-Αντικατάσταση template-based messages και pattern-matching chat analysis με **Google Gemma API calls** — φυσικό AI conversation. Η game logic (votes, night actions, perception) **παραμένει if-else** — μόνο τα text-related modules αλλάζουν.
-
-### Τι αλλάζει
+ template-based messages pattern-matching chat analysis **Google Gemma API calls**
 
 | Module                 | Phase 1                    | Phase 2                          |
 | ---------------------- | -------------------------- | -------------------------------- |
 | `MessageGenerator.ts`  | Template pool + fillTemplate | Gemma API prompt → natural text  |
 | `ChatAnalyzer.ts`      | Keyword/pattern matching    | Gemma API → structured analysis  |
-| `SpeakProbability.ts`  | ❌ Δεν αλλάζει             | ❌ Δεν αλλάζει                   |
-| `VoteDecision.ts`      | ❌ Δεν αλλάζει             | ❌ Δεν αλλάζει                   |
-| `NightDecision.ts`     | ❌ Δεν αλλάζει             | ❌ Δεν αλλάζει                   |
-| `PerceptionFilter.ts`  | ❌ Δεν αλλάζει             | ❌ Δεν αλλάζει                   |
-
-> **Κανόνας:** Η **game logic** (ψηφοφορία, night actions, win conditions, events) δεν εξαρτάται ποτέ από AI API. Μόνο η **γλώσσα** αλλάζει.
+| `SpeakProbability.ts`  | ❌ | ❌ |
+| `VoteDecision.ts`      | ❌ | ❌ |
+| `NightDecision.ts`     | ❌ | ❌ |
+| `PerceptionFilter.ts`  | ❌ | ❌ |
 
 ### API Integration
 
@@ -229,30 +205,21 @@ Return EXACTLY this JSON format:
 
 - **Google AI Studio API Key** (free tier: 60 requests/minute)
 - **Internet connection** (required for API calls)
-- **Fallback:** Αν δεν υπάρχει internet → automatic fallback σε Phase 1 templates
-- **Cost:** Free tier αρκεί για normal gameplay (~10-20 messages/minute)
+- **Fallback:** internet → automatic fallback Phase 1 templates
+- **Cost:** Free tier normal gameplay (~10-20 messages/minute)
 
 ### Phase 2 Deliverables
 
 - ✅ Natural language AI messages (not templated)
-- ✅ AI κατανοεί human text input (real NLP)
-- ✅ Κάθε personality γράφει με μοναδικό στυλ
-- ✅ AI μπορεί να κάνει σύνθετους συλλογισμούς στα μηνύματα
-- ✅ Automatic fallback σε offline templates αν χαθεί connection
+- ✅ AI human text input (real NLP)
+- ✅ Automatic fallback offline templates connection
 
-### Περιορισμοί Phase 2
-
-- Απαιτεί internet → δεν είναι offline
 - API latency (200–500ms per request)
 - Free tier rate limits (60 req/min)
-- Δεδομένα αποστέλλονται σε Google servers
 
 ---
 
 ## Phase 3: Gemma On-Device (Offline AI)
-
-### Στόχος
-**Τελικός στόχος.** Κατέβασμα Gemma model στη συσκευή. Πλήρως offline gameplay με natural language AI. Κανένα internet — κανένα API — κανένα κόστος.
 
 ### Model Selection
 
@@ -261,8 +228,6 @@ Return EXACTLY this JSON format:
 | gemma-3-1b-it      | ~1.2 GB | ~2 GB  | 15-25 tok/s | Basic    | ✅ Best     |
 | gemma-3-4b-it      | ~4.0 GB | ~5 GB  | 8-15 tok/s  | Good     | ⚠️ High-end |
 | gemma-3-12b-it     | ~12 GB  | ~14 GB | 2-5 tok/s   | Excellent | ❌ Desktop  |
-
-**Επιλογή:** `gemma-3-1b-it` — Χωράει σε κινητά με 4+ GB RAM. Αρκετά good quality για short Mafia chat messages (1-2 sentences).
 
 ### On-Device Integration
 
@@ -361,13 +326,10 @@ Settings screen:
 
 ### Phase 3 Deliverables
 
-- ✅ Πλήρως offline gameplay
 - ✅ Natural language AI — no internet required
 - ✅ Zero latency (on-device inference)
 - ✅ Zero cost (no API calls)
-- ✅ Privacy (δεδομένα δεν φεύγουν από τη συσκευή)
-
-### Περιορισμοί Phase 3
+- ✅ Privacy
 
 - Model download size (~600MB+)
 - Permanent storage usage (~1GB)
@@ -379,8 +341,6 @@ Settings screen:
 ---
 
 ## Abstraction Layer: AITextProvider
-
-**Κρίσιμο:** Η αλλαγή μεταξύ φάσεων γίνεται μέσω ενός **interface** — κανένα module δεν ξέρει ποιο backend τρέχει.
 
 ```typescript
 // src/ai/providers/AITextProvider.ts — THE INTERFACE
@@ -431,8 +391,6 @@ function createProvider(config: GameConfig): AITextProvider {
 ---
 
 ## Build Order Strategy
-
-### Βήμα-προς-βήμα σειρά ανάπτυξης:
 
 ```
 Phase 1 Build Order:
@@ -493,8 +451,7 @@ Phase 3 Addition:
 | 2     | ✅ Works | Not needed         | Optional  |
 | 3     | ❌ Fails | ✅ Required        | ✅ Required |
 
-Phase 3 απαιτεί **native modules** (MediaPipe) → δεν τρέχει σε Expo Go.
-Χρειάζεται `expo-dev-client` + `eas build` για development + production builds.
+ `expo-dev-client` + `eas build` development + production builds.
 
 ```bash
 # Phase 3 setup

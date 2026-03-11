@@ -69,8 +69,6 @@ tags:
 
 ### 1. Phase Manager
 
-Ελέγχει τη μετάβαση μεταξύ [[Day Phase]] και [[Night Phase]], συμπεριλαμβανομένου του Morning Report.
-
 | Responsibility           | Description                                                      |
 | ------------------------ | ---------------------------------------------------------------- |
 | Phase transitions        | Morning Report → Day (Discussion + Mid-Day Events) → Night → ↩  |
@@ -105,14 +103,12 @@ interface PhaseManager {
 
 ### 2. Chat Semantic Analyzer
 
-Μεταφράζει κείμενο chat σε δομημένα γεγονότα για το **[[Data Architecture#chat_events.json|chat_events.json]]**.
-
 | Responsibility           | Description                                           |
 | ------------------------ | ----------------------------------------------------- |
-| Message parsing          | Εξαγωγή action, target, weight από raw text           |
-| Indirect relationship detection | Ανίχνευση έμμεσων σχέσεων (A supports B who accuses C) |
-| Role claim detection     | Αναγνώριση role claims ("I'm the Sheriff")            |
-| Weight assignment        | Ανάθεση βάρους βάσει intensity of statement           |
+| Message parsing          | action, target, weight raw text |
+| Indirect relationship detection | (A supports B who accuses C) |
+| Role claim detection     | role claims ("I'm the Sheriff") |
+| Weight assignment        | intensity of statement |
 
 ```typescript
 interface ChatEvent {
@@ -130,8 +126,6 @@ interface ChatEvent {
 
 ### 3. AI Decision Engine
 
-Το "εγκέφαλο" κάθε AI player. Υποστηρίζει 19 ρόλους × 6 personalities × 3 perception levels. **Detailed:** [[AI Decision Engine]]
-
 | Responsibility           | Description                                                   |
 | ------------------------ | ------------------------------------------------------------- |
 | Speak probability calc   | `personality_base × role_modifier × trigger_modifier × cooldown` |
@@ -142,32 +136,28 @@ interface ChatEvent {
 
 ### 4. Resolution Engine
 
-Υπολογίζει τα αποτελέσματα νυχτερινών ενεργειών σε **7 φάσεις**. **Detailed:** [[Night Phase#Resolution Order]]
-
 | Responsibility           | Description                                                      |
 | ------------------------ | ---------------------------------------------------------------- |
 | 7-phase resolution order | Phase 0 (Passive) → 1 (Info Alt) → 2 (Investigate) → 3 (Kill & Protect) → 4 (Post-Kill) → 5 (Passive Info) → 6 (Cleanup) |
 | Conflict resolution      | Doctor blocks kill, Framer alters Sheriff, Bodyguard sacrifice   |
-| Death processing         | Αφαίρεση νεκρών — **roles NEVER revealed publicly**             |
+| Death processing         | — **roles NEVER revealed publicly** |
 | Zombie processing        | Zombie infect (Phase 4), Doctor cure, victim restrictions        |
 | Lovers death link        | If one Lover dies → both die (Phase 4, unsavable)                |
 
 ### 5. Memory Manager
 
-Διαχείριση των `memory.json` αρχείων. **Detailed:** [[Memory System]]
-
 | Responsibility           | Description                                                   |
 | ------------------------ | ------------------------------------------------------------- |
-| Relationship updates     | Ενημέρωση βαρών βάσει chat events (direct ×1.0, indirect ×0.3) |
-| Time decay               | Εφαρμογή `weight × r` (r = 0.85) κάθε Day transition          |
-| Night result storage     | Αποθήκευση αποτελεσμάτων ερευνών/παρατηρήσεων                  |
-| Known role tracking      | Αποθήκευση confirmed roles (confidence: 1.0, no decay)         |
+| Relationship updates     | chat events (direct ×1.0, indirect ×0.3) |
+| Time decay               | `weight × r` (r = 0.85) Day transition |
+| Night result storage     | / |
+| Known role tracking      | confirmed roles (confidence: 1.0, no decay) |
 | Event memory             | Night Echo events → `events_witnessed[]` (weight + timing)     |
 | Zombie memory freeze     | Zombie victims: memory state frozen, no updates                |
 
 ### 6. Night Echo Engine
 
-Διαχείριση Night Echo Events (E01–E14). **Detailed:** [[Dynamic Events]]
+ Night Echo Events (E01–E14). **Detailed:** [[Dynamic Events]]
 
 | Responsibility           | Description                                                   |
 | ------------------------ | ------------------------------------------------------------- |
@@ -178,7 +168,7 @@ interface ChatEvent {
 
 ### 7. Full Moon Engine
 
-Διαχείριση Full Moon balance mechanic. **Detailed:** [[Full Moon]]
+ Full Moon balance mechanic. **Detailed:** [[Full Moon]]
 
 | Responsibility           | Description                                                   |
 | ------------------------ | ------------------------------------------------------------- |
@@ -189,7 +179,7 @@ interface ChatEvent {
 
 ### 8. Last Wish Engine
 
-Διαχείριση Last Wish event. **Detailed:** [[Last Wish]]
+ Last Wish event. **Detailed:** [[Last Wish]]
 
 | Responsibility           | Description                                                   |
 | ------------------------ | ------------------------------------------------------------- |
@@ -198,8 +188,6 @@ interface ChatEvent {
 | Execution                | Immediate effect after lynch resolution                        |
 
 ### 9. Balance Calculator
-
-Υπολογισμός ισορροπίας παιχνιδιού για Full Moon staging.
 
 | Responsibility           | Description                                                   |
 | ------------------------ | ------------------------------------------------------------- |

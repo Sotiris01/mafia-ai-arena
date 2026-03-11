@@ -42,5 +42,4 @@ export function useGame(): GameContextValue {
   return ctx;
 }
 
-// TODO(Phase 4): Extend context with advancePhase, runAITurn
 // TODO(Phase 5): Add pauseGame / resumeGame for app background handling

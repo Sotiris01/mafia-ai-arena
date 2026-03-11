@@ -9,71 +9,48 @@ tags:
 # Night Phase
 ---
 
-Η Night Phase είναι η φάση **μυστικών ενεργειών**. Το Public Chat κλείνει, οι παίκτες "κοιμούνται", και κάθε ρόλος με νυχτερινή δύναμη εκτελεί την ενέργειά του. Η Mafia συντονίζεται σε ιδιωτικό chat για να επιλέξει θύμα.
-
 ---
 
 ## Step 1: Town Sleeps — Chat Disabled
 
 | Rule                       | Description                                              |
 | -------------------------- | -------------------------------------------------------- |
-| **Public Chat**            | ❌ Απενεργοποιημένο                                      |
-| **Private Mafia Chat**     | ✅ Ανοιχτό μόνο για Mafia μέλη                            |
-| **Human player UI**        | Βλέπει μόνο τη δική του νυχτερινή ενέργεια (αν έχει ρόλο) |
+| **Public Chat**            | ❌ |
+| **Private Mafia Chat**     | ✅ Mafia |
+| **Human player UI**        |  |
 
 ---
 
 ## Step 2: Mafia Chat (Private Coordination)
 
-Τα μέλη της Μαφίας ([[Godfather]], [[Mafia Goon]], [[Framer]], [[Silencer]], [[Consigliere]], [[Janitor]]) εισέρχονται σε **ιδιωτικό chat** για να αποφασίσουν:
-
 ### Kill Vote
 
 | Rule                    | Description                                              |
 | ----------------------- | -------------------------------------------------------- |
-| **Ψηφοφορία**           | Κάθε Mafia μέλος ψηφίζει στόχο δολοφονίας                |
-| **Majority wins**       | Ο στόχος με τις περισσότερες ψήφους εξοντώνεται           |
-| **Godfather tiebreaker**| Σε ισοψηφία, η ψήφος του [[Godfather]] μετράει διπλά     |
-| **Cannot self-kill**    | Η Mafia δεν μπορεί να στοχεύσει μέλος Mafia              |
+| **** | Mafia |
+| **Majority wins**       |  |
+| **Godfather tiebreaker**| , [[Godfather]] |
+| **Cannot self-kill**    | Mafia Mafia |
 
 ### Strategic Discussion
 
-Πέρα από την ψηφοφορία, η Mafia συζητά:
-- **Target priority:** Ποιος πρέπει να πεθάνει (π.χ. ύποπτος Sheriff, active accuser).
-- **Framer target:** Ποιον θα κάνει frame ο [[Framer]] (π.χ. αθώο που μπορεί να ερευνηθεί).
-- **Silencer target:** Ποιον θα σιγάσει ο [[Silencer]] (π.χ. κάποιος που κατηγόρησε Mafia).
-- **Consigliere target:** Ποιον θα ερευνήσει ο [[Consigliere]] (π.χ. ποιος είναι Doctor/Sheriff).
-- **Janitor target:** Ποιον νεκρό θα ερευνήσει ο [[Janitor]] (μαθαίνει ρόλο νεκρού).
-- **Day strategy:** Πώς θα συμπεριφερθούν αύριο (ποιον θα κατηγορήσουν/υπερασπιστούν).
-
 ### AI Mafia Chat Behavior
-
-Αν ο ανθρώπινος παίκτης είναι Mafia:
-- Βλέπει τα μηνύματα των AI συμπαικτών του.
-- Μπορεί να γράψει στο Mafia Chat.
-- Ψηφίζει για τον στόχο.
-
-Αν ο ανθρώπινος παίκτης είναι Town/Neutral:
-- Δεν βλέπει τίποτα — μόνο την δική του night action (αν έχει).
-- Τα AI εκτελούν τη Mafia phase αυτόματα.
 
 ---
 
 ## Step 3: Special Town Actions
 
-Κάθε Town ρόλος με νυχτερινή ικανότητα εκτελεί την ενέργειά του. Ο ανθρώπινος παίκτης **επιλέγει τον στόχο** αν έχει ρόλο. Τα AI **αποφασίζουν αυτόματα** βάσει [[Memory System]] και [[AI Decision Engine]].
-
 ### Action Summary
 
 | Role           | Action       | Target              | Result                                        |
 | -------------- | ------------ | ------------------- | --------------------------------------------- |
-| [[Sheriff]]    | Investigate  | 1 παίκτης            | Μαθαίνει "Town" ή "Mafia" (⚠️ [[Godfather]]/[[Framer]] exceptions) |
-| [[Doctor]]     | Protect/Cure | 1 παίκτης            | Αποτρέπει θάνατο ΄Η θεραπεύει zombie θύμα       |
-| [[Lookout]]    | Watch        | 1 παίκτης            | Βλέπει ποιοι επισκέφτηκαν τον στόχο             |
-| [[Tracker]]    | Track        | 1 παίκτης            | Βλέπει πού πήγε ο στόχος (ποιον επισκέφτηκε)    |
-| [[Bodyguard]]  | Guard        | 1 παίκτης            | Αν η Mafia χτυπήσει τον στόχο → Bodyguard + 1 Mafia πεθαίνουν, στόχος ζει |
-| [[Gossip]]     | Receive Clue | Αυτόματο             | Λαμβάνει κρυπτικό hint (passive)                |
-| [[Survivor]]   | Vest         | Εαυτός (optional)    | Self-protection από Mafia kill (limited uses)  |
+| [[Sheriff]]    | Investigate  | 1 | "Town" "Mafia" (⚠️ [[Godfather]]/[[Framer]] exceptions) |
+| [[Doctor]]     | Protect/Cure | 1 | zombie |
+| [[Lookout]]    | Watch        | 1 |  |
+| [[Tracker]]    | Track        | 1 |  |
+| [[Bodyguard]]  | Guard        | 1 | Mafia → Bodyguard + 1 Mafia , |
+| [[Gossip]]     | Receive Clue |  | hint (passive) |
+| [[Survivor]]   | Vest         | (optional) | Self-protection Mafia kill (limited uses) |
 
 ### AI Target Selection Logic
 
@@ -106,29 +83,25 @@ Bodyguard AI:
 
 ## Step 4: Mafia Special Roles & Neutral Night Actions
 
-Παράλληλα με το Kill Vote, οι ειδικοί Mafia ρόλοι και ορισμένοι Neutral εκτελούν:
-
 ### Mafia Special Actions
 
 | Role             | Action        | When                     | Effect                                        |
 | ---------------- | ------------- | ------------------------ | --------------------------------------------- |
-| [[Framer]]       | Frame         | Μαζί με Kill Vote        | Στοχεύει αθώο → εμφανίζεται "Mafia" στον Sheriff |
-| [[Silencer]]     | Silence       | Μαζί με Kill Vote        | Στοχεύει παίκτη → δεν μπορεί να μιλήσει αύριο  |
-| [[Consigliere]]  | Investigate   | Μαζί με Kill Vote        | Μαθαίνει τον **ακριβή ρόλο** του στόχου         |
-| [[Janitor]]      | Clean         | Μαζί με Kill Vote        | Κρύβει τον ρόλο του θύματος (αν kill πετύχει)    |
+| [[Framer]]       | Frame         | Kill Vote | → "Mafia" Sheriff |
+| [[Silencer]]     | Silence       | Kill Vote | → |
+| [[Consigliere]]  | Investigate   | Kill Vote | ** ** |
+| [[Janitor]]      | Clean         | Kill Vote |  |
 
 ### Neutral Night Actions
 
 | Role           | Action        | When                     | Effect                                        |
 | -------------- | ------------- | ------------------------ | --------------------------------------------- |
-| [[Zombie]]     | Infect        | Phase 4 (Post-kill)      | Μετατρέπει στόχο σε zombie (περιορισμός chat/vote) |
-| [[Survivor]]   | Vest          | Ανεξάρτητα               | Self-protection (limited uses)                |
+| [[Zombie]]     | Infect        | Phase 4 (Post-kill)      | zombie |
+| [[Survivor]]   | Vest          |  | Self-protection (limited uses)                |
 
 ---
 
 ## Step 5: Resolution — Night Action Order ⚡
-
-Ο Game Engine **δεν** επεξεργάζεται τις ενέργειες "ταυτόχρονα". Υπάρχει **αυστηρή σειρά** (Resolution Order) που καθορίζει τι εφαρμόζεται πρώτα. Αυτή η σειρά είναι **κρίσιμη** γιατί αλλάζει τα αποτελέσματα.
 
 ### 🔵 Night Action Resolution Order (Definitive)
 
@@ -228,16 +201,6 @@ Bodyguard AI:
 
 ### Why This Order Matters
 
-Η σειρά δημιουργεί **αλυσιδωτές αντιδράσεις**:
-
-1. **Lovers visit πρώτα:** Η αυτόματη επίσκεψη πρέπει να καταγραφεί πριν τα investigations — αλλιώς ο Lookout/Tracker δεν θα τη δει.
-2. **Framer πριν Sheriff:** Ο Framer πρέπει να εφαρμόσει frame **πριν** ο Sheriff ερευνήσει, αλλιώς δεν λειτουργεί.
-3. **Investigation πριν Kill:** Ο Tracker/Lookout βλέπει τις κινήσεις **πριν** αποφασιστεί αν το kill πέρασε.
-4. **Doctor πριν Bodyguard:** Αν ο Doctor σώσει, ο Bodyguard δεν χρειάζεται να θυσιαστεί.
-5. **Janitor μετά Kill:** Ο Janitor μπορεί να ερευνήσει νεκρούς **αφού** γίνουν τα kills.
-6. **Zombie μετά Kill:** Η μόλυνση συμβαίνει αφού αποφασιστεί ποιος πέθανε.
-7. **Lovers death link τελευταία στο Phase 4:** Αν ένας Lover πεθάνει από Mafia kill, ο partner πεθαίνει μετά.
-
 ### Resolution Examples (Updated)
 
 | Scenario                                                     | Resolution                                    |
@@ -266,8 +229,6 @@ Bodyguard AI:
 
 ### Full Moon — Balance Mechanic (Rare)
 
-Η Full Moon είναι **μηχανισμός εξισορρόπησης**: ενεργοποιείται μόνο όταν μία ομάδα χάνει, και δίνει boost στην **ομάδα που υστερεί**. Δεν είναι binary — υπάρχουν **στάδια** boost ανάλογα με το πόσο χάνει η ομάδα.
-
 **Detailed:** [[Dynamic Events#The Full Moon]]
 
 #### Balance Score Calculation
@@ -276,23 +237,17 @@ Bodyguard AI:
 balance_score = (town_alive / total_alive) - expected_town_ratio
 
 expected_town_ratio:
-  Αρχικά: ~0.57–0.60 (βάσει Player Count Scaling)
-  Game-adjusted: αρχικό_town / αρχικό_total
 ```
 
-| Balance Score          | Κατάσταση              | Beneficiary  |
+| Balance Score          |  | Beneficiary  |
 | ---------------------- | ---------------------- | ------------ |
-| `score > +0.15`        | Town υπερέχει πολύ     | 🔴 Mafia     |
-| `+0.05 < score ≤ +0.15`| Town ελαφρώς μπροστά  | 🟠 Mafia (light) |
-| `-0.05 ≤ score ≤ +0.05`| Ισορροπία             | ❌ No Full Moon |
-| `-0.15 ≤ score < -0.05`| Mafia ελαφρώς μπροστά | 🟠 Town (light) |
-| `score < -0.15`        | Mafia υπερέχει πολύ   | 🔴 Town      |
+| `score > +0.15`        | Town | 🔴 Mafia     |
+| `+0.05 < score ≤ +0.15`| Town | 🟠 Mafia (light) |
+| `-0.05 ≤ score ≤ +0.05`|  | ❌ No Full Moon |
+| `-0.15 ≤ score < -0.05`| Mafia | 🟠 Town (light) |
+| `score < -0.15`        | Mafia | 🔴 Town      |
 
 #### Stage 1 — Light Boost (🟠)
-
-Η ομάδα που **υστερεί ελαφρώς** λαμβάνει +1 action σε **ρόλους πληροφοριών** μόνο:
-
-**Αν Mafia υστερεί (Town μπροστά):**
 
 | Role             | Normal | Full Moon (Stage 1)  |
 | ---------------- | ------ | -------------------- |
@@ -300,8 +255,6 @@ expected_town_ratio:
 | **Framer**       | 1      | **2** frames         |
 | **Silencer**     | 1      | **2** silences       |
 | Mafia Kill       | 1      | 1 (unchanged)        |
-
-**Αν Town υστερεί (Mafia μπροστά):**
 
 | Role             | Normal | Full Moon (Stage 1)  |
 | ---------------- | ------ | -------------------- |
@@ -312,10 +265,6 @@ expected_town_ratio:
 
 #### Stage 2 — Full Boost (🔴)
 
-Η ομάδα που **χάνει σοβαρά** λαμβάνει +1 action σε **ΟΛΟΥΣ** τους ρόλους:
-
-**Αν Mafia χάνει σοβαρά:**
-
 | Role             | Normal | Full Moon (Stage 2)  |
 | ---------------- | ------ | -------------------- |
 | **Mafia Kill**   | 1      | **2** kills          |
@@ -324,8 +273,6 @@ expected_town_ratio:
 | **Silencer**     | 1      | **2** silences       |
 | **Janitor**      | 1      | **2** investigations |
 
-**Αν Town χάνει σοβαρά:**
-
 | Role             | Normal | Full Moon (Stage 2)  |
 | ---------------- | ------ | -------------------- |
 | **Doctor**       | 1      | **2** protects       |
@@ -333,10 +280,6 @@ expected_town_ratio:
 | **Lookout**      | 1      | **2** watches        |
 | **Tracker**      | 1      | **2** tracks         |
 | **Gossip**       | 1      | **2** hints          |
-
-> **Σημείωση:** Bodyguard **δεν** διπλασιάζεται ποτέ — γιατί θυσιάζεται.  
-> **Σημείωση:** Zombie και Survivor δεν επηρεάζονται — είναι Neutral.  
-> **Σημείωση:** Αν η ισορροπία είναι κοντά (balanced), **δεν γίνεται Full Moon**.
 
 ---
 
@@ -385,8 +328,8 @@ expected_town_ratio:
 
 ## Related Links
 
-- [[Day Phase]] (επόμενη φάση)
+- [[Day Phase]]
 - [[Dynamic Events#The Full Moon]] (amplified night)
-- [[Gameplay Loop]] (τεχνική ροή Mafia Chat)
-- [[Win Conditions]] (ελέγχονται μετά τη Resolution)
-- [[Data Architecture]] (αποθήκευση αποτελεσμάτων)
+- [[Gameplay Loop]]
+- [[Win Conditions]]
+- [[Data Architecture]]

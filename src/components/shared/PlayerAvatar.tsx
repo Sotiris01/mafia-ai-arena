@@ -20,6 +20,8 @@ export interface PlayerAvatarProps {
   /** Whether this player is the human player */
   isHuman?: boolean;
   size?: "small" | "medium" | "large";
+  /** Whether to show the name label below the avatar (default: true) */
+  showName?: boolean;
   // TODO(Phase 5): isMayor — show MayorBadge overlay after reveal
 }
 
@@ -33,14 +35,27 @@ const SIZES = {
   large: { circle: 56, font: 20, badge: 16 },
 } as const;
 
-/** Generate a stable color from a player ID string */
+/** Generate a visually distinct color from a player ID using golden-ratio spacing */
 function idToColor(id: string): string {
-  let hash = 0;
-  for (let i = 0; i < id.length; i++) {
-    hash = id.charCodeAt(i) + ((hash << 5) - hash);
-  }
-  const hue = Math.abs(hash) % 360;
-  return `hsl(${hue}, 55%, 50%)`;
+  // Extract numeric index from IDs like "ai_1", "ai_2" etc.
+  const match = id.match(/(\d+)/);
+  const index = match ? parseInt(match[1], 10) : 0;
+  // Golden angle (~137.5°) guarantees maximum hue separation between consecutive IDs
+  const hue = (index * 137.508) % 360;
+  return `hsl(${hue}, 60%, 50%)`;
+}
+
+/** Extract a short display label from the player name or ID.
+ *  e.g. "Player 5" → "5", "Player" → "P", "ai_3" → "3" */
+function extractLabel(playerName: string, playerId: string): string {
+  // Try to extract a trailing number from the name ("Player 7" → "7")
+  const nameNum = playerName.match(/(\d+)$/);
+  if (nameNum) return nameNum[1];
+  // Try to extract a number from the ID ("ai_3" → "3")
+  const idNum = playerId.match(/(\d+)/);
+  if (idNum) return idNum[1];
+  // Fallback: first character of name
+  return playerName.charAt(0).toUpperCase();
 }
 
 // ---------------------------------------------------------------------------
@@ -55,9 +70,10 @@ export default function PlayerAvatar({
   isSilenced = false,
   isHuman = false,
   size = "medium",
+  showName = true,
 }: PlayerAvatarProps) {
   const s = SIZES[size];
-  const initial = playerName.charAt(0).toUpperCase();
+  const label = extractLabel(playerName, playerId);
   const bgColor = isAlive ? idToColor(playerId) : "#555";
 
   return (
@@ -77,7 +93,7 @@ export default function PlayerAvatar({
         ]}
       >
         <Text style={[styles.initial, { fontSize: s.font }]}>
-          {isAlive ? initial : "💀"}
+          {isAlive ? label : "💀"}
         </Text>
       </View>
 
@@ -94,13 +110,15 @@ export default function PlayerAvatar({
       )}
 
       {/* Name label */}
-      <Text
-        style={[styles.name, { fontSize: s.font - 4 }]}
-        numberOfLines={1}
-        ellipsizeMode="tail"
-      >
-        {playerName}
-      </Text>
+      {showName && (
+        <Text
+          style={[styles.name, { fontSize: s.font - 4 }]}
+          numberOfLines={1}
+          ellipsizeMode="tail"
+        >
+          {playerName}
+        </Text>
+      )}
     </View>
   );
 }

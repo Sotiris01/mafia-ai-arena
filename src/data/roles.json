@@ -5,11 +5,12 @@
       "alignment": "Town",
       "importance_tier": "core",
       "min_players": 7,
-      "count_scaling": { "7-9": 2, "10-12": 3, "13-16": 3 },
-      "description": {
-        "en": "An ordinary townsperson with no special abilities. Your power is your vote.",
-        "gr": "Ένας απλός κάτοικος χωρίς ειδικές ικανότητες. Η δύναμή σου είναι η ψήφος σου."
+      "count_scaling": {
+        "7-9": 2,
+        "10-12": 3,
+        "13-16": 3
       },
+      "description": "An ordinary townsperson with no special abilities. Your power is your vote.",
       "night_action": {
         "type": "none",
         "resolution_phase": -1,
@@ -29,11 +30,10 @@
       "alignment": "Town",
       "importance_tier": "core",
       "min_players": 7,
-      "count_scaling": { "7-16": 1 },
-      "description": {
-        "en": "The town's investigator. Each night, check one player's alignment — but beware the Godfather's disguise and the Framer's deception.",
-        "gr": "Ο ερευνητής της πόλης. Κάθε νύχτα, ελέγχεις την πίστη ενός παίκτη — αλλά πρόσεχε τη μεταμφίεση του Νονού και την εξαπάτηση του Framer."
+      "count_scaling": {
+        "7-16": 1
       },
+      "description": "The town's investigator. Each night, check one player's alignment — but beware the Godfather's disguise and the Framer's deception.",
       "night_action": {
         "type": "investigate",
         "resolution_phase": 2,
@@ -57,11 +57,10 @@
       "alignment": "Town",
       "importance_tier": "core",
       "min_players": 7,
-      "count_scaling": { "7-16": 1 },
-      "description": {
-        "en": "The town's healer. Each night, choose to Protect one player from being killed OR Cure a zombie victim — but not both.",
-        "gr": "Ο γιατρός της πόλης. Κάθε νύχτα, διάλεξε να Προστατέψεις έναν παίκτη από θάνατο Ή να Θεραπεύσεις ένα θύμα zombie — αλλά όχι και τα δυο."
+      "count_scaling": {
+        "7-16": 1
       },
+      "description": "The town's healer. Each night, choose to Protect one player from being killed OR Cure a zombie victim — but not both.",
       "night_action": {
         "type": "protect",
         "resolution_phase": 3,
@@ -85,11 +84,10 @@
       "alignment": "Town",
       "importance_tier": "important",
       "min_players": 8,
-      "count_scaling": { "8-16": 1 },
-      "description": {
-        "en": "A vigilant watcher. Each night, watch a player's house and see who visited them.",
-        "gr": "Ένας άγρυπνος παρατηρητής. Κάθε νύχτα, παρατηρείς το σπίτι ενός παίκτη και βλέπεις ποιος τον επισκέφτηκε."
+      "count_scaling": {
+        "8-16": 1
       },
+      "description": "A vigilant watcher. Each night, watch a player's house and see who visited them.",
       "night_action": {
         "type": "watch",
         "resolution_phase": 2,
@@ -112,11 +110,10 @@
       "alignment": "Town",
       "importance_tier": "advanced",
       "min_players": 10,
-      "count_scaling": { "10-16": 1 },
-      "description": {
-        "en": "The town's ears on the ground. Each night, passively receive a cryptic hint about a random player's nature.",
-        "gr": "Τα αυτιά της πόλης. Κάθε νύχτα, λαμβάνεις παθητικά ένα κρυπτικό στοιχείο για τη φύση ενός τυχαίου παίκτη."
+      "count_scaling": {
+        "10-16": 1
       },
+      "description": "The town's ears on the ground. Each night, passively receive a cryptic hint about a random player's nature.",
       "night_action": {
         "type": "passive_hint",
         "resolution_phase": 5,
@@ -140,11 +137,10 @@
       "alignment": "Town",
       "importance_tier": "advanced",
       "min_players": 10,
-      "count_scaling": { "10-16": 1 },
-      "description": {
-        "en": "A brave protector. Guard a player at night — if they're attacked, you die instead and take one random attacker with you.",
-        "gr": "Ένας γενναίος προστάτης. Φρουρείς έναν παίκτη τη νύχτα — αν δεχτεί επίθεση, πεθαίνεις εσύ και παίρνεις μαζί σου έναν τυχαίο επιτιθέμενο."
+      "count_scaling": {
+        "10-16": 1
       },
+      "description": "A brave protector. Guard a player at night — if they're attacked, you die instead and take one random attacker with you.",
       "night_action": {
         "type": "guard",
         "resolution_phase": 3,
@@ -169,11 +165,10 @@
       "alignment": "Town",
       "importance_tier": "advanced",
       "min_players": 10,
-      "count_scaling": { "10-16": 2 },
-      "description": {
-        "en": "Two Citizens bonded by love. If one dies, the other dies of heartbreak. You visit each other every night — detectable by Lookout and Tracker.",
-        "gr": "Δύο Πολίτες δεμένοι με αγάπη. Αν πεθάνει ο ένας, ο άλλος πεθαίνει από θλίψη. Επισκέπτεστε ο ένας τον άλλον κάθε νύχτα — ανιχνεύσιμο από Lookout και Tracker."
+      "count_scaling": {
+        "10-16": 2
       },
+      "description": "Two Citizens bonded by love. If one dies, the other dies of heartbreak. You visit each other every night — detectable by Lookout and Tracker.",
       "night_action": {
         "type": "passive_visit",
         "resolution_phase": 0,
@@ -199,11 +194,10 @@
       "alignment": "Town",
       "importance_tier": "advanced",
       "min_players": 12,
-      "count_scaling": { "12-16": 1 },
-      "description": {
-        "en": "A skilled tracker. Each night, follow a player and see who they visited.",
-        "gr": "Ένας ικανός ιχνηλάτης. Κάθε νύχτα, ακολουθείς έναν παίκτη και βλέπεις ποιον επισκέφτηκε."
+      "count_scaling": {
+        "12-16": 1
       },
+      "description": "A skilled tracker. Each night, follow a player and see who they visited.",
       "night_action": {
         "type": "track",
         "resolution_phase": 2,
@@ -226,11 +220,10 @@
       "alignment": "Town",
       "importance_tier": "expanded",
       "min_players": 13,
-      "count_scaling": { "13-16": 1 },
-      "description": {
-        "en": "The town's leader. You can reveal yourself during the day — your vote then counts as ×2. The only role that can provably confirm its alignment.",
-        "gr": "Ο αρχηγός της πόλης. Μπορείς να αποκαλυφθείς κατά τη διάρκεια της ημέρας — η ψήφος σου μετράει ×2. Ο μόνος ρόλος που μπορεί να αποδείξει την πίστη του."
+      "count_scaling": {
+        "13-16": 1
       },
+      "description": "The town's leader. You can reveal yourself during the day — your vote then counts as ×2. The only role that can provably confirm its alignment.",
       "night_action": {
         "type": "none",
         "resolution_phase": -1,
@@ -250,17 +243,15 @@
       ],
       "win_condition": "All Mafia members are eliminated"
     },
-
     {
       "role": "Godfather",
       "alignment": "Mafia",
       "importance_tier": "core",
       "min_players": 7,
-      "count_scaling": { "7-16": 1 },
-      "description": {
-        "en": "The head of the Mafia family. You lead the kill decision each night and appear as Town to the Sheriff's investigation.",
-        "gr": "Ο αρχηγός της οικογένειας Μαφίας. Οδηγείς την απόφαση θανάτου κάθε νύχτα και φαίνεσαι Town στην έρευνα του Sheriff."
+      "count_scaling": {
+        "7-16": 1
       },
+      "description": "The head of the Mafia family. You lead the kill decision each night and appear as Town to the Sheriff's investigation.",
       "night_action": {
         "type": "kill_vote",
         "resolution_phase": 3,
@@ -285,11 +276,12 @@
       "alignment": "Mafia",
       "importance_tier": "core",
       "min_players": 7,
-      "count_scaling": { "7-9": 1, "10-12": 2, "13-16": 2 },
-      "description": {
-        "en": "A loyal Mafia enforcer. You participate in the collective kill vote each night and know all Mafia members.",
-        "gr": "Ένας πιστός εκτελεστής της Μαφίας. Συμμετέχεις στην ομαδική ψήφο θανάτου κάθε νύχτα και γνωρίζεις όλα τα μέλη της Μαφίας."
+      "count_scaling": {
+        "7-9": 1,
+        "10-12": 2,
+        "13-16": 2
       },
+      "description": "A loyal Mafia enforcer. You participate in the collective kill vote each night and know all Mafia members.",
       "night_action": {
         "type": "kill_vote",
         "resolution_phase": 3,
@@ -312,11 +304,10 @@
       "alignment": "Mafia",
       "importance_tier": "important",
       "min_players": 9,
-      "count_scaling": { "9-16": 1 },
-      "description": {
-        "en": "A Mafia deceiver. Each night, frame a player to make them appear as Mafia to the Sheriff's investigation.",
-        "gr": "Ένας απατεώνας της Μαφίας. Κάθε νύχτα, παγιδεύεις έναν παίκτη ώστε να φαίνεται Mafia στην έρευνα του Sheriff."
+      "count_scaling": {
+        "9-16": 1
       },
+      "description": "A Mafia deceiver. Each night, frame a player to make them appear as Mafia to the Sheriff's investigation.",
       "night_action": {
         "type": "frame",
         "resolution_phase": 1,
@@ -339,11 +330,10 @@
       "alignment": "Mafia",
       "importance_tier": "advanced",
       "min_players": 11,
-      "count_scaling": { "11-16": 1 },
-      "description": {
-        "en": "The Mafia's enforcer of silence. Each night, silence a player — they cannot speak during the next day's discussion (but can still vote).",
-        "gr": "Ο εκτελεστής σιωπής της Μαφίας. Κάθε νύχτα, σιωπαίνεις έναν παίκτη — δεν μπορεί να μιλήσει κατά τη συζήτηση της επόμενης ημέρας (αλλά μπορεί να ψηφίσει)."
+      "count_scaling": {
+        "11-16": 1
       },
+      "description": "The Mafia's enforcer of silence. Each night, silence a player — they cannot speak during the next day's discussion (but can still vote).",
       "night_action": {
         "type": "silence",
         "resolution_phase": 4,
@@ -367,11 +357,10 @@
       "alignment": "Mafia",
       "importance_tier": "expanded",
       "min_players": 13,
-      "count_scaling": { "13-16": 1 },
-      "description": {
-        "en": "The Mafia's spy. Each night, investigate a player and learn their exact role — not just alignment.",
-        "gr": "Ο κατάσκοπος της Μαφίας. Κάθε νύχτα, ερευνάς έναν παίκτη και μαθαίνεις τον ακριβή ρόλο του — όχι απλά την πίστη του."
+      "count_scaling": {
+        "13-16": 1
       },
+      "description": "The Mafia's spy. Each night, investigate a player and learn their exact role — not just alignment.",
       "night_action": {
         "type": "investigate_role",
         "resolution_phase": 2,
@@ -394,11 +383,10 @@
       "alignment": "Mafia",
       "importance_tier": "expanded",
       "min_players": 14,
-      "count_scaling": { "14-16": 1 },
-      "description": {
-        "en": "The Mafia's cleaner. When a player dies at night, you learn their role. The town receives no information about the death.",
-        "gr": "Ο καθαριστής της Μαφίας. Όταν ένας παίκτης πεθάνει τη νύχτα, μαθαίνεις τον ρόλο του. Η πόλη δεν λαμβάνει πληροφορίες για τον θάνατο."
+      "count_scaling": {
+        "14-16": 1
       },
+      "description": "The Mafia's cleaner. When a player dies at night, you learn their role. The town receives no information about the death.",
       "night_action": {
         "type": "investigate_dead",
         "resolution_phase": 4,
@@ -417,17 +405,15 @@
       ],
       "win_condition": "Mafia members equal or outnumber Town-aligned players"
     },
-
     {
       "role": "Jester",
       "alignment": "Neutral",
       "importance_tier": "core",
       "min_players": 7,
-      "count_scaling": { "7-16": 1 },
-      "description": {
-        "en": "A chaotic fool with a death wish. Your goal is to get yourself lynched by the town. If you succeed, the game ends immediately — only you win.",
-        "gr": "Ένας χαοτικός τρελός με επιθυμία θανάτου. Στόχος σου είναι να σε λιντσάρει η πόλη. Αν τα καταφέρεις, το παιχνίδι τελειώνει αμέσως — μόνο εσύ κερδίζεις."
+      "count_scaling": {
+        "7-16": 1
       },
+      "description": "A chaotic fool with a death wish. Your goal is to get yourself lynched by the town. If you succeed, the game ends immediately — only you win.",
       "night_action": {
         "type": "none",
         "resolution_phase": -1,
@@ -451,11 +437,10 @@
       "alignment": "Neutral",
       "importance_tier": "important",
       "min_players": 9,
-      "count_scaling": { "9-16": 1 },
-      "description": {
-        "en": "A lone wolf who just wants to live. You have a limited-use bulletproof vest to protect yourself at night. If you survive to the end, you co-win with the winning faction.",
-        "gr": "Ένας μοναχικός λύκος που απλά θέλει να ζήσει. Έχεις αλεξίσφαιρο γιλέκο περιορισμένης χρήσης για να προστατευτείς τη νύχτα. Αν επιβιώσεις ως το τέλος, κερδίζεις μαζί με τη νικήτρια φατρία."
+      "count_scaling": {
+        "9-16": 1
       },
+      "description": "A lone wolf who just wants to live. You have a limited-use bulletproof vest to protect yourself at night. If you survive to the end, you co-win with the winning faction.",
       "night_action": {
         "type": "vest",
         "resolution_phase": 3,
@@ -480,11 +465,10 @@
       "alignment": "Neutral",
       "importance_tier": "advanced",
       "min_players": 12,
-      "count_scaling": { "12-16": 1 },
-      "description": {
-        "en": "An obsessed vigilante. You win if your assigned target gets lynched by the town. If your target dies at night, you become a Jester.",
-        "gr": "Ένας εμμονικός τιμωρός. Κερδίζεις αν ο στόχος σου λιντσαριστεί από την πόλη. Αν ο στόχος σου πεθάνει τη νύχτα, γίνεσαι Jester."
+      "count_scaling": {
+        "12-16": 1
       },
+      "description": "An obsessed vigilante. You win if your assigned target gets lynched by the town. If your target dies at night, you become a Jester.",
       "night_action": {
         "type": "none",
         "resolution_phase": -1,
@@ -511,11 +495,10 @@
       "alignment": "Neutral",
       "importance_tier": "expanded",
       "min_players": 14,
-      "count_scaling": { "14-16": 1 },
-      "description": {
-        "en": "A creature of the night. Each night, infect a player — they lose their role abilities and voting rights. If all alive players are zombified, you win.",
-        "gr": "Ένα πλάσμα της νύχτας. Κάθε νύχτα, μολύνεις έναν παίκτη — χάνει τις ικανότητες του ρόλου του και το δικαίωμα ψήφου. Αν όλοι οι ζωντανοί παίκτες γίνουν zombie, κερδίζεις."
+      "count_scaling": {
+        "14-16": 1
       },
+      "description": "A creature of the night. Each night, infect a player — they lose their role abilities and voting rights. If all alive players are zombified, you win.",
       "night_action": {
         "type": "infect",
         "resolution_phase": 4,

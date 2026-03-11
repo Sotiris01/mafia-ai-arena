@@ -12,6 +12,8 @@ import * as ChatState from "../../src/state/ChatState";
 
 jest.mock("../../src/state/ChatState");
 jest.mock("../../src/state/GameState");
+jest.mock("../../src/engine/ChatAnalyzer");
+jest.mock("../../src/engine/AIEngine");
 
 const mockedChatState = ChatState as jest.Mocked<typeof ChatState>;
 

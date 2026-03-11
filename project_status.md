@@ -9,7 +9,7 @@
 
 > Foundation. No project dependencies. Everything else depends on this.
 
-- [X] `src/types/game.types.ts` — Phase, SubPhase, GameState, Vote, BalanceScore, FullMoonState, WinResult, LocalizedText, GameConfig (+ TimerConfig, AIConfig, ScalingConfig)
+- [X] `src/types/game.types.ts` — Phase, SubPhase, GameState, Vote, BalanceScore, FullMoonState, WinResult, GameConfig (+ TimerConfig, AIConfig, ScalingConfig)
 - [X] `src/types/player.types.ts` — Alignment, Role (19), NightActionType (15), ImportanceTier, PlayerRole
 - [X] `src/types/role.types.ts` — RoleDefinition, NightActionConfig, TargetRule, ValidTargets, ZombieState, RoleDistribution, RolesData
 - [X] `src/types/personality.types.ts` — PersonalityType (6), PerceptionDepth, VotingStyle, PlayerPersonality (17 stats), PersonalityDefinition, PersonalitiesData
@@ -19,7 +19,7 @@
 - [X] `src/utils/probability.ts` — rollProbability(), weightedRandom(), shuffleArray(), clamp(), randomInt(), randomElement()
 - [X] `src/utils/weightCalculator.ts` — applyDecay(), calculateDirectWeight(), calculateIndirectWeight(), combineScore(), applyEmotionalModifier(), normalizeWeight()
 - [X] `src/utils/balanceScore.ts` — calculateRatio(), getImbalance(), mapToStage(), getLosingFaction()
-- [X] `src/utils/formatters.ts` — setLocale(), getLocale(), localize(), formatPlayerName(), formatPhase(), formatRole(), formatAlignment(), formatTime(), formatDeathMessage(), formatVoteResult(), formatEventTitle()
+- [X] `src/utils/formatters.ts` — formatPlayerName(), formatPhase(), formatRole(), formatAlignment(), formatTime(), formatDeathMessage(), formatVoteResult(), formatEventTitle()
 
 **Phase 1 complete.** All interfaces defined. Utility functions testable in isolation. `tsc --noEmit` passes with zero errors.
 
@@ -75,11 +75,11 @@
 ### Step 5 — Basic navigation + layout
 
 - [X] `src/contexts/GameContext.tsx` — React context wrapping useGameLoop, exports GameProvider + useGame()
-- [X] `src/contexts/SettingsContext.tsx` — settings context with AsyncStorage persistence (language, defaultPlayerCount)
+- [X] `src/contexts/SettingsContext.tsx` — settings context with AsyncStorage persistence (defaultPlayerCount)
 - [X] `app/_layout.tsx` — wrap with SettingsProvider + GameProvider, load settings
 - [X] `app/game/_layout.tsx` — consume context (day label), Android BackHandler, gestureEnabled: false
 - [X] `app/index.tsx` — switched from local useGameLoop to useGame() context, uses settings.defaultPlayerCount
-- [X] `app/settings.tsx` — language toggle (en/gr), player count stepper, reset to defaults, AsyncStorage
+- [X] `app/settings.tsx` — player count stepper, reset to defaults, AsyncStorage
 
 ### Phase 3 Tests
 
@@ -90,6 +90,12 @@
 - [X] `__tests__/contexts/SettingsContext.test.tsx` — 16 tests: defaults, updateSettings, resetToDefaults, AsyncStorage persistence/loading
 
 **Total: 14 suites, 234 tests (Phase 1–2: 166 + Phase 3: 68)**
+
+### Step 6 — QA fixes (from Phase 4 QA report)
+
+- [x] Fix `PlayerAvatar` — use player number or unique identifier instead of first letter
+- [x] Fix `PlayerAvatar` / `idToColor()` — widen the hue spread for sequential AI IDs so avatar colors are visually distinct
+- [x] Localize all hardcoded English UI strings — all UI strings are English-only (locale infrastructure removed)
 
 **After Phase 3:** App runs on phone. You can start a game, see your role, open the chat and type messages. AI players exist but are silent.
 
@@ -102,41 +108,52 @@
 
 ### Step 1 — Template text provider
 
-- [ ] `src/ai/providers/AITextProvider.ts` — AITextProvider interface (generateMessage, analyzeMessage, isAvailable)
-- [ ] `src/ai/providers/TemplateProvider.ts` — picks templates from messageTemplates.json based on action × personality × intensity
-- [ ] `src/ai/providers/AIProviderFactory.ts` — getProvider() returns TemplateProvider (only option for now)
+- [X] `src/ai/providers/AITextProvider.ts` — AITextProvider interface (generateMessage, analyzeMessage, isAvailable), AIProviderType, MessageContext
+- [X] `src/ai/providers/TemplateProvider.ts` — picks templates from messageTemplates.json based on action × personality × intensity, keyword-based analyzeMessage
+- [X] `src/ai/providers/AIProviderFactory.ts` — getProvider() returns FallbackProvider wrapping TemplateProvider (only option for now), setPreferredProvider(), getProviderStatus(), resetProvider()
 
 ### Step 2 — AI speaking logic
 
-- [ ] `src/ai/PerceptionFilter.ts` — getFilteredMemory() — 3-level memory filtering
-- [ ] `src/ai/SpeakProbability.ts` — shouldSpeak() — personality × role × trigger × cooldown
-- [ ] `src/ai/MessageGenerator.ts` — selectMessageType() + generateMessage() using TemplateProvider
+- [X] `src/ai/PerceptionFilter.ts` — getFilteredMemory(playerId), 3-level depth filtering (relationships, knownRoles, events), detectContradictions (Level 2+)
+- [X] `src/ai/SpeakProbability.ts` — shouldSpeak(playerId, context), getChance(), base × role × trigger × cooldown modifiers, config-driven, Day 1 boost
+- [X] `src/ai/MessageGenerator.ts` — generateMessage(playerId), selectMessageType(), selectTarget(), getIntensity(), Mafia-aware logic, role claim logic
 
 ### Step 3 — AI voting logic
 
-- [ ] `src/ai/VoteDecision.ts` — decideVote() — 8-step suspicion scoring
-- [ ] Minimal `src/engine/WinChecker.ts` — checkWinConditions() — Town win + Mafia win only (skip Jester/Executioner/Zombie for now)
+- [X] `src/ai/VoteDecision.ts` — decideVote() — 8-step suspicion scoring
+- [X] Minimal `src/engine/WinChecker.ts` — checkWinConditions() — Town win + Mafia win only (skip Jester/Executioner/Zombie for now)
 
 ### Step 4 — Discussion + voting orchestration
 
-- [ ] `src/engine/AIEngine.ts` — runDiscussionTurn() (loop: for each AI → shouldSpeak? → generateMessage → addChatEvent), runVoteTurn() (collect AI votes)
-- [ ] `src/engine/ChatAnalyzer.ts` — analyzeMessage() — parse human text into structured ChatEvent (keyword-based, no LLM)
-- [ ] Minimal `src/engine/PhaseManager.ts` — advanceSubPhase() for day flow: discussion → trial → voting → lynch_resolution
+- [X] `src/engine/AIEngine.ts` — runDiscussionRound() (loop: for each AI → shouldSpeak? → generateMessage → addChatEvent), runVoteTurn() (collect AI votes)
+- [X] `src/engine/ChatAnalyzer.ts` — analyzeHumanMessage(), analyzeAIMessage() — parse text into structured ChatEvent (keyword-based, no LLM)
+- [X] Minimal `src/engine/PhaseManager.ts` — advanceSubPhase() for day flow: discussion → trial → voting → lynch_resolution, transitionToDay/Night, handleLynch, timers
 
 ### Step 5 — Voting UI
 
-- [ ] `src/hooks/useVoting.ts` — castVote(targetId), collectAIVotes(), result
-- [ ] `src/components/voting/VotePanel.tsx` — guilty / innocent / abstain buttons
-- [ ] `src/components/voting/VoteCard.tsx` — individual vote display
-- [ ] `src/components/voting/VoteResult.tsx` — tally + outcome (lynch or acquit)
-- [ ] `app/game/vote.tsx` — wire useVoting + VotePanel + VoteResult
+- [X] `src/hooks/useVoting.ts` — castVote(targetId), collectAIVotes(), result
+- [X] `src/components/voting/VotePanel.tsx` — guilty / innocent / abstain buttons
+- [X] `src/components/voting/VoteCard.tsx` — individual vote display
+- [X] `src/components/voting/VoteResult.tsx` — tally + outcome (lynch or acquit)
+- [X] `app/game/vote.tsx` — wire useVoting + VotePanel + VoteResult
 
 ### Step 6 — Day→Night→Day loop
 
-- [ ] Update `src/hooks/useChat.ts` — integrate AIEngine.runDiscussionTurn() into chat flow
-- [ ] Update `src/hooks/useGameLoop.ts` — full day cycle: discussion → vote → night (skip) → morning (skip) → next day
-- [ ] `app/game/night.tsx` — minimal night screen (shows "Night falls..." + auto-advance timer)
-- [ ] `app/game/morning.tsx` — minimal morning screen (shows "A new day begins" + advance)
+- [X] Update `src/hooks/useChat.ts` — integrate AIEngine.runDiscussionRound() into chat flow
+- [X] Update `src/hooks/useGameLoop.ts` — full day cycle: discussion → vote → night (skip) → morning (skip) → next day
+- [X] `app/game/night.tsx` — minimal night screen (shows "Night falls..." + auto-advance timer)
+- [X] `app/game/morning.tsx` — minimal morning screen (shows "A new day begins" + advance)
+
+### Step 7 — QA fixes (from Phase 4 QA report)
+
+- [x] Fix `{player}` placeholder — `TemplateProvider.fillTemplate()` replaces unresolved `{player}` with "someone" (and other placeholders with sensible fallbacks)
+- [x] Fix `MessageGenerator.selectTarget()` — for `question` and `claim` message types, returns a random alive player instead of `""`
+- [x] Fix AI message timestamps — artificial stagger in `AIEngine.runDiscussionRound()` offsets each message by 15–60s increments
+- [x] Fix AI groupthink — Day 1 cold-start noise in `VoteDecision` + bandwagon boost capped at 0.4 + personality-scaled randomness
+- [x] Fix AI discussion targeting — `MessageGenerator.selectTarget()` for `accuse` has 30% chance to pick an alternative suspect for diversity
+- [x] Fix dead player appearing in vote grid — `PhaseManager.handleLynch()` now calls both `GameState.markPlayerDead()` and `PlayerState.updatePlayerStatus(is_alive: false)`
+- [x] Fix vote tally count — resolved by Fix 6 (dead-player sync); `runVoteTurn()` correctly excludes dead players via `GameState.alive_player_ids`
+- [x] Fix avatar name truncation in voting grid — `PlayerAvatar` gains `showName` prop; `VotePanel` uses `showName={false}` with a separate full-width name label
 
 **After Phase 4:** Full day cycle works. AI players discuss using templates, you vote, someone gets lynched. Night/morning are placeholder transitions. Game feels alive.
 

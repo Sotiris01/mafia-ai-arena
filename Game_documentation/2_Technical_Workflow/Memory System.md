@@ -8,8 +8,6 @@ tags:
 # Memory System
 ---
 
-Το Memory System είναι ο πυρήνας της "νοημοσύνης" των AI παικτών. Κάθε AI Player διατηρεί ένα **`memory.json`** που καταγράφει ό,τι "γνωρίζει" — σχέσεις εμπιστοσύνης, υποψίες, αποτελέσματα νυχτερινών ενεργειών, και ιστορικό γεγονότων.
-
 ## Memory JSON Schema
 
 ```json
@@ -64,33 +62,29 @@ tags:
 
 ---
 
-## Weight System (Σύστημα Βαρών)
-
-Τα βάρη (weights) είναι αριθμοί στο εύρος **-1.0 έως +1.0** που αντιπροσωπεύουν σχέσεις:
+## Weight System
 
 | Weight Range   | Meaning                               |
 | -------------- | ------------------------------------- |
-| **+0.7 ~ +1.0** | Ισχυρή εμπιστοσύνη / σύμμαχος         |
-| **+0.3 ~ +0.6** | Μέτρια εμπιστοσύνη                    |
-| **0.0 ~ +0.2**  | Ουδέτερος / Αδιάφορος                 |
-| **-0.1 ~ -0.4** | Ελαφριά υποψία                        |
-| **-0.5 ~ -0.7** | Ισχυρή υποψία                         |
-| **-0.8 ~ -1.0** | Σχεδόν βέβαιος ότι είναι Mafia / εχθρό |
+| **+0.7 ~ +1.0** | / |
+| **+0.3 ~ +0.6** |  |
+| **0.0 ~ +0.2**  | / |
+| **-0.1 ~ -0.4** |  |
+| **-0.5 ~ -0.7** |  |
+| **-0.8 ~ -1.0** | Mafia / |
 
 ### Direct vs Indirect Weights
 
 | Relationship Type      | Weight Multiplier     | Example                                   |
 | ---------------------- | --------------------- | ----------------------------------------- |
-| **Άμεση κατηγορία**    | ×1.0 (full weight)    | "Player A is Mafia" → A gets -0.8         |
-| **Άμεση υποστήριξη**   | ×1.0 (full weight)    | "I agree with Player B" → B gets +0.6     |
-| **Έμμεση κατηγορία**   | ×0.4 (reduced)        | A supports B who accused C → C gets -0.3  |
-| **Έμμεση υποστήριξη**  | ×0.3 (reduced)        | A defends B → B's allies get small +       |
+| ** ** | ×1.0 (full weight)    | "Player A is Mafia" → A gets -0.8         |
+| ** ** | ×1.0 (full weight)    | "I agree with Player B" → B gets +0.6     |
+| ** ** | ×0.4 (reduced)        | A supports B who accused C → C gets -0.3  |
+| ** ** | ×0.3 (reduced)        | A defends B → B's allies get small +       |
 
 ---
 
-## Time Decay (Χρονική Εξασθένιση)
-
-Τα βάρη **εξασθενούν** με τον χρόνο. Κάθε αλλαγή Day, εφαρμόζεται:
+## Time Decay
 
 ```
 weight = weight × DECAY_FACTOR
@@ -102,24 +96,16 @@ DECAY_FACTOR = 0.7  (default)
 
 | Day | Event                  | Weight (at time) | Weight (Day 4) |
 | --- | ---------------------- | ----------------- | --------------- |
-| 1   | A κατηγόρησε τον B     | -0.8              | -0.274          |
-| 2   | C υποστήριξε τον A     | +0.6              | +0.294          |
-| 3   | B κατηγόρησε τον A     | -0.7              | -0.49           |
-| 4   | (τωρινή μέρα)          | —                 | Full weight     |
+| 1   | A B | -0.8              | -0.274          |
+| 2   | C A | +0.6              | +0.294          |
+| 3   | B A | -0.7              | -0.49           |
+| 4   |          | —                 | Full weight     |
 
 ### Purpose
 
-- **Νέα γεγονότα** έχουν πάντα μεγαλύτερη σημασία.
-- Μια κατηγορία της Ημέρας 1 **ξεχνιέται σχεδόν** μέχρι την Ημέρα 4.
-- Αυτό αποτρέπει τα AI από το να "κολλήσουν" σε παλιές πληροφορίες.
-- Δημιουργεί ρεαλιστική **εξέλιξη γνώμης**.
-
 ### Exception: Known Roles
 
-Τα αποτελέσματα ερευνών (π.χ. Sheriff investigation results) **ΔΕΝ** εξασθενούν. Αν ο Sheriff ξέρει ότι κάποιος είναι Mafia, αυτό μένει `confidence: 1.0` για πάντα.
-
 ```json
-// known_roles ΔΕΝ επηρεάζεται από time decay
 "known_roles": {
   "player_7": {
     "role": "Mafia",
@@ -131,11 +117,9 @@ DECAY_FACTOR = 0.7  (default)
 
 ---
 
-## Perception Depth (Φίλτρο Αντίληψης)
+## Perception Depth
 
-Η **[[Data Architecture#personality.json|personality]]** καθορίζει πόσο βαθιά "βλέπει" ένα AI τη μνήμη του. Υπάρχουν **3 επίπεδα** (`perception_depth`: 1/2/3):
-
-### Level 1 — Superficial (Επιφανειακός)
+### Level 1 — Superficial
 
 **Personalities:** [[Aggressive]] (`perception_depth: 1`), [[Shy]] (`perception_depth: 1`)
 
@@ -146,13 +130,13 @@ Data scope: Current day ONLY
 
 | Characteristic              | Effect                                      |
 | --------------------------- | ------------------------------------------- |
-| Βλέπει μόνο ισχυρές σχέσεις  | Αγνοεί έμμεσα στοιχεία                      |
-| Μόνο τρέχουσα μέρα           | Χωρίς ιστορική ανάλυση                       |
-| **Παρασύρεται εύκολα**       | Ακολουθεί τις κατηγορίες του crowd           |
-| Γρήγορες αποφάσεις           | Λιγότερο ακριβείς                            |
-| Night Echo Events          | Αντιδρά μόνο σε weight ≥ 0.25         |
+|  |  |
+|  |  |
+| ** ** | crowd |
+|  |  |
+| Night Echo Events          | weight ≥ 0.25 |
 
-### Level 2 — Smart (Αναλυτικός)
+### Level 2 — Smart
 
 **Personalities:** [[Cautious]] (`perception_depth: 2`), [[Charismatic]] (`perception_depth: 2`), [[Logical]] (`perception_depth: 2`)
 
@@ -163,12 +147,12 @@ Data scope: ALL days (with time decay applied)
 
 | Characteristic                    | Effect                                           |
 | --------------------------------- | ------------------------------------------------ |
-| Εξετάζει άμεσες ΚΑΙ έμμεσες σχέσεις | Βλέπει hidden alliances                          |
-| Ιστορική ανάλυση                    | Εντοπίζει μοτίβα συμπεριφοράς                    |
-| **Cross-referencing**               | Συνδέει Night Echo Events + vote patterns       |
-| Night Echo Events                  | Αντιδρά σε όλα τα events                      |
+|  | hidden alliances |
+|  |  |
+| **Cross-referencing**               | Night Echo Events + vote patterns |
+| Night Echo Events                  | events |
 
-### Level 3 — Deep (Βαθύς)
+### Level 3 — Deep
 
 **Personalities:** [[Paranoid]] (`perception_depth: 3`)
 
@@ -179,11 +163,11 @@ Data scope: ALL days + indirect relationships
 
 | Characteristic                        | Effect                                           |
 | ------------------------------------- | ------------------------------------------------ |
-| Βλέπει τα πάντα                          | Ακόμα και ασήμαντα στοιχεία εξετάζονται        |
-| Έμμεσες σχέσεις 2ου/3ου επιπέδου     | "A defended B που ψήφισε C" = A suspicious     |
+|  |  |
+| 2/3 | "A defended B C" = A suspicious |
 | **Multi-source cross-referencing**    | Events + Gossip hints + vote patterns + claims   |
-| `memory_weight_modifier: 1.50`        | Τα πάντα μοιάζουν πιο σημαντικά             |
-| Night Echo Events                     | Cross-references με προηγούμενα events + αποτελέσματα |
+| `memory_weight_modifier: 1.50`        |  |
+| Night Echo Events                     | Cross-references events + |
 
 ### Decision Making Difference
 
@@ -191,15 +175,13 @@ Data scope: ALL days + indirect relationships
 
 | AI Level      | Analysis                                                   | Verdict on A       |
 | ------------- | ---------------------------------------------------------- | ------------------ |
-| 1 Superficial | Δεν θυμάται Day 1. Βλέπει μόνο ότι ο A μίλησε σήμερα.      | Neutral            |
-| 2 Smart       | Ο A υπερασπίστηκε known-Mafia C. Indirect Mafia suspicion. | Ύποπτος (+0.5)     |
-| 3 Deep        | Ο A υπερασπίστηκε C + ψήφισε εναντίον Town D + Event E02 κοντά στον A. Multi-source suspicion. | Πολύ Ύποπτος (+0.8) |
+| 1 Superficial | Day 1. A . | Neutral            |
+| 2 Smart       | A known-Mafia C. Indirect Mafia suspicion. | (+0.5) |
+| 3 Deep        | A C + Town D + Event E02 A. Multi-source suspicion. | (+0.8) |
 
 ---
 
 ## Voting Decision Process
-
-Κατά τη [[Day Phase#The Trial & Vote|Trial]], κάθε AI αποφασίζει ψήφο μέσω:
 
 ```
 1. Scan memory.json → Collect all suspicion scores
@@ -221,18 +203,16 @@ Data scope: ALL days + indirect relationships
 
 | Personality   | Voting Behavior                                         | `vote_threshold` |
 | ------------- | ------------------------------------------------------- | ---------------- |
-| Aggressive    | Ψηφίζει γρήγορα τον πρώτο ύποπτο                        | 0.40             |
-| Cautious      | Περιμένει να δει πώς ψηφίζουν οι άλλοι πρώτα             | 0.70             |
-| Paranoid      | Μπορεί να ψηφίσει "random" αν υποπτεύεται τους πάντες    | 0.35             |
-| Logical       | Ψηφίζει αποκλειστικά βάσει evidence                      | 0.65             |
-| Shy           | Ακολουθεί τη majority — ψηφίζει ό,τι ψηφίζει ο όχλος     | 0.20             |
-| Charismatic   | Πείθει άλλους πριν ψηφίσει — οδηγεί ψήφο               | 0.50             |
+| Aggressive    |  | 0.40             |
+| Cautious      |  | 0.70             |
+| Paranoid      | "random" | 0.35             |
+| Logical       | evidence | 0.65             |
+| Shy           | majority | 0.20             |
+| Charismatic   |  | 0.50             |
 
 ---
 
-## Night Echo Event Memory (Μνήμη Night Events)
-
-Τα [[Dynamic Events|Night Echo Events]] αποθηκεύονται στο `events_witnessed` array του `memory.json` και επηρεάζουν τα suspicion weights ανάλογα με το `perception_depth` του AI.
+## Night Echo Event Memory
 
 ### Event → Memory Weight Formula
 
@@ -240,9 +220,9 @@ Data scope: ALL days + indirect relationships
 memory_impact = event_weight × memory_weight_modifier × time_decay
 ```
 
-- `event_weight`: Από τον [[Dynamic Events#Master Event Table|Master Event Table]] (0.10 – 0.40)
-- `memory_weight_modifier`: Από τη [[Data Architecture#personality.json|personality]] (0.70 – 1.50)
-- `time_decay`: r = 0.85 per day (βλ. [[#Time Decay (Χρονική Εξασθένιση)]])
+- `event_weight`: [[Dynamic Events#Master Event Table|Master Event Table]] (0.10 – 0.40)
+- `memory_weight_modifier`: [[Data Architecture#personality.json|personality]] (0.70 – 1.50)
+- `time_decay`: r = 0.85 per day]])
 
 ### Weight Reference by Event Category
 
@@ -256,13 +236,11 @@ memory_impact = event_weight × memory_weight_modifier × time_decay
 
 | Level | Behaviour                                                      |
 | ----- | -------------------------------------------------------------- |
-| 1     | Αποθηκεύει μόνο events με weight ≥ 0.25. Δεν cross-references. |
-| 2     | Αποθηκεύει όλα τα events. Cross-references με vote patterns.   |
-| 3     | Αποθηκεύει όλα. Cross-references events + claims + visits + Gossip hints. Βλέπει indirect connections μεταξύ events διαφορετικών ημερών. |
+| 1     | events weight ≥ 0.25. cross-references. |
+| 2     | events. Cross-references vote patterns. |
+| 3     | . Cross-references events + claims + visits + Gossip hints. indirect connections events . |
 
 ### Zombie Infection Memory
-
-Όταν ένας παίκτης γίνεται [[Zombie]], η μνήμη του ενημερώνεται:
 
 ```json
 {
@@ -273,9 +251,7 @@ memory_impact = event_weight × memory_weight_modifier × time_decay
 }
 ```
 
-- **memory_state: "frozen"**: Τα weight scores παγώνουν — δεν ενημερώνονται πλέον
-- Ο Zombie δεν ψηφίζει, δεν μιλάει, δεν αναλύει
-- Η μνήμη του παραμένει για reference αν γίνει cure (Full Moon Stage 2)
+- **memory_state: "frozen"**: weight scores 
 
 ---
 

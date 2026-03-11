@@ -6,7 +6,7 @@ tags:
   - game_design
 ---
 
-# E02 — Shadow Spotted (Σκιά Εντοπίστηκε)
+# E02 — Shadow Spotted
 ---
 
 | Property         | Value                                                         |
@@ -16,24 +16,14 @@ tags:
 | **Timing**       | 🌅 Morning                                                    |
 | **Probability**  | `0.20`                                                        |
 | **Linked Roles** | [[Mafia Goon]], [[Godfather]], [[Framer]], [[Silencer]], [[Consigliere]], [[Zombie]] |
-| **Trigger**      | Μέλος **Mafia ή Neutral threat** επισκέπτεται παίκτη           |
+| **Trigger**      | **Mafia Neutral threat** |
 | **Suspicion Weight** | +0.30                                                     |
 
 ---
 
 ## Message
 
-> _"Κάποιος είδε μια σκιά να κατευθύνεται προς το σπίτι του Player X."_
-
 ---
-
-## Τι Αποκαλύπτει
-
-Ότι κάτι **ύποπτο** συνέβη κοντά στο Player X.
-
-## Τι Κρύβει
-
-Ποιος ήταν — δεν αποκαλύπτεται ο επισκέπτης. Θα μπορούσε να ήταν kill, frame, silence, ή investigate.
 
 ---
 
@@ -46,7 +36,6 @@ trigger_shadow_event(visitor, visited_player):
       morning_events.add({
         type: "E02_SHADOW",
         target: visited_player,
-        message: f"Κάποιος είδε μια σκιά να κατευθύνεται προς το σπίτι του {visited_player}."
       })
 ```
 
@@ -54,6 +43,6 @@ trigger_shadow_event(visitor, visited_player):
 
 ## Related Links
 
-- [[Dynamic Events#Master Event Table]] — Πίνακας όλων των events
-- [[E01 - Noise at House]] — Πιο generic version (ALL visiting roles)
-- [[Day Phase#Morning Report]] — Εμφανίζεται εδώ
+- [[Dynamic Events#Master Event Table]]
+- [[E01 - Noise at House]]
+- [[Day Phase#Morning Report]]

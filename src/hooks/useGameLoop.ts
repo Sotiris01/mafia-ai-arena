@@ -5,17 +5,25 @@
 // LOCATION: src/hooks/useGameLoop.ts
 // =============================================================================
 
-// Phase 3 — Minimal implementation: startGame + state exposure.
-// Full loop (AI turns, phase transitions, win checks) added in Phase 4–5.
+// Phase 3 — startGame + state exposure.
+// Phase 4 — Full day cycle: discussion → vote → night (skip) → morning → next day.
+//           advancePhase() drives PhaseManager transitions.
+//           refreshState() syncs React state with imperative modules.
 
 import { useState, useCallback } from "react";
-import type { GameState as GameStateType, Phase, SubPhase } from "../types/game.types";
+import type { GameState as GameStateType, SubPhase } from "../types/game.types";
 import type { PlayerRole } from "../types/player.types";
 import * as GameState from "../state/GameState";
 import * as PlayerState from "../state/PlayerState";
 import * as ChatState from "../state/ChatState";
 import * as EventState from "../state/EventState";
 import * as MemoryManager from "../state/MemoryManager";
+import {
+  advanceSubPhase,
+  transitionToDay,
+  transitionToNight,
+} from "../engine/PhaseManager";
+import { resetMessageCounter as resetChatAnalyzerCounter } from "../engine/ChatAnalyzer";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -37,9 +45,14 @@ export interface GameLoopActions {
   startGame: (playerCount: number) => void;
   /** Reset all state and return to pre-game */
   resetGame: () => void;
-  // TODO(Phase 4): advancePhase() — trigger PhaseManager transitions
-  // TODO(Phase 4): runAITurn() — execute AI actions for current sub-phase
-  // TODO(Phase 5): handleWinCondition(result) — navigate to result screen
+  /** Advance to the next sub-phase. Returns the new SubPhase or null if game over. */
+  advancePhase: () => SubPhase | null;
+  /** Transition from night to a new day (morning_report) */
+  goToDay: () => SubPhase;
+  /** Transition from day to night (mafia_chat) */
+  goToNight: () => SubPhase;
+  /** Re-read imperative state modules and push snapshot to React */
+  refreshState: () => void;
 }
 
 // ---------------------------------------------------------------------------
@@ -51,6 +64,16 @@ export function useGameLoop(): GameLoopState & GameLoopActions {
   const [gameState, setGameState] = useState<GameStateType | null>(null);
   const [humanPlayer, setHumanPlayer] = useState<PlayerRole | null>(null);
   const [playerIds, setPlayerIds] = useState<string[]>([]);
+
+  /** Push current imperative state into React for re-render */
+  const refreshState = useCallback(() => {
+    try {
+      setGameState({ ...GameState.getState() });
+      setHumanPlayer({ ...PlayerState.getHumanPlayer() });
+    } catch {
+      // State not initialized yet — ignore
+    }
+  }, []);
 
   /**
    * Start a new game:
@@ -66,6 +89,7 @@ export function useGameLoop(): GameLoopState & GameLoopActions {
     ChatState.reset();
     EventState.reset();
     MemoryManager.reset();
+    resetChatAnalyzerCounter();
 
     // 1. Assign roles + personalities to all players
     const ids = PlayerState.initializePlayers(playerCount);
@@ -104,6 +128,36 @@ export function useGameLoop(): GameLoopState & GameLoopActions {
     setPlayerIds([]);
   }, []);
 
+  /**
+   * Advance to the next sub-phase using PhaseManager.
+   * Returns the new SubPhase, or null if the game ended.
+   * Automatically syncs React state after the transition.
+   */
+  const advancePhase = useCallback((): SubPhase | null => {
+    const result = advanceSubPhase();
+    refreshState();
+    return result;
+  }, [refreshState]);
+
+  /**
+   * Transition from night → new day (morning_report).
+   * Advances day counter, applies memory decay.
+   */
+  const goToDay = useCallback((): SubPhase => {
+    const sub = transitionToDay();
+    refreshState();
+    return sub;
+  }, [refreshState]);
+
+  /**
+   * Transition from day → night (mafia_chat).
+   */
+  const goToNight = useCallback((): SubPhase => {
+    const sub = transitionToNight();
+    refreshState();
+    return sub;
+  }, [refreshState]);
+
   return {
     isStarted,
     gameState,
@@ -111,11 +165,13 @@ export function useGameLoop(): GameLoopState & GameLoopActions {
     playerIds,
     startGame,
     resetGame,
+    advancePhase,
+    goToDay,
+    goToNight,
+    refreshState,
   };
 }
 
-// TODO(Phase 4): Add advancePhase() using PhaseManager.advanceSubPhase()
-// TODO(Phase 4): Add runAITurn() using AIEngine.runDiscussionTurn()
 // TODO(Phase 5): Add handleWinCondition() + navigate to result screen
 // TODO(Phase 5): Add pauseGame() / resumeGame() for background handling
 // TODO(LOW): Add game state persistence via AsyncStorage for resume-after-close

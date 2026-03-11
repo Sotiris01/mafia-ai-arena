@@ -6,7 +6,7 @@ tags:
   - game_design
 ---
 
-# E03 — Footsteps Heard (Βήματα Ακούστηκαν)
+# E03 — Footsteps Heard
 ---
 
 | Property         | Value                                                         |
@@ -16,24 +16,14 @@ tags:
 | **Timing**       | 🌅 Morning                                                    |
 | **Probability**  | `0.25`                                                        |
 | **Linked Roles** | [[Sheriff]], [[Consigliere]], [[Tracker]], [[Lookout]]         |
-| **Trigger**      | Ρόλος **πληροφοριών** (investigation/observation) επισκέπτεται παίκτη |
+| **Trigger**      | **** (investigation/observation) |
 | **Suspicion Weight** | +0.10                                                     |
 
 ---
 
 ## Message
 
-> _"Βήματα ακούστηκαν έξω από το σπίτι του Player X."_
-
 ---
-
-## Τι Αποκαλύπτει
-
-Ότι κάποιος **ερεύνησε** ή **παρακολούθησε** τον Player X.
-
-## Τι Κρύβει
-
-Ποιος ήταν (Town investigator ή Mafia investigator;) και τι έμαθε.
 
 ---
 
@@ -46,7 +36,6 @@ trigger_footsteps_event(investigator, target):
       morning_events.add({
         type: "E03_FOOTSTEPS",
         target: target,
-        message: f"Βήματα ακούστηκαν έξω από το σπίτι του {target}."
       })
 ```
 
@@ -54,6 +43,6 @@ trigger_footsteps_event(investigator, target):
 
 ## Related Links
 
-- [[Dynamic Events#Master Event Table]] — Πίνακας όλων των events
-- [[E09 - Watchful Eyes]] — Mid-Day complement (παρατήρηση)
-- [[Day Phase#Morning Report]] — Εμφανίζεται εδώ
+- [[Dynamic Events#Master Event Table]]
+- [[E09 - Watchful Eyes]] — Mid-Day complement
+- [[Day Phase#Morning Report]]

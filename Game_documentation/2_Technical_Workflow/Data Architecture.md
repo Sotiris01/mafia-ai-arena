@@ -8,17 +8,11 @@ tags:
 # Data Architecture
 ---
 
-Η κατάσταση του παιχνιδιού βασίζεται σε **δομημένα αρχεία JSON** που λειτουργούν ως βάση δεδομένων. Κάθε παίκτης έχει τα δικά του αρχεία, και υπάρχουν shared αρχεία για τη γενική κατάσταση.
-
 ---
 
 ## 1. Player Data (Per Virtual Player)
 
-Κάθε Virtual Player διαθέτει **3 αρχεία**:
-
-### role.json (Στατικό — Δεν αλλάζει)
-
-Περιέχει τα δεδομένα του ρόλου. Δημιουργείται κατά το [[Game Setup]] και δεν τροποποιείται.
+### role.json
 
 ```json
 {
@@ -41,47 +35,45 @@ tags:
 
 | Field              | Type     | Description                                       |
 | ------------------ | -------- | ------------------------------------------------- |
-| `player_id`        | string   | Μοναδικό αναγνωριστικό                             |
-| `player_name`      | string   | Display name στο chat                              |
-| `role`             | string   | Ένα από 19 roles (βλ. παρακάτω)                    |
+| `player_id`        | string   |  |
+| `player_name`      | string   | Display name chat |
+| `role`             | string   | 19 roles |
 | `alignment`        | string   | `"Town"` / `"Mafia"` / `"Neutral"`               |
 | `importance_tier`  | string   | `"CORE"` / `"IMPORTANT"` / `"ADVANCED"` / `"EXPANDED"` |
-| `night_action`     | string   | Night action type (βλ. πίνακα)                     |
-| `is_alive`         | boolean  | Ζωντανός ή νεκρός                                 |
-| `appears_as`       | string   | Τι εμφανίζεται στον Sheriff (`"Town"`/`"Mafia"`)  |
-| `is_zombie`        | boolean  | Αν έχει μολυνθεί από [[Zombie]]                   |
-| `is_revealed_mayor`| boolean  | Αν ο [[Mayor]] έχει αποκαλυφθεί (×2 ψήφος)        |
-| `special_rules`    | object   | Role-specific κανόνες                              |
+| `night_action`     | string   | Night action type                     |
+| `is_alive`         | boolean  |  |
+| `appears_as`       | string   | Sheriff (`"Town"`/`"Mafia"`) |
+| `is_zombie`        | boolean  | [[Zombie]] |
+| `is_revealed_mayor`| boolean  | [[Mayor]] |
+| `special_rules`    | object   | Role-specific |
 
-#### Night Action Types — Πλήρης Λίστα (19 ρόλοι)
+#### Night Action Types
 
-| Role             | `night_action`     | `alignment` | `appears_as` | Σημειώσεις                              |
+| Role             | `night_action`     | `alignment` | `appears_as` |  |
 | ---------------- | ------------------ | ----------- | ------------ | --------------------------------------- |
-| [[Citizen]]      | `"none"`          | Town        | Town         | Χωρίς νυχτερινή ενέργεια               |
-| [[Sheriff]]      | `"investigate"`   | Town        | Town         | Μαθαίνει alignment στόχου               |
-| [[Doctor]]       | `"protect"`       | Town        | Town         | Protect ή Cure (mutually exclusive)     |
-| [[Lookout]]      | `"watch"`         | Town        | Town         | Βλέπει ποιος επισκέφτηκε τον στόχο      |
-| [[Tracker]]      | `"track"`         | Town        | Town         | Βλέπει πού πήγε ο στόχος               |
+| [[Citizen]]      | `"none"`          | Town        | Town         |  |
+| [[Sheriff]]      | `"investigate"`   | Town        | Town         | alignment |
+| [[Doctor]]       | `"protect"`       | Town        | Town         | Protect Cure (mutually exclusive) |
+| [[Lookout]]      | `"watch"`         | Town        | Town         |  |
+| [[Tracker]]      | `"track"`         | Town        | Town         |  |
 | [[Bodyguard]]    | `"guard"`         | Town        | Town         | One-time sacrifice: saves + kills Mafia |
-| [[Gossip]]       | `"passive_hint"`  | Town        | Town         | Auto-receives κρυπτικό hint             |
-| [[Lovers]]       | `"passive_visit"` | Town        | Town         | Auto-visit partner κάθε νύχτα           |
-| [[Mayor]]        | `"none"`          | Town        | Town         | Day-focused: Reveal = ×2 ψήφος         |
+| [[Gossip]]       | `"passive_hint"`  | Town        | Town         | Auto-receives hint |
+| [[Lovers]]       | `"passive_visit"` | Town        | Town         | Auto-visit partner |
+| [[Mayor]]        | `"none"`          | Town        | Town         | Day-focused: Reveal = ×2 |
 | [[Godfather]]    | `"kill_vote"`     | Mafia       | **Town** ⚠️  | Investigation immune                    |
-| [[Mafia Goon]]   | `"kill_vote"`     | Mafia       | Mafia        | Βασικό μέλος Mafia                      |
-| [[Framer]]       | `"frame"`         | Mafia       | Mafia        | Victim φαίνεται "Mafia" στον Sheriff   |
-| [[Silencer]]     | `"silence"`       | Mafia       | Mafia        | Target δεν μιλάει επόμενη μέρα          |
-| [[Consigliere]]  | `"investigate_role"` | Mafia    | Mafia        | Μαθαίνει **ακριβή ρόλο** (όχι alignment)|
-| [[Janitor]]      | `"investigate_dead"` | Mafia   | Mafia        | Μαθαίνει ρόλο νεκρού παίκτη            |
+| [[Mafia Goon]]   | `"kill_vote"`     | Mafia       | Mafia        | Mafia |
+| [[Framer]]       | `"frame"`         | Mafia       | Mafia        | Victim "Mafia" Sheriff |
+| [[Silencer]]     | `"silence"`       | Mafia       | Mafia        | Target |
+| [[Consigliere]]  | `"investigate_role"` | Mafia    | Mafia        | ** ** |
+| [[Janitor]]      | `"investigate_dead"` | Mafia   | Mafia        |  |
 | [[Jester]]       | `"none"`          | Neutral     | Town         | Win = get lynched                       |
-| [[Survivor]]     | `"vest"`          | Neutral     | Town         | Optional vest: αποτρέπει kill           |
-| [[Executioner]]  | `"none"`          | Neutral     | Town         | Win = target lynched. Αν target πεθάνει νύχτα → γίνεται Jester |
-| [[Zombie]]       | `"infect"`        | Neutral     | Town         | Μολύνει στόχο: 30-char chat, no vote, no action |
+| [[Survivor]]     | `"vest"`          | Neutral     | Town         | Optional vest: kill |
+| [[Executioner]]  | `"none"`          | Neutral     | Town         | Win = target lynched. target → Jester |
+| [[Zombie]]       | `"infect"`        | Neutral     | Town         | : 30-char chat, no vote, no action |
 
 ---
 
-### personality.json (Στατικό — Δεν αλλάζει)
-
-Καθορίζει τον τρόπο συμπεριφοράς του AI.
+### personality.json
 
 ```json
 {
@@ -108,24 +100,24 @@ tags:
 | Field                    | Type   | Range     | Description                                                    |
 | ------------------------ | ------ | --------- | -------------------------------------------------------------- |
 | `type`                   | string | —         | [[Aggressive]], [[Cautious]], [[Charismatic]], [[Logical]], [[Paranoid]], [[Shy]] |
-| `speak_probability_base` | float  | 0.0–1.0   | Βάση πιθανότητας ομιλίας                                        |
-| `perception_depth`       | int    | 1 / 2 / 3 | 1=Superficial, 2=Smart, 3=Deep (βλ. [[Memory System#Perception Depth]]) |
-| `aggression`             | float  | 0.0–1.0   | Πόσο έντονα κατηγορεί / αντιδρά                                 |
-| `team_logic`             | float  | 0.0–1.0   | Ικανότητα ομαδικής στρατηγικής (Mafia coordination)              |
-| `trust_base`             | float  | 0.0–1.0   | Αρχική εμπιστοσύνη προς αγνώστους                               |
-| `suspicion_sensitivity`  | float  | 0.0–1.0   | Πόσο εύκολα γίνεται ύποπτος (higher = πιο ευαίσθητος)           |
-| `emotional_reactivity`   | float  | 0.0–2.0   | Πολλαπλασιαστής αντίδρασης σε events/accusations                 |
-| `persuasion_power`       | float  | 0.0–1.0   | Ικανότητα να πείσει άλλους                                      |
-| `persuasion_resistance`  | float  | 0.0–1.0   | Αντίσταση σε πειθώ (higher = δυσκολότερο να πεισθεί)            |
-| `leadership`             | float  | 0.0–1.0   | Τάση να οδηγεί συζήτηση / μαζεύει ψήφους                       |
-| `consistency`            | float  | 0.0–1.0   | Σταθερότητα αποφάσεων (low = αλλάζει γνώμη εύκολα)              |
-| `deception_skill`        | float  | 0.0–1.0   | Ικανότητα ψέματος / bluffing (Mafia + Jester benefit)           |
-| `bandwagon_tendency`     | float  | 0.0–1.0   | Τάση να ακολουθεί majority (high = sheep voter)                 |
-| `memory_weight_modifier` | float  | 0.5–2.0   | Πολλαπλασιαστής βαρών στη μνήμη (Paranoid=1.50 εντείνει)        |
+| `speak_probability_base` | float  | 0.0–1.0   |  |
+| `perception_depth`       | int    | 1 / 2 / 3 | 1=Superficial, 2=Smart, 3=Deep |
+| `aggression`             | float  | 0.0–1.0   | / |
+| `team_logic`             | float  | 0.0–1.0   | (Mafia coordination) |
+| `trust_base`             | float  | 0.0–1.0   |  |
+| `suspicion_sensitivity`  | float  | 0.0–1.0   |  |
+| `emotional_reactivity`   | float  | 0.0–2.0   | events/accusations |
+| `persuasion_power`       | float  | 0.0–1.0   |  |
+| `persuasion_resistance`  | float  | 0.0–1.0   |  |
+| `leadership`             | float  | 0.0–1.0   | / |
+| `consistency`            | float  | 0.0–1.0   |  |
+| `deception_skill`        | float  | 0.0–1.0   | / bluffing (Mafia + Jester benefit) |
+| `bandwagon_tendency`     | float  | 0.0–1.0   | majority (high = sheep voter) |
+| `memory_weight_modifier` | float  | 0.5–2.0   |  |
 | `voting_style`           | string | —         | `"early"` / `"mid"` / `"late"` / `"bandwagon"`             |
-| `vote_threshold`         | float  | 0.0–1.0   | Ελάχιστο suspicion score για ψήφο (high = χρειάζεται περισσότερα στοιχεία) |
+| `vote_threshold`         | float  | 0.0–1.0   | suspicion score |
 
-#### Personality Quick Reference (6 τύποι)
+#### Personality Quick Reference
 
 | Stat                     | [[Aggressive]] | [[Cautious]] | [[Charismatic]] | [[Logical]] | [[Paranoid]] | [[Shy]] |
 | ------------------------ | -------------- | ------------ | --------------- | ----------- | ------------ | ------- |
@@ -150,9 +142,7 @@ tags:
 
 ---
 
-### memory.json (Δυναμικό — Ανανεώνεται συνεχώς)
-
-Το πιο σημαντικό αρχείο. Περιέχει **ό,τι γνωρίζει** ο παίκτης.
+### memory.json
 
 ```json
 {
@@ -219,8 +209,6 @@ tags:
 
 ### chat_events.json
 
-Ένα **shared** αρχείο που περιέχει τη σημασιολογική ανάλυση κάθε μηνύματος στο Public Chat.
-
 ```json
 {
   "events": [
@@ -270,8 +258,6 @@ tags:
 
 ### game_state.json
 
-Ένα **global** αρχείο που αντικατοπτρίζει την τρέχουσα κατάσταση του παιχνιδιού.
-
 ```json
 {
   "game_id": "game_001",
@@ -313,14 +299,14 @@ tags:
 | ------------------- | ------------------------------------------------- |
 | `phase`             | "day" / "night"                                   |
 | `sub_phase`         | "morning_report" / "discussion" / "trial" / "mafia_chat" / "night_actions" / "resolution" |
-| `players_alive`     | IDs ζωντανών παικτών                               |
-| `players_dead`      | Λίστα νεκρών με role, cause, time of death        |
-| `mafia_members`     | IDs Mafia μελών (server-only, not visible to Town) |
-| `events_active`     | Τρέχοντα Dynamic Events                           |
-| `mayor_revealed`    | Player ID του Mayor αν αποκαλύφθηκε (null αλλιώς)|
-| `zombie_victims`    | IDs παικτών-zombies (30-char chat, no vote)       |
-| `full_moon_count`   | Πόσες Full Moon έχουν ενεργοποιηθεί (max 3)       |
-| `game_config`       | Αμετάβλητες ρυθμίσεις παιχνιδιού                  |
+| `players_alive`     | IDs |
+| `players_dead`      | role, cause, time of death |
+| `mafia_members`     | IDs Mafia (server-only, not visible to Town) |
+| `events_active`     | Dynamic Events |
+| `mayor_revealed`    | Player ID Mayor |
+| `zombie_victims`    | IDs -zombies (30-char chat, no vote) |
+| `full_moon_count`   | Full Moon (max 3) |
+| `game_config`       |  |
 
 ---
 

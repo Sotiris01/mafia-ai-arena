@@ -24,9 +24,10 @@ export interface ChatInputProps {
 export default function ChatInput({
   onSend,
   disabled = false,
-  placeholder = "Type a message...",
+  placeholder,
 }: ChatInputProps) {
   const [text, setText] = useState("");
+  const resolvedPlaceholder = placeholder ?? "Type a message...";
 
   const handleSend = () => {
     const trimmed = text.trim();
@@ -41,7 +42,9 @@ export default function ChatInput({
         style={[styles.input, disabled && styles.inputDisabled]}
         value={text}
         onChangeText={setText}
-        placeholder={disabled ? "You are silenced 🔇" : placeholder}
+        placeholder={disabled
+          ? "You are silenced 🔇"
+          : resolvedPlaceholder}
         placeholderTextColor="#666"
         editable={!disabled}
         multiline={false}

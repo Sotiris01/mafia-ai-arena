@@ -6,7 +6,6 @@
 // =============================================================================
 
 import type { Role, Alignment, ImportanceTier, NightActionType } from "./player.types";
-import type { LocalizedText } from "./game.types";
 
 export type ValidTargets = 
     | "alive" 
@@ -36,7 +35,7 @@ export interface RoleDefinition {
   importance_tier: ImportanceTier;
   min_players: number;
   count_scaling: Record<string, number>;
-  description: LocalizedText;
+  description: string;
   night_action: NightActionConfig;
   special_rules: string[];
   win_condition: string;

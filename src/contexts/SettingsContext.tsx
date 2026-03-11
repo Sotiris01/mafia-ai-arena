@@ -19,8 +19,6 @@ import config from "../data/config.json";
 // ---------------------------------------------------------------------------
 
 export interface AppSettings {
-  /** Display language: "en" or "gr" */
-  language: "en" | "gr";
   /** Default player count for lobby */
   defaultPlayerCount: number;
 }
@@ -39,7 +37,6 @@ export interface SettingsContextValue {
 const STORAGE_KEY = "mafia_settings";
 
 const DEFAULT_SETTINGS: AppSettings = {
-  language: "en",
   defaultPlayerCount: 10,
 };
 

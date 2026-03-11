@@ -1,33 +1,48 @@
+import { useCallback } from "react";
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import { useRouter } from "expo-router";
+import { useGame } from "../../src/contexts/GameContext";
+import Timer from "../../src/components/shared/Timer";
+
+/** Night phase is a placeholder transition in Phase 4 — auto-advances after timer */
+const NIGHT_SECONDS = 5;
 
 export default function NightScreen() {
   const router = useRouter();
+  const { goToDay, gameState } = useGame();
+
+  /** Advance to the next morning */
+  const handleAdvance = useCallback(() => {
+    goToDay();
+    router.replace("/game/morning");
+  }, [goToDay, router]);
 
   return (
     <View style={styles.container}>
       <Text style={styles.emoji}>🌙</Text>
-      <Text style={styles.title}>Night Phase</Text>
-      <Text style={styles.info}>Night actions, Mafia chat, and resolution will appear here</Text>
+      <Text style={styles.title}>
+        Night Falls…
+      </Text>
+      <Text style={styles.info}>
+        {`The town sleeps. Day ${gameState?.day ?? 1} has ended.`}
+      </Text>
 
-      <View style={styles.buttonRow}>
-        <Pressable
-          style={styles.button}
-          onPress={() => router.replace("/game/morning")}
-        >
-          <Text style={styles.buttonText}>Next Morning →</Text>
-        </Pressable>
+      <Timer seconds={NIGHT_SECONDS} onExpire={handleAdvance} />
 
-        <Pressable
-          style={[styles.button, styles.endButton]}
-          onPress={() => router.replace("/game/result")}
-        >
-          <Text style={styles.buttonText}>End Game</Text>
-        </Pressable>
-      </View>
+      <Pressable style={styles.button} onPress={handleAdvance}>
+        <Text style={styles.buttonText}>
+          Skip to Morning →
+        </Text>
+      </Pressable>
     </View>
   );
 }
+
+// TODO(Phase 5): Wire useNightActions hook — human selects night action target
+// TODO(Phase 5): Run 7-phase Night Resolution via ResolutionEngine
+// TODO(Phase 5): Show MafiaChat if human is Mafia alignment
+// TODO(Phase 5): Check WinChecker after night resolution → /game/result if game over
+// TODO(LOW): Add night ambience animation
 
 const styles = StyleSheet.create({
   container: {
@@ -36,28 +51,20 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#0f0f23",
     padding: 24,
+    gap: 16,
   },
-  emoji: { fontSize: 64, marginBottom: 16 },
-  title: { fontSize: 28, fontWeight: "bold", color: "#fff", marginBottom: 12 },
-  info: { fontSize: 14, color: "#666", textAlign: "center", marginBottom: 48 },
-  buttonRow: { gap: 16 },
+  emoji: { fontSize: 64, marginBottom: 8 },
+  title: { fontSize: 28, fontWeight: "bold", color: "#fff" },
+  info: { fontSize: 14, color: "#666", textAlign: "center", marginBottom: 16 },
   button: {
     backgroundColor: "#533483",
     paddingHorizontal: 36,
     paddingVertical: 14,
     borderRadius: 10,
+    marginTop: 16,
   },
-  endButton: { backgroundColor: "#c0392b" },
   buttonText: { color: "#fff", fontSize: 18, fontWeight: "bold", textAlign: "center" },
 });
-
-// TODO(HIGH): Wire useNightActions hook (src/hooks/useNightActions.ts)
-//   — Determines human player's available night action based on role
-//   — Shows <NightAction /> from src/components/night/NightAction.tsx
-//   — Submits human action, then triggers AI decisions
-
-// TODO(HIGH): Run 7-phase Night Resolution after all actions submitted
-//   — Via ResolutionEngine (src/engine/ResolutionEngine.ts)
 //   — Phase order: Passive → Info-Alter → Investigate → Kill&Protect
 //     → Post-Kill → Passive-Info → Cleanup
 

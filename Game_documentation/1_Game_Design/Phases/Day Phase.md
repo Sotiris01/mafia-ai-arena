@@ -9,25 +9,19 @@ tags:
 # Day Phase
 ---
 
-Η Day Phase είναι η κύρια φάση **αλληλεπίδρασης** του παιχνιδιού. Οι παίκτες συζητούν στο Public Chat, κατηγορούν, υπερασπίζονται, και τελικά ψηφίζουν για την εξόντωση ενός υπόπτου. Η φάση αποτελείται από **4 βήματα** που εκτελούνται με σειρά.
-
 ---
 
 ## Step 1: Morning Report
 
-**Τι γίνεται:** Ο Game Engine ανακοινώνει τα αποτελέσματα της νύχτας.
-
-### Ανακοινώσεις
-
-| Τύπος                     | Μήνυμα                                                    | Πάντα; |
+|  |  | ; |
 | ------------------------- | --------------------------------------------------------- | ------ |
-| **Θάνατος**               | _"Player X was found dead."_                              | Ναι    |
-| **Πολλαπλοί θάνατοι**    | _"Player X and Player Y were found dead."_ (Bodyguard sacrifice) | Ναι |
-| **Linked death (Lovers)** | _"Player X was also found dead."_ (partner died)          | Ναι    |
-| **Κανένας θάνατος**       | _"Nobody died tonight."_ (Doctor saved ή Mafia missed)    | Ναι    |
-| **Zombie infection**      | _"Player X doesn't look well today... 🧟"_                | Ναι    |
-| **Doctor cure**           | _"Player Y looks much better today! 💊"_                   | Ναι    |
-| **Silenced player**       | _"Player Y seems unable to speak today."_                 | Ναι    |
+| **** | _"Player X was found dead."_                              |  |
+| ** ** | _"Player X and Player Y were found dead."_ (Bodyguard sacrifice) |  |
+| **Linked death (Lovers)** | _"Player X was also found dead."_ (partner died)          |  |
+| ** ** | _"Nobody died tonight."_    |  |
+| **Zombie infection**      | _"Player X doesn't look well today... 🧟"_                |  |
+| **Doctor cure**           | _"Player Y looks much better today! 💊"_                   |  |
+| **Silenced player**       | _"Player Y seems unable to speak today."_                 |  |
 | **Mayor reveal**          | _"👑 Player Z has revealed themselves as the Mayor!"_      | Event  |
 | **Conflict Event**        | _"A loud argument was heard near Player Z's house."_      | ~30%   |
 | **Full Moon (Stage 1)**   | _"🌕 The moon glows faintly. Some feel a strange surge of power tonight."_ | Balance |
@@ -37,10 +31,10 @@ tags:
 
 ```
 For each dead player:
-  → Show "Player X was found dead." (ρόλος ΔΕΝ αποκαλύπτεται ποτέ)
+  → Show "Player X was found dead."
   
 For Bodyguard sacrifice:
-  → Show Bodyguard death + Mafia member death (χωρίς role reveal)
+  → Show Bodyguard death + Mafia member death
   → Target is alive (survived)
 
 For Lovers linked death:
@@ -58,19 +52,11 @@ For Doctor cure (zombie):
 
 ### No Role Reveal on Death
 
-> ⚠️ **ΚΡΙΣΙΜΟ ΜΗΧΑΝΙΚΟ:** Σε αυτό το παιχνίδι, ο **ρόλος ενός νεκρού παίκτη ΔΕΝ αποκαλύπτεται ποτέ δημόσια** — ούτε κατά τη νυχτερινή δολοφονία, ούτε κατά το lynch. Μόνο ο [[Janitor]] μπορεί να μάθει ρόλους νεκρών.
-
-Αυτό σημαίνει:
-- Κανένα **role counting** — κανείς δεν ξέρει πόσοι Mafia ή Town έχουν μείνει βάσει νεκρών.
-- Κανένα **verification** — δεν μπορείς να αποδείξεις ότι κάποιος ψεύτηκε για τον ρόλο του μέσω νεκρού.
-- Αυξημένη **αβεβαιότητα** — το Town πρέπει να βασιστεί σε investigations και deduction, όχι σε πληροφορίες νεκρών.
-- Ο [[Janitor]] αποκτά **μοναδικό στρατηγικό ρόλο** — είναι ο μόνος που μπορεί να σπάσει αυτό το σκοτάδι.
-
 ### Information Available to Players
 
 | Source                    | Information Type                   | Reliability      |
 | ------------------------- | ---------------------------------- | ---------------- |
-| **Death announcement**    | Who died (χωρίς ρόλο)             | 100% accurate    |
+| **Death announcement**    | Who died             | 100% accurate    |
 | **Zombie announcement**   | Who became zombie                  | 100% accurate    |
 | **Silenced notification** | Who is silenced                    | 100% accurate    |
 | **Night personal results**| Investigation/tracking results     | Can be manipulated (Framer) |
@@ -82,82 +68,58 @@ For Doctor cure (zombie):
 
 ## Step 2: Public Discussion (The Chat)
 
-**Τι γίνεται:** Οι παίκτες χρησιμοποιούν το Public Chat για να συζητήσουν, να κατηγορήσουν, να αμυνθούν, ή να κάνουν role claims.
-
 ### Chat Mechanics
 
-- Ο **ανθρώπινος παίκτης** γράφει μηνύματα κανονικά.
-- Τα **AI** αντιδρούν βάσει του [[Gameplay Loop]] (Analyze → Memory Update → Speak Probability → Generate).
-- Δεν υπάρχει σειρά ομιλίας — οποιοσδήποτε μπορεί να μιλήσει, βασισμένο στο [[AI Decision Engine#Speak Probability|Speak Probability Engine]].
+- **AI** [[Gameplay Loop]] (Analyze → Memory Update → Speak Probability → Generate).
 
 ### Discussion Dynamics
 
-Η συζήτηση δεν είναι τυχαία — ακολουθεί **φυσικά patterns** βάσει ρόλων:
-
 | Role Type           | Discussion Behavior                                              |
 | ------------------- | ---------------------------------------------------------------- |
-| **Sheriff**         | Μπορεί να μοιραστεί investigation results (ρισκάροντας εμφάνιση) |
-| **Lookout/Tracker** | Μπορεί να αναφέρει ποιον είδε/ακολούθησε                        |
-| **Gossip**          | Αναφέρει cryptic hints (πιθανώς misleading context)              |
-| **Mafia members**   | Κατηγορούν αθώους, υπερασπίζουν συμπαίκτες (διακριτικά)         |
-| **Executioner**     | Πιέζει κατηγορίες κατά του assigned target                       |
-| **Jester**          | Φαίνεται ύποπτος σκόπιμα — στοχεύει στο να ψηφιστεί             |
-| **Mayor (revealed)**| Ηγείται discussion, η διπλή ψήφος δίνει authority, μόνος proven Town |
-| **Citizen/Survivor**| Αμύνεται αν κατηγορηθεί, αλλιώς ακολουθεί majority              |
+| **Sheriff**         | investigation results |
+| **Lookout/Tracker** | / |
+| **Gossip**          | cryptic hints |
+| **Mafia members**   | , |
+| **Executioner**     | assigned target |
+| **Jester**          |  |
+| **Mayor (revealed)**| discussion, authority, proven Town |
+| **Citizen/Survivor**| , majority |
 
 ### Accusation & Role Claim System
 
-Οι κατηγορίες ακολουθούν **escalation pattern**:
-
 ```
-Level 0: Ήρεμη συζήτηση (no accusations)
-Level 1: Soft suspicion — "Ο Player X μου φαίνεται ύποπτος..."
-Level 2: Direct accusation — "Νομίζω ο Player X είναι Mafia!"
-Level 3: Role claim challenge — "Αν δεν είσαι Mafia, πες μας τι ρόλο έχεις."
-Level 4: Counter-claim — "Εγώ είμαι ο Sheriff, ΟΧΙ αυτός!"
+Level 1: Soft suspicion
+Level 2: Direct accusation
+Level 3: Role claim challenge
+Level 4: Counter-claim
 ```
 
 #### Role Claim Rules
 
 | Claim Type        | Risk                                                        |
 | ----------------- | ----------------------------------------------------------- |
-| **True claim**    | Αποκαλύπτει ρόλο → Mafia ξέρει ποιον να σκοτώσει            |
-| **False claim**   | Αν αποδειχθεί ψέμα → σχεδόν σίγουρο lynch                   |
-| **No claim**      | Αυξάνει suspicion αλλά κρατάει anonymity                     |
-| **Duplicate claim**| 2 παίκτες δηλώνουν ίδιο unique role → ένας ψεύτης guaranteed |
+| **True claim**    | → Mafia |
+| **False claim**   | → lynch |
+| **No claim**      | suspicion anonymity |
+| **Duplicate claim**| 2 unique role → guaranteed |
 
 ### Discussion Timer
 
 | Game Size    | Discussion Duration | Reason                                |
 | ------------ | ------------------- | ------------------------------------- |
-| 7–9 παίκτες  | 8–12 AI μηνύματα    | Λίγοι παίκτες, γρήγορη αλληλεπίδραση |
-| 10–12 παίκτες| 12–18 AI μηνύματα   | Μέτριο πλήθος, περισσότερη ανάλυση    |
-| 13–16 παίκτες| 18–25 AI μηνύματα   | Πολλοί παίκτες, πολύπλοκη κατάσταση   |
-
-> **Σημείωση:** Ο ανθρώπινος παίκτης μπορεί να γράψει ανά πάσα στιγμή — τα AI σταματούν να περιμένουν.
+| 7–9 | 8–12 AI | , |
+| 10–12 | 12–18 AI | , |
+| 13–16 | 18–25 AI | , |
 
 ### Human Window
-
-Μεταξύ κάθε AI μηνύματος, υπάρχει **παύση 2-3 δευτερολέπτων** για να δώσει χρόνο στον ανθρώπινο παίκτη να αντιδράσει. Αν ο άνθρωπος πληκτρολογεί, η παύση επεκτείνεται.
 
 **Related:** [[Gameplay Loop#Step 3]]
 
 ### Silenced Players
 
-Αν κάποιος παίκτης σιγάστηκε από τον [[Silencer]], **δεν μπορεί να γράψει** στο Public Chat αυτή τη μέρα. Μπορεί ακόμα να **ψηφίσει**.
-
 ### Mayor Reveal Mechanic
 
-Ο [[Mayor]] μπορεί **οποτεδήποτε** κατά τη Discussion Phase να πατήσει "Reveal as Mayor". Αυτό:
-- Εμφανίζει **δημόσια ανακοίνωση** στο chat: "👑 Player X has revealed as Mayor!"
-- Η ψήφος του γίνεται **×2** αμέσως.
-- Ο [[Doctor]] και [[Bodyguard]] **μπορούν** ακόμα να τον προστατεύσουν.
-- Ο Mayor είναι ο **μόνος ρόλος** που μπορεί να **αποδείξει** ότι είναι Town.
-- Είναι **μη αναστρέψιμο** — δεν μπορεί να "un-reveal".
-
 ### Chat Event Recording
-
-Κάθε μήνυμα αναλύεται and αποθηκεύεται σημασιολογικά στο **[[Data Architecture#chat_events.json|chat_events.json]]**:
 
 ```json
 {
@@ -175,18 +137,16 @@ Level 4: Counter-claim — "Εγώ είμαι ο Sheriff, ΟΧΙ αυτός!"
 
 ## Step 3: The Trial & Vote
 
-**Τι γίνεται:** Μετά τη συζήτηση, ξεκινάει η **φάση ψηφοφορίας**. Κάθε παίκτης ψηφίζει ποιον θέλει να εξοντώσουν.
-
 ### Voting Mechanics
 
 | Rule                  | Description                                                      |
 | --------------------- | ---------------------------------------------------------------- |
-| **1 ψήφος/παίκτη**   | Κάθε ζωντανός παίκτης ψηφίζει ακριβώς 1 φορά                     |
-| **Vote weight**       | ×1 κανονικά, ×2 αν [[Mayor]] αποκαλυφθεί                         |
-| **Majority wins**     | Ο παίκτης με τις **περισσότερες ψήφους** εξοντώνεται              |
-| **Tie = No lynch**    | Σε ισοψηφία, **κανείς δεν εξοντώνεται** (controversial talk day) |
-| **Abstain**           | Ο παίκτης μπορεί να ψηφίσει "Skip" (χωρίς lynch)                |
-| **Silenced vote**     | Σιγασμένοι παίκτες **μπορούν** να ψηφίσουν κανονικά              |
+| **1 /** | 1 |
+| **Vote weight**       | ×1 , ×2 [[Mayor]] |
+| **Majority wins**     | ** ** |
+| **Tie = No lynch**    | , ** ** (controversial talk day) |
+| **Abstain**           | "Skip" |
+| **Silenced vote**     | **** |
 
 ### Vote Weight Calculation
 
@@ -204,17 +164,15 @@ if tie: winner = None (no lynch)
 
 | Role            | Typical Voting Behavior                                     |
 | --------------- | ----------------------------------------------------------- |
-| **Sheriff**     | Ψηφίζει confirmed Mafia — αν ερεύνησε ≥ 1 Mafia            |
-| **Mafia**       | ΠΟΤΕ δεν ψηφίζει fellow Mafia — ψηφίζει Town threats        |
-| **Jester**      | Ψηφίζει ασυνεπώς — θέλει να φαίνεται ύποπτος                |
-| **Executioner** | Ψηφίζει πάντα τον assigned target (ή πιέζει τους άλλους)    |
-| **Survivor**    | Ψηφίζει majority — αποφεύγει confrontation                  |
-| **Mayor**       | Μετά reveal: ψηφίζει μόνο αν σίγουρος (×2 = σημαντικό ρίσκο) |
-| **Zombie**      | Ψηφίζει κανονικά — μοιάζει με Town member (κρύβεται)          |
+| **Sheriff**     | confirmed Mafia |
+| **Mafia**       | fellow Mafia |
+| **Jester**      |  |
+| **Executioner** | assigned target |
+| **Survivor**    | majority |
+| **Mayor**       | reveal: |
+| **Zombie**      |  |
 
 ### AI Vote Decision Process
-
-Κάθε AI αξιολογεί ποιον θα ψηφίσει μέσω:
 
 ```
 1. memory.json → Collect suspicion scores (filtered by Perception Depth)
@@ -247,27 +205,25 @@ if tie: winner = None (no lynch)
 
 ## Step 4: Last Wish & Resolution
 
-**Τι γίνεται:** Μετά τη ψηφοφορία, ο εξοντωμένος παίκτης αποκαλύπτεται και μπορεί να ενεργοποιηθεί ένα [[Dynamic Events#The Last Wish|Last Wish]] event.
-
 ### Lynch Resolution
 
-| Βήμα | Action                                                           |
+|  | Action                                                           |
 | ---- | ---------------------------------------------------------------- |
-| 1    | Ο παίκτης με τις περισσότερες ψήφους **εξοντώνεται**              |
-| 2    | Ο ρόλος **ΔΕΝ** αποκαλύπτεται — μόνο ο [[Janitor]] μπορεί να μάθει |
+| 1    | **** |
+| 2    | **** |
 | 3    | **Win Condition Check** — [[Win Conditions]]                      |
-| 4    | Αν δεν υπάρχει νικητής → **Last Wish** roll (40% πιθανότητα)      |
-| 5    | Transition στη [[Night Phase]]                                    |
+| 4    | → **Last Wish** roll |
+| 5    | Transition [[Night Phase]] |
 
 ### Special Lynch Outcomes
 
 | Lynched Role       | Outcome                                                  |
 | ------------------- | -------------------------------------------------------- |
-| **[[Jester]]**      | 🃏 **JESTER WINS** — Game Over. Κανείς άλλος δεν κερδίζει. |
-| **[[Executioner]] target** | ⚔️ **EXECUTIONER WINS** — Παιχνίδι συνεχίζει, target νεκρός. |
+| **[[Jester]]**      | 🃏 **JESTER WINS**|
+| **[[Executioner]] target** | ⚔️ **EXECUTIONER WINS**|
 | **Mafia member**    | ✅ Town successfully eliminated a Mafia member.           |
-| **Town member**     | ❌ Town εξόντωσε αθώο — Mafia πλεονεκτεί.                |
-| **[[Survivor]]**    | 💀 Survivor χάνει — δεν τον σώζει vest στο lynch.         |
+| **Town member**     | ❌ Town |
+| **[[Survivor]]**    | 💀 Survivor |
 
 ### Jester Lynch
 
@@ -322,9 +278,9 @@ if lynched_player == executioner.target:
 
 ## Related Links
 
-- [[Night Phase]] (επόμενη φάση)
-- [[Gameplay Loop]] (τεχνική ροή chat)
-- [[AI Decision Engine]] (πώς αποφασίζουν τα AI)
-- [[Memory System]] (πώς ψηφίζουν τα AI)
+- [[Night Phase]]
+- [[Gameplay Loop]]
+- [[AI Decision Engine]]
+- [[Memory System]]
 - [[Dynamic Events]] (Last Wish, Conflicts)
-- [[Win Conditions]] (ελέγχονται μετά τη ψηφοφορία)
+- [[Win Conditions]]

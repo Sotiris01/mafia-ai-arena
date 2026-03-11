@@ -8,13 +8,9 @@ tags:
 # AI Decision Engine
 ---
 
-Το AI Decision Engine αποτελεί τον "εγκέφαλο" κάθε Virtual Player. Αποφασίζει **πότε** θα μιλήσουν, **τι** θα πουν, και **πώς** θα ψηφίσουν. Βασίζεται σε τρεις πυλώνες: **Speak Probability**, **Perception Depth**, και **Vote Logic**.
-
 ---
 
 ## 1. Speak Probability Engine
-
-Αντί να μιλάνε τα AI με τη σειρά (round-robin), το σύστημα υπολογίζει **πιθανότητα** για κάθε AI να αντιδράσει σε κάθε μήνυμα.
 
 ### Formula
 
@@ -28,39 +24,35 @@ speak_chance(player) =
 
 ### Factor 1: Personality Base
 
-Η βάση πιθανότητας βάσει **[[Data Architecture#personality.json|personality.json]]**:
-
 | Personality   | Base Probability | Behavior                               |
 | ------------- | ---------------- | -------------------------------------- |
-| **Shy**       | 0.10 (10%)       | Σπάνια μιλάει, παρατηρεί               |
-| **Cautious**  | 0.30 (30%)       | Μιλάει μόνο όταν έχει κάτι σημαντικό   |
-| **Logical**   | 0.50 (50%)       | Μιλάει moderate, evidence-based        |
-| **Paranoid**  | 0.60 (60%)       | Μιλάει συχνά, εκφράζει ανησυχίες       |
-| **Charismatic**| 0.70 (70%)      | Μιλάει πολύ, πείθει, δημιουργεί αφήγηση|
-| **Aggressive**| 0.80 (80%)       | Μιλάει σχεδόν πάντα, κατηγορεί         |
+| **Shy**       | 0.10 (10%)       | , |
+| **Cautious**  | 0.30 (30%)       |  |
+| **Logical**   | 0.50 (50%)       | moderate, evidence-based |
+| **Paranoid**  | 0.60 (60%)       | , |
+| **Charismatic**| 0.70 (70%)      | , , |
+| **Aggressive**| 0.80 (80%)       | , |
 
 ### Factor 2: Role Modifier
 
-Ο ρόλος τροποποιεί τη βασική πιθανότητα:
-
 | Role                          | Modifier | Reason                                                |
 | ----------------------------- | -------- | ----------------------------------------------------- |
-| Town general ([[Citizen]], [[Doctor]], [[Lookout]], [[Tracker]], [[Gossip]]) | ×1.0 | Κανένα modifier |
-| [[Sheriff]]                   | ×1.1     | Έχει evidence να μοιραστεί                          |
-| [[Bodyguard]]                 | ×1.0     | Κανονική συμπεριφορά — δεν πρέπει να αποκαλυφθεί       |
-| [[Lovers]]                    | ×1.0     | Συμπεριφέρονται ως Citizens                          |
-| [[Mayor]] (pre-reveal)        | ×0.9     | Χαμηλό profile πριν το reveal                         |
-| [[Mayor]] (post-reveal)       | ×1.3     | Οδηγεί συζήτηση με ×2 ψήφο                           |
-| Mafia general ([[Mafia Goon]], [[Framer]], [[Silencer]]) | ×0.7 | Η Mafia δεν θέλει να τραβάει προσοχή |
-| [[Godfather]]                 | ×1.1     | Μπορεί να μιλήσει ελεύθερα (investigation immune)  |
-| [[Consigliere]]               | ×0.8     | Έχει πληροφορίες αλλά πρέπει να τις διαχειριστεί προσεκτικά |
-| [[Janitor]]                   | ×0.7     | Μυστική γνώση — δεν αποκαλύπτει την πηγή          |
-| [[Jester]]                    | ×1.2     | Θέλει προσοχή — σκόπιμα προκλητικός               |
-| [[Executioner]]               | ×1.0     | Κανονικός — στοχεύει συγκεκριμένο παίκτη              |
-| [[Survivor]]                  | ×0.6     | Χαμηλό profile — δεν θέλει προσοχή                  |
-| [[Zombie]]                    | ×0.8     | Παίζει σαν Town — δεν αποκαλύπτεται                 |
+| Town general ([[Citizen]], [[Doctor]], [[Lookout]], [[Tracker]], [[Gossip]]) | ×1.0 | modifier |
+| [[Sheriff]]                   | ×1.1     | evidence |
+| [[Bodyguard]]                 | ×1.0     |  |
+| [[Lovers]]                    | ×1.0     | Citizens |
+| [[Mayor]] (pre-reveal)        | ×0.9     | profile reveal |
+| [[Mayor]] (post-reveal)       | ×1.3     | ×2 |
+| Mafia general ([[Mafia Goon]], [[Framer]], [[Silencer]]) | ×0.7 | Mafia |
+| [[Godfather]]                 | ×1.1     | (investigation immune) |
+| [[Consigliere]]               | ×0.8     |  |
+| [[Janitor]]                   | ×0.7     |  |
+| [[Jester]]                    | ×1.2     |  |
+| [[Executioner]]               | ×1.0     |  |
+| [[Survivor]]                  | ×0.6     | profile |
+| [[Zombie]]                    | ×0.8     | Town |
 
-### Factor 3: Trigger Modifiers (Κρίσιμο)
+### Factor 3: Trigger Modifiers
 
 | Trigger                                | New Probability | Priority  |
 | -------------------------------------- | --------------- | --------- |
@@ -74,8 +66,6 @@ speak_chance(player) =
 | **General discussion**                 | Base value      | Low       |
 
 ### Factor 4: Cooldown Modifier
-
-Αποτρέπει τα AI από το να "spammάρουν":
 
 ```
 if player spoke in last 2 messages:
@@ -108,17 +98,15 @@ execute first speaker → generate message → restart loop
 
 ## 2. Perception Depth
 
-Η "βαθιά" ανάλυση μνήμης κάθε AI εξαρτάται από το **`perception_depth`** στο [[Data Architecture#personality.json|personality.json]] (1/2/3).
-
 **Detailed:** [[Memory System#Perception Depth]]
 
-### Quick Reference (3 επίπεδα)
+### Quick Reference
 
 | Level | Type            | Filter                     | Data Scope  | Personalities            | Behavior                                |
 | ----- | --------------- | -------------------------- | ----------- | ------------------------ | --------------------------------------- |
-| **1** | **Superficial** | `weight > 0.7` or `< -0.7`| Current day | [[Aggressive]], [[Shy]]  | Βλέπει μόνο ισχυρές σχέσεις, παρασύρεται |
-| **2** | **Smart**       | `weight > 0.2` or `< -0.2`| All days    | [[Cautious]], [[Charismatic]], [[Logical]] | Εντοπίζει patterns, cross-references |
-| **3** | **Deep**        | `weight > 0.1` or `< -0.1`| All days + indirect | [[Paranoid]]      | Βλέπει τα πάντα — ακόμα και ασήμαντα στοιχεία |
+| **1** | **Superficial** | `weight > 0.7` or `< -0.7`| Current day | [[Aggressive]], [[Shy]]  | , |
+| **2** | **Smart**       | `weight > 0.2` or `< -0.2`| All days    | [[Cautious]], [[Charismatic]], [[Logical]] | patterns, cross-references |
+| **3** | **Deep**        | `weight > 0.1` or `< -0.1`| All days + indirect | [[Paranoid]]      |  |
 
 ### Practical Example
 
@@ -126,15 +114,13 @@ execute first speaker → generate message → restart loop
 
 | AI Level      | Analysis                                                   |
 | ------------- | ---------------------------------------------------------- |
-| 1 Superficial | Δεν θυμάται Day 1 data. Αγνοεί τη σύνδεση A↔B.             |
-| 2 Smart       | Βλέπει historical data: A defended known-Mafia B → A ύποπτος |
-| 3 Deep        | Cross-references: A defended B + A ψήφισε εναντίον Town C + Night Echo event E02 κοντά στον A → A πολύ ύποπτος |
+| 1 Superficial | Day 1 data. A↔B. |
+| 2 Smart       | historical data: A defended known-Mafia B → A |
+| 3 Deep        | Cross-references: A defended B + A Town C + Night Echo event E02 A → A |
 
 ---
 
 ## 3. Vote Decision Logic
-
-Κατά τη [[Day Phase#The Trial & Vote|Trial]], κάθε AI αποφασίζει ψήφο μέσω:
 
 ### Step-by-Step
 
@@ -156,18 +142,16 @@ execute first speaker → generate message → restart loop
 
 | Personality    | Voting Behavior                                         | Wait Time    |
 | -------------- | ------------------------------------------------------- | ------------ |
-| **Aggressive** | Ψηφίζει γρήγορα, πρώτος                                 | Early voter  |
-| **Cautious**   | Περιμένει να δει ψήφους άλλων                            | Late voter   |
-| **Paranoid**   | Random element — μπορεί να ψηφίσει απρόβλεπτα            | Mid voter    |
-| **Logical**    | Βασίζεται 100% σε evidence                               | Mid voter    |
-| **Shy**        | Ακολουθεί τη majority — "bandwagon" voter                | Latest voter |
-| **Charismatic**| Πείθει άλλους πριν ψηφίσει                               | Early voter  |
+| **Aggressive** | , | Early voter  |
+| **Cautious**   |  | Late voter   |
+| **Paranoid**   | Random element| Mid voter    |
+| **Logical**    | 100% evidence | Mid voter    |
+| **Shy**        | majority — "bandwagon" voter | Latest voter |
+| **Charismatic**|  | Early voter  |
 
 ---
 
 ## 4. Message Generation
-
-Όταν ένα AI αποφασίσει να μιλήσει, δημιουργεί μήνυμα βάσει:
 
 ### Inputs
 
@@ -191,88 +175,86 @@ execute first speaker → generate message → restart loop
 
 ---
 
-## 5. Special AI Behaviors by Role (19 ρόλοι)
+## 5. Special AI Behaviors by Role
 
 ### Town (9)
 
 | Role              | Special Behavior                                                                    |
 | ----------------- | ----------------------------------------------------------------------------------- |
-| **Citizen AI**    | Κανονική συμπεριφορά. Ψηφίζει βάσει suspicion + personality.                       |
-| **Sheriff AI**    | Reveals investigation results σε υπολογισμένη "optimal" στιγμή. Κρατάει results αν δεν απειλείται. |
-| **Doctor AI**     | Ποτέ δεν αποκαλύπτει ρόλο εκτός αν κινδυνεύει. Επιλέγει protect ή cure βάσει zombie threat. |
-| **Lookout AI**    | Αποκαλύπτει ποιος επισκέφτηκε τον στόχο — επιβεβαιώνει ή αντικρούει claims.           |
-| **Tracker AI**    | Αποκαλύπτει πού πήγε ο στόχος. Ιδανικό για να εντοπίσει Mafia killers.                     |
-| **Gossip AI**     | Αναφέρει hints χωρίς να αποκαλύπτει πηγή. Cross-references με δημόσια events.             |
-| **Lovers AI**     | Υπερασπίζει τον partner. Ποτέ δεν ψηφίζει εναντίον του partner. Ειδικό trust bonus.     |
-| **Bodyguard AI**  | Προστατεύει τον πιο αξιόπιστο Town player. Δεν αποκαλύπτει ρόλο.                       |
-| **Mayor AI**      | Pre-reveal: χαμηλό profile. Post-reveal: οδηγεί συζήτηση με ×2 ψήφο. Επιλέγει στρατηγικά πότε να αποκαλυφθεί. |
+| **Citizen AI**    | . suspicion + personality. |
+| **Sheriff AI**    | Reveals investigation results "optimal" . results . |
+| **Doctor AI**     | . protect cure zombie threat. |
+| **Lookout AI**    |  |
+| **Tracker AI**    | . Mafia killers. |
+| **Gossip AI**     | hints . Cross-references events. |
+| **Lovers AI**     | partner. partner. trust bonus. |
+| **Bodyguard AI**  | Town player. . |
+| **Mayor AI**      | Pre-reveal: profile. Post-reveal: ×2 . . |
 
 ### Mafia (6)
 
 | Role              | Special Behavior                                                                    |
 | ----------------- | ----------------------------------------------------------------------------------- |
-| **Godfather AI**  | Κατηγορεί Town members επιθετικά (investigation immune). Οδηγεί Mafia Chat.          |
-| **Mafia Goon AI** | Ακολουθεί Godfather strategy. Fake accusations. Αποφεύγει προφανή υπεράσπιση teammates. |
-| **Framer AI**     | Συντονίζει frame target με Mafia kill target για max confusion.                 |
-| **Silencer AI**   | Σιγάζει τον πιο επικίνδυνο Town player (π.χ. Sheriff που ξέρει πολλά).                  |
-| **Consigliere AI**| Χρησιμοποιεί role info στο Mafia Chat. Κατευθύνει kill target βάσει ακριβούς ρόλου.  |
-| **Janitor AI**    | Μοιράζεται ρόλους νεκρών στο Mafia Chat. Exploits "no role reveal" mechanic.           |
+| **Godfather AI**  | Town members (investigation immune). Mafia Chat. |
+| **Mafia Goon AI** | Godfather strategy. Fake accusations. teammates. |
+| **Framer AI**     | frame target Mafia kill target max confusion. |
+| **Silencer AI**   | Town player. |
+| **Consigliere AI**| role info Mafia Chat. kill target . |
+| **Janitor AI**    | Mafia Chat. Exploits "no role reveal" mechanic. |
 
 ### Neutral (4)
 
 | Role              | Special Behavior                                                                    |
 | ----------------- | ----------------------------------------------------------------------------------- |
-| **Jester AI**     | Κάνει σκόπιμα ύποπτες δηλώσεις. Δημιουργεί confusion. Στόχος: να ψηφιστεί.          |
-| **Executioner AI**| Στοχεύει 100% τον assigned target. Κατηγορεί συστηματικά — αλλά όχι προφανώς. Αν target πεθάνει νύχτα → γίνεται Jester. |
-| **Survivor AI**   | Μένει neutral. Χαμηλό profile. Αμύνεται μόνο αν κατηγορηθεί. Vest στρατηγικά (2–3 φορές). |
-| **Zombie AI**     | Παίζει σαν αθώο Town. Στοχεύει στρατηγικά ποιον θα μολύνει (key roles πρώτα).            |
+| **Jester AI**     | . confusion. : . |
+| **Executioner AI**| 100% assigned target. |
+| **Survivor AI**   | neutral. profile. . Vest . |
+| **Zombie AI**     | Town. . |
 
 ---
 
 ## 6. Night Echo Event Reactions
 
-Οι AI Players αντιδρούν στα [[Dynamic Events#Night Echo Events|Night Echo Events]] (E01–E14) βάσει `perception_depth` + `emotional_reactivity` + `suspicion_sensitivity`.
+ AI Players [[Dynamic Events#Night Echo Events|Night Echo Events]] (E01–E14) `perception_depth` + `emotional_reactivity` + `suspicion_sensitivity`.
 
 ### Event Weight → Memory Impact
-
-Μετά από κάθε event, το AI ενημερώνει το memory.json:
 
 ```
 new_suspicion = existing_suspicion + (event_weight × emotional_reactivity × memory_weight_modifier)
 ```
 
-| Event              | Base Weight | Σχόλιο                              |
+| Event              | Base Weight |  |
 | ------------------ | ----------- | ----------------------------------- |
-| E01 Noise, E05 Seen | +0.15      | Ήπιο — κάποιος πήγε εκεί           |
-| E02 Shadow         | +0.30       | Πιο ύποπτο — Mafia/Zombie linked   |
-| E03 Footsteps      | +0.10       | Neutral — μπορεί να ήταν Sheriff    |
-| E04 Argument       | +0.20       | Αξιοσημείωτο — σύγκρουση           |
-| E06 Commotion      | +0.25       | Πολλαπλή δραστηριότητα              |
-| E07 Gun            | +0.35       | "Οπλισμένος" = επικίνδυνος              |
-| E08 Nervous        | +0.30       | Νευρικός = πιθανός ένοχος           |
-| E09 Watchful       | +0.15       | Ήπιο — παρατήρηση                  |
-| E10 Whispers       | +0.40       | Μυστική σχέση — πολύ ύποπτο        |
-| E11 Medical        | -0.10       | Μειώνει suspicion (πιθανός Doctor ally) |
-| E12 Guard Post     | -0.15       | Μειώνει suspicion (πιθανός Town)      |
+| E01 Noise, E05 Seen | +0.15      |  |
+| E02 Shadow         | +0.30       | — Mafia/Zombie linked |
+| E03 Footsteps      | +0.10       | Neutral|
+| E04 Argument       | +0.20       |  |
+| E06 Commotion      | +0.25       |  |
+| E07 Gun            | +0.35       | "" = |
+| E08 Nervous        | +0.30       | = |
+| E09 Watchful       | +0.15       |  |
+| E10 Whispers       | +0.40       |  |
+| E11 Medical        | -0.10       | suspicion |
+| E12 Guard Post     | -0.15       | suspicion |
 | E13 Illness        | +0.20       | Zombie concern                      |
-| E14 Silenced       | +0.10       | Ήπιο hint                          |
+| E14 Silenced       | +0.10       | hint |
 
 ### Personality × Event Reactions
 
 | `perception_depth` | Event Reaction                                                      |
 | ------------------ | ------------------------------------------------------------------- |
-| 1 (Superficial)    | Αντιδρά μόνο σε events με weight ≥ 0.25. Αγνοεί ήπια events.          |
-| 2 (Smart)          | Αντιδρά σε όλα τα events. Cross-references 1–2 πηγές.                |
-| 3 (Deep)           | Cross-references events + vote patterns + night results + προηγούμενα events. Βλέπει μοτίβα. |
+| 1 (Superficial)    | events weight ≥ 0.25. events. |
+| 2 (Smart)          | events. Cross-references 1–2 . |
+| 3 (Deep)           | Cross-references events + vote patterns + night results + events. . |
 
 | Personality     | `emotional_reactivity` | `memory_weight_modifier` | Behavior                               |
 | --------------- | ---------------------- | ------------------------ | -------------------------------------- |
-| [[Aggressive]]  | 1.40                   | 1.20                     | Αντιδρά έντονα — αμέση κατηγορία          |
-| [[Cautious]]    | 0.60                   | 0.70                     | Ηρεμή αντίδραση — σημειώνει χωρίς κατηγορία |
-| [[Charismatic]] | 1.00                   | 0.90                     | Χρησιμοποιεί events για να οδηγήσει συζήτηση  |
-| [[Logical]]     | 0.50                   | 1.00                     | Αναλύει ουδέτερα — ζητάει περισσότερα στοιχεία |
-| [[Paranoid]]    | 1.60                   | 1.50                     | Εντείνει τα πάντα — βλέπει απειλές παντού       |
-| [[Shy]]         | 0.80                   | 0.80                     | Αγνοεί τα περισσότερα events                 |
+| [[Aggressive]]  | 1.40                   | 1.20                     |  |
+| [[Cautious]]    | 0.60                   | 0.70                     |  |
+| [[Charismatic]] | 1.00                   | 0.90                     | events |
+| [[Logical]]     | 0.50                   | 1.00                     |  |
+| [[Paranoid]]    | 1.60                   | 1.50                     |  |
+| [[Shy]]         | 0.80                   | 0.80                     | events |
 
 ---
 

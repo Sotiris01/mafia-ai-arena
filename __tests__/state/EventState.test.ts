@@ -3,8 +3,8 @@ import type { NightEchoEvent, LastWish } from "../../src/types/event.types";
 
 const mockNightEcho: NightEchoEvent = {
   id: "E01",
-  name: { en: "Whispers in the Dark", gr: "Ψίθυροι στο Σκοτάδι" },
-  description_template: { en: "Someone whispers a name...", gr: "Κάποιος ψιθυρίζει ένα όνομα..." },
+  name: "Whispers in the Dark",
+  description_template: "Someone whispers a name...",
   probability: 0.30,
   suspicion_weight: 0.5,
   linked_roles: ["Sheriff"],

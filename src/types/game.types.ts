@@ -50,12 +50,6 @@ export interface WinResult {
   reason: string;
 }
 
-/** Bilingual text used across data JSONs (roles, events, templates, gossip) */
-export interface LocalizedText {
-  en: string;
-  gr: string;
-}
-
 // --- GameConfig sub-interfaces (match src/data/config.json structure) ---
 
 export interface TimerConfig {

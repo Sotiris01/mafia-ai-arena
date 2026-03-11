@@ -8,13 +8,23 @@
     "negative_score": "Mafia overpowers — Town receives boost",
     "logic": "Use Math.abs(score) for stage lookup; sign(score) determines boosted faction"
   },
-
   "thresholds": {
-    "stage_0": { "min": -0.05, "max": 0.05, "label": "Balanced" },
-    "stage_1": { "min": 0.05, "max": 0.15, "label": "Slight Imbalance" },
-    "stage_2": { "min": 0.15, "max": 1.0, "label": "Major Imbalance" }
+    "stage_0": {
+      "min": -0.05,
+      "max": 0.05,
+      "label": "Balanced"
+    },
+    "stage_1": {
+      "min": 0.05,
+      "max": 0.15,
+      "label": "Slight Imbalance"
+    },
+    "stage_2": {
+      "min": 0.15,
+      "max": 1,
+      "label": "Major Imbalance"
+    }
   },
-
   "buffs": {
     "stage_0": {
       "type": "none",
@@ -26,8 +36,16 @@
       "description": "Info roles of the losing faction get +1 extra action",
       "extra_actions": 1,
       "eligible_roles": {
-        "town": ["Sheriff", "Lookout", "Tracker"],
-        "mafia": ["Consigliere", "Framer", "Silencer"]
+        "town": [
+          "Sheriff",
+          "Lookout",
+          "Tracker"
+        ],
+        "mafia": [
+          "Consigliere",
+          "Framer",
+          "Silencer"
+        ]
       }
     },
     "stage_2": {
@@ -39,17 +57,14 @@
       "includes_passive_hints": true
     }
   },
-
-  "excluded_from_boost": ["Bodyguard", "Zombie", "Survivor", "Lovers"],
-
+  "excluded_from_boost": [
+    "Bodyguard",
+    "Zombie",
+    "Survivor",
+    "Lovers"
+  ],
   "announcement_templates": {
-    "stage_1": {
-      "en": "The Full Moon rises... the {faction} feels a surge of insight.",
-      "gr": "Η Πανσέληνος ανατέλλει... η {faction} νιώθει μια έξαρση διαίσθησης."
-    },
-    "stage_2": {
-      "en": "The Full Moon blazes! The {faction} is empowered with extraordinary strength!",
-      "gr": "Η Πανσέληνος φλέγεται! Η {faction} ενδυναμώνεται με εξαιρετική δύναμη!"
-    }
+    "stage_1": "The Full Moon rises... the {faction} feels a surge of insight.",
+    "stage_2": "The Full Moon blazes! The {faction} is empowered with extraordinary strength!"
   }
 }

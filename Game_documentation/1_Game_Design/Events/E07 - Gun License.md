@@ -6,7 +6,7 @@ tags:
   - game_design
 ---
 
-# E07 — Gun License (Άδεια Οπλοφορίας)
+# E07 — Gun License
 ---
 
 | Property         | Value                                                         |
@@ -15,35 +15,25 @@ tags:
 | **Type**         | Night Echo Event                                              |
 | **Timing**       | 💬 Mid-Day                                                    |
 | **Probability**  | `0.10`                                                        |
-| **Linked Roles** | [[Bodyguard]], [[Sheriff]] _(πολύ σπάνια)_, [[Godfather]], [[Mafia Goon]] |
-| **Trigger**      | Ένας από τους παραπάνω ρόλους **υπάρχει** ζωντανός στο παιχνίδι |
+| **Linked Roles** | [[Bodyguard]], [[Sheriff]] __, [[Godfather]], [[Mafia Goon]] |
+| **Trigger**      | **** |
 | **Suspicion Weight** | +0.35                                                     |
 
 ---
 
 ## Message
 
-> _"Φημολογείται ότι ο Player X απέκτησε πρόσφατα άδεια οπλοφορίας..."_
-
 ---
-
-## Τι Αποκαλύπτει
-
-Ο Player X **μπορεί** να είναι κάποιος "οπλισμένος" ρόλος.
-
-## Τι Κρύβει
-
-Αν είναι Bodyguard (Town), Sheriff (σπάνιο), ή Mafia μέλος.
 
 ---
 
 ## Weighted Selection
 
-| Ρόλος πίσω από event          | Weight   | Σχόλιο                              |
+| event | Weight   |  |
 | ----------------------------- | -------- | ----------------------------------- |
-| [[Bodyguard]]                 | `0.50`   | Πιθανότερο — ο "φύλακας" έχει όπλο |
-| [[Mafia Goon]] / [[Godfather]]| `0.35`  | Πιθανό — η Mafia είναι οπλισμένη   |
-| [[Sheriff]]                   | `0.15`   | Πολύ σπάνιο — ο Sheriff σπάνια φαίνεται |
+| [[Bodyguard]]                 | `0.50`   |  |
+| [[Mafia Goon]] / [[Godfather]]| `0.35`  |  |
+| [[Sheriff]]                   | `0.15`   |  |
 
 ---
 
@@ -57,7 +47,6 @@ if random() < 0.10:
     midday_events.add({
       type: "E07_GUN_LICENSE",
       suspect: selected,
-      message: f"Φημολογείται ότι ο {selected} απέκτησε πρόσφατα άδεια οπλοφορίας..."
     })
 ```
 
@@ -65,5 +54,5 @@ if random() < 0.10:
 
 ## Related Links
 
-- [[Dynamic Events#Master Event Table]] — Πίνακας όλων των events
-- [[Day Phase#Public Discussion]] — Εμφανίζεται ως mid-day interrupt
+- [[Dynamic Events#Master Event Table]]
+- [[Day Phase#Public Discussion]]

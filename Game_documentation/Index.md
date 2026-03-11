@@ -7,8 +7,6 @@ tags:
 
 # Mafia Game Documentation - Index
 ---
-Καλώς ήρθατε στο Documentation του **Mafia: Single-Player AI Edition**.
-Ένα mobile game (React Native + Expo) όπου ο παίκτης παίζει μαζί με AI αντιπάλους σε ένα ψυχολογικό παιχνίδι στρατηγικής.
 
 ---
 
@@ -16,65 +14,65 @@ tags:
 
 ### 🎭 Roles
 
-**Town (The Informed Majority)** — 9 ρόλοι
-- [[Citizen]] — 🟢 CORE — Χωρίς ειδική δύναμη. Ψήφος & φωνή.
-- [[Sheriff]] — 🟢 CORE — Ερευνά alignment κάθε νύχτα.
-- [[Doctor]] — 🟢 CORE — Προστατεύει από νυχτερινή δολοφονία ή θεραπεύει zombie.
-- [[Lookout]] — 🟡 IMPORTANT (8+) — Βλέπει ποιος επισκέφτηκε έναν παίκτη.
-- [[Gossip]] — 🔵 ADVANCED (10+) — Λαμβάνει κρυπτικά hints.
-- [[Lovers]] — 🔵 ADVANCED (10+) — Ζευγάρι Citizens. Linked death — πεθαίνει ο ένας, πεθαίνουν και οι δύο.
-- [[Bodyguard]] — 🔵 ADVANCED (10+) — Θυσιάζεται για να σώσει + σκοτώνει 1 Mafia.
-- [[Tracker]] — 🔵 ADVANCED (12+) — Βλέπει πού πήγε ένας παίκτης.
-- [[Mayor]] — 🟣 EXPANDED (13+) — Αποκαλύπτεται για ×2 ψήφο. Μόνος proven Town ρόλος.
+**Town (The Informed Majority)**
+- [[Citizen]]
+- [[Sheriff]]
+- [[Doctor]]
+- [[Lookout]]
+- [[Gossip]]
+- [[Lovers]]
+- [[Bodyguard]]
+- [[Tracker]]
+- [[Mayor]]
 
-**Mafia (The Informed Minority)** — 6 ρόλοι
-- [[Godfather]] — 🟢 CORE — Ηγέτης. Αόρατος στον Sheriff.
-- [[Mafia Goon]] — 🟢 CORE — Βασικό μέλος. Kill vote.
-- [[Framer]] — 🟡 IMPORTANT (9+) — Κάνει αθώους να φαίνονται ένοχοι.
-- [[Silencer]] — 🔵 ADVANCED (11+) — Σιγάζει παίκτη για μία μέρα.
-- [[Consigliere]] — 🟣 EXPANDED (13+) — Μαθαίνει τον ακριβή ρόλο του στόχου.
-- [[Janitor]] — 🟣 EXPANDED (14+) — Μαθαίνει ρόλους νεκρών (μοναδική πληροφορία).
+**Mafia (The Informed Minority)**
+- [[Godfather]]
+- [[Mafia Goon]]
+- [[Framer]]
+- [[Silencer]]
+- [[Consigliere]]
+- [[Janitor]]
 
-**Neutral (The Wildcards)** — 4 ρόλοι
-- [[Jester]] — 🟢 CORE — Κερδίζει αν ψηφιστεί. Game-ender.
-- [[Survivor]] — 🟡 IMPORTANT (9+) — Κερδίζει αν μείνει ζωντανός.
-- [[Executioner]] — 🔵 ADVANCED (12+) — Κερδίζει αν ψηφιστεί ο στόχος του.
-- [[Zombie]] — 🟣 EXPANDED (14+) — Μετατρέπει παίκτες σε zombies. Μόνο ο Doctor θεραπεύει.
+**Neutral (The Wildcards)**
+- [[Jester]]
+- [[Survivor]]
+- [[Executioner]]
+- [[Zombie]]
 
 ### 🔄 Phases
 
-- [[Day Phase]] — Συζήτηση, κατηγορίες, ψηφοφορία (Lynch).
-- [[Night Phase]] — Mafia Chat, νυχτερινές ενέργειες, Resolution.
+- [[Day Phase]]
+- [[Night Phase]]
 
 ### 🧠 Personalities
 
-- [[Aggressive]] — Ο Καυγατζής. Μιλάει πολύ, κατηγορεί εύκολα, superficial perception.
-- [[Cautious]] — Ο Προσεκτικός. Evidence-based, μιλάει λίγο, late voter.
-- [[Paranoid]] — Ο Καχύποπτος. Υποπτεύεται τα πάντα, deep perception, unpredictable.
-- [[Logical]] — Ο Αναλυτικός. 100% evidence-based, consistent, neutral modifier.
-- [[Shy]] — Ο Ντροπαλός. Σπάνια μιλάει, bandwagon voter, εύκολα παρασύρεται.
-- [[Charismatic]] — Ο Χαρισματικός. Πείθει εύκολα, δημιουργεί alliances, leader.
+- [[Aggressive]]
+- [[Cautious]]
+- [[Paranoid]]
+- [[Logical]]
+- [[Shy]]
+- [[Charismatic]]
 
 ### � Events
 
 - [[Dynamic Events]] — Event System overview, Night Echo rules, Selection Engine, AI Response.
-- [[Last Wish]] — Event κατά το lynch (40% probability).
-- [[Full Moon]] — Balance mechanic (catch-up για την ομάδα που χάνει).
+- [[Last Wish]]
+- [[Full Moon]] — Balance mechanic.
 - **Night Echo Events (14):**
-  - [[E01 - Noise at House|E01 Noise at House]] 🌅 — Φασαρία στο σπίτι (ALL visiting roles)
-  - [[E02 - Shadow Spotted|E02 Shadow Spotted]] 🌅 — Σκιά (Mafia + Zombie)
-  - [[E03 - Footsteps Heard|E03 Footsteps Heard]] 🌅 — Βήματα (Investigation roles)
-  - [[E04 - Argument Heard|E04 Argument Heard]] 🌅 — Καυγάς (Lovers, Bodyguard)
-  - [[E05 - Someone Seen Leaving|E05 Someone Seen Leaving]] 🌅 — Κάποιος φεύγει (ALL visiting)
-  - [[E06 - Commotion|E06 Commotion]] 🌅 — Αναταραχή (Doctor + Mafia same target)
-  - [[E07 - Gun License|E07 Gun License]] 💬 — Άδεια οπλοφορίας (Bodyguard, Sheriff, Mafia)
-  - [[E08 - Nervous Behavior|E08 Nervous Behavior]] 💬 — Νευρικότητα (Mafia voters, Jester)
-  - [[E09 - Watchful Eyes|E09 Watchful Eyes]] 💬 — Παρατήρηση (Tracker, Lookout, Executioner)
-  - [[E10 - Whispered Conversation|E10 Whispered Conversation]] 💬 — Ψίθυροι (Mafia, Lovers)
-  - [[E11 - Medical Supplies|E11 Medical Supplies]] 🌅 — Ιατρικά εφόδια (Doctor)
-  - [[E12 - Guard Post|E12 Guard Post]] 🌅 — Φρουρός (Bodyguard)
-  - [[E13 - Strange Illness|E13 Strange Illness]] 💬 — Ασθένεια (Zombie)
-  - [[E14 - Silenced Morning|E14 Silenced Morning]] 🌅 — Σιώπηση (Silencer)
+  - [[E01 - Noise at House|E01 Noise at House]] 🌅
+  - [[E02 - Shadow Spotted|E02 Shadow Spotted]] 🌅
+  - [[E03 - Footsteps Heard|E03 Footsteps Heard]] 🌅
+  - [[E04 - Argument Heard|E04 Argument Heard]] 🌅
+  - [[E05 - Someone Seen Leaving|E05 Someone Seen Leaving]] 🌅
+  - [[E06 - Commotion|E06 Commotion]] 🌅
+  - [[E07 - Gun License|E07 Gun License]] 💬
+  - [[E08 - Nervous Behavior|E08 Nervous Behavior]] 💬
+  - [[E09 - Watchful Eyes|E09 Watchful Eyes]] 💬
+  - [[E10 - Whispered Conversation|E10 Whispered Conversation]] 💬
+  - [[E11 - Medical Supplies|E11 Medical Supplies]] 🌅
+  - [[E12 - Guard Post|E12 Guard Post]] 🌅
+  - [[E13 - Strange Illness|E13 Strange Illness]] 💬
+  - [[E14 - Silenced Morning|E14 Silenced Morning]] 🌅
 
 ### 🏆 Win Conditions & Setup
 
@@ -110,7 +108,7 @@ tags:
 ---
 
 ## 🏷️ Graph View & Tags
-- [[Graph View Setup]] — Obsidian Graph View ρυθμίσεις: 11 color groups (Town 🔵 / Mafia 🔴 / Neutral 🟡 / Personality 🟣 / Events 🟠 / Technical 🟢 / Project 🩷), tag taxonomy (nested tags), graph filters & forces, useful search queries.
+- [[Graph View Setup]]
 
 ---
 

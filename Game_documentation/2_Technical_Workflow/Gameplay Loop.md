@@ -8,8 +8,6 @@ tags:
 # Gameplay Loop — Technical Workflow
 ---
 
-Αυτό το αρχείο περιγράφει τη **βήμα-προς-βήμα τεχνική ροή** που εκτελείται κάθε φορά που ένα μήνυμα εμφανίζεται στο chat ή κάθε φορά που αλλάζει φάση. Αποτελεί τον πυρήνα λειτουργίας του παιχνιδιού.
-
 ## Overview
 
 ```
@@ -41,19 +39,12 @@ tags:
 
 ---
 
-## Step 1: Message Analysis (Ανάλυση Μηνύματος)
-
-Κάθε νέο μήνυμα στο chat (από άνθρωπο ή AI) αναλύεται σημασιολογικά.
+## Step 1: Message Analysis
 
 ### Input
-Το raw text μήνυμα (π.χ. "I think Player B is suspicious, they voted weird yesterday")
 
 ### Processing
-Ο **Chat Semantic Analyzer** εξάγει:
-- **Speaker:** Ποιος μίλησε
-- **Action:** Τι είδους ενέργεια κάνει (Accuse, Defend, Claim, Question, Agree, Disagree)
-- **Target:** Ποιον αφορά
-- **Weight:** Πόσο ισχυρή ήταν η δήλωση (0.0 – 1.0)
+ **Chat Semantic Analyzer** :
 
 ### Output → `chat_events.json`
 
@@ -80,27 +71,25 @@ tags:
 
 | Action     | Description                          | Default Weight |
 | ---------- | ------------------------------------ | -------------- |
-| `accuse`   | Κατηγορεί κάποιον ως Mafia           | 0.8 – 1.0      |
-| `defend`   | Υπερασπίζεται κάποιον                | 0.6 – 0.8      |
-| `agree`    | Συμφωνεί με προηγούμενη δήλωση       | 0.4 – 0.6      |
-| `disagree` | Διαφωνεί με προηγούμενη δήλωση       | 0.4 – 0.6      |
-| `claim`    | Δηλώνει ρόλο ή πληροφορία            | 0.7 – 1.0      |
-| `question` | Ρωτάει / ζητάει εξηγήσεις            | 0.3 – 0.5      |
-| `deflect`  | Αλλάζει θέμα / αποφεύγει             | 0.2 – 0.4      |
+| `accuse`   | Mafia | 0.8 – 1.0      |
+| `defend`   |  | 0.6 – 0.8      |
+| `agree`    |  | 0.4 – 0.6      |
+| `disagree` |  | 0.4 – 0.6      |
+| `claim`    |  | 0.7 – 1.0      |
+| `question` | / | 0.3 – 0.5      |
+| `deflect`  | / | 0.2 – 0.4      |
 
 ---
 
-## Step 2: Memory Update (Ενημέρωση Μνήμης)
-
-**Κάθε** AI Player διαβάζει το νέο event από `chat_events.json` και ενημερώνει το δικό του `memory.json`.
+## Step 2: Memory Update
 
 ### Direct vs Indirect Relationships
 
-| Γεγονός                                     | Αποτέλεσμα στη μνήμη                                           |
+|  |  |
 | ------------------------------------------- | -------------------------------------------------------------- |
-| Ο A κατηγορεί τον B                         | A→B: **suspicion +0.8** (άμεση)                                |
-| Ο C υποστηρίζει τον A (που κατηγόρησε τον B) | C→A: **trust +0.6** (άμεση), C→B: **suspicion +0.3** (έμμεση) |
-| Ο D υπερασπίζεται τον B                     | D→B: **trust +0.6** (άμεση), D→A: **suspicion -0.3** (έμμεση) |
+| A B | A→B: **suspicion +0.8**                                |
+| C A | C→A: **trust +0.6**, C→B: **suspicion +0.3** |
+| D B | D→B: **trust +0.6**, D→A: **suspicion -0.3** |
 
 ### Weight Calculation Formula
 
@@ -110,12 +99,12 @@ new_weight = existing_weight + (event_weight × personality_modifier)
 
 | Personality | `personality_modifier` | Effect                          |
 | ----------- | ---------------------- | ------------------------------- |
-| Aggressive  | 1.20                  | Αντιδρά εντονότερα              |
-| Cautious    | 0.70                  | Αντιδρά πιο ήπια               |
-| Paranoid    | 1.50                  | Εντείνει αρνητικά βάρη          |
-| Logical     | 1.00                  | Ουδέτερος — βασίζεται σε data   |
-| Shy         | 0.80                  | Χαμηλή αντίδραση, ακολουθεί crowd |
-| Charismatic | 1.10                  | Βαρύνει τα social signals       |
+| Aggressive  | 1.20                  |  |
+| Cautious    | 0.70                  |  |
+| Paranoid    | 1.50                  |  |
+| Logical     | 1.00                  |  |
+| Shy         | 0.80                  | , crowd |
+| Charismatic | 1.10                  | social signals |
 
 ### Memory Update Example
 
@@ -141,14 +130,7 @@ new_weight = existing_weight + (event_weight × personality_modifier)
 
 ---
 
-## Step 3: Human Window (Χρονικό Περιθώριο)
-
-Μετά την ενημέρωση μνήμης, το σύστημα **παύει** για 2–3 δευτερόλεπτα.
-
-### Σκοπός
-- Δίνει στον **ανθρώπινο παίκτη** χρόνο να διαβάσει και να αντιδράσει.
-- Αποτρέπει τα AI από το να "πλημμυρίσουν" το chat.
-- Κάνει τη συζήτηση να φαίνεται **φυσική**.
+## Step 3: Human Window
 
 ### Implementation
 
@@ -161,14 +143,11 @@ humanWindowDelay:
     extend_window(additional: 3000ms)
   
   if last_message_was_from_human:
-    reduce_window(multiplier: 0.5)  // Τα AI αντιδρούν πιο γρήγορα
 ```
 
 ---
 
 ## Step 4: Speak Probability Engine
-
-Αντί να μιλάνε τα AI με σειρά, το σύστημα υπολογίζει **πιθανότητα** για κάθε AI.
 
 **Detailed:** [[AI Decision Engine#Speak Probability]]
 
@@ -185,47 +164,36 @@ speak_chance(player) =
 | Factor                  | Effect                                     |
 | ----------------------- | ------------------------------------------ |
 | `personality_base`      | Shy=0.1, Aggressive=0.8                    |
-| `role_modifier`         | Mafia=0.7× (μιλάνε λιγότερο)              |
-| `trigger: accused`      | → 0.95 (σχεδόν πάντα αμύνεται)            |
-| `trigger: has_evidence` | Sheriff ξέρει ένοχο + ένοχος κατηγορείται → +0.8 |
-| `recent_activity`       | Μόλις μίλησε → 0.3× (cooldown)            |
+| `role_modifier`         | Mafia=0.7×              |
+| `trigger: accused`      | → 0.95            |
+| `trigger: has_evidence` | Sheriff + → +0.8 |
+| `recent_activity`       | → 0.3× (cooldown) |
 
 ### Selection Process
 
 ```
-1. Υπολογισμός speak_chance για κάθε alive AI
-2. Roll random(0, 1) για κάθε AI
-3. Αν random < speak_chance → AI θα μιλήσει
-4. Αν πολλαπλά AI θέλουν να μιλήσουν → queue by priority:
    a. Directly accused (highest)
    b. Has evidence (high)
    c. Normal (medium)
    d. Random reaction (low)
-5. Delay μεταξύ messages (simulate natural typing)
+5. Delay messages (simulate natural typing)
 ```
 
 ---
 
 ## Step 5: Message Generation & Loop Reset
 
-Αν ένα AI αποφασίσει να μιλήσει:
-
 ### Input
-1. **[[Data Architecture#role.json|role.json]]** → Τι ρόλο έχει
-2. **[[Data Architecture#personality.json|personality.json]]** → Πώς μιλάει
-3. **[[Data Architecture#memory.json|memory.json]]** → Τι θυμάται, ποιον εμπιστεύεται
+1. **[[Data Architecture#role.json|role.json]]** → 
+2. **[[Data Architecture#personality.json|personality.json]]** → 
 
 ### Output
-Ένα μήνυμα στο chat (π.χ. "I agree with Player A. Player B has been acting weird all game.")
 
 ### Loop Reset
-Το νέο μήνυμα μπαίνει στο chat → ξεκινάει πάλι από το **Step 1**.
 
 ---
 
 ## Phase Transition Logic
-
-Το παιχνίδι ακολουθεί κυκλική ροή φάσεων. Κάθε μετάβαση περιλαμβάνει Win Condition check.
 
 ```
 ┌──────────────────────────────────────────────────────────────────┐
@@ -249,36 +217,24 @@ speak_chance(player) =
 
 ---
 
-## Day Phase Flow (Ροή Ημέρας)
+## Day Phase Flow
 
-### Morning Report (Πρωινή Αναφορά)
-
-Ξεκινάει κάθε νέα μέρα. Ανακοινώνει τα αποτελέσματα της νύχτας **χωρίς αποκάλυψη ρόλων**.
+### Morning Report
 
 ```
 Morning Report Sequence:
-1. Death Announcements (θάνατοι νύχτας — NO role reveal)
-2. Bodyguard Sacrifice (αν Bodyguard πέθανε προστατεύοντας)
-3. Lovers Death Link (αν ένας Lover πέθανε → και ο δεύτερος πεθαίνει)
+1. Death Announcements
+2. Bodyguard Sacrifice
+3. Lovers Death Link
 4. Zombie Infection ("Player X looks different..." — NO role reveal)
 5. Silenced Notification ("Player Y cannot speak today")
-6. Full Moon Announcement (αν ενεργό → "Η σελήνη ήταν γεμάτη...")
+6. Full Moon Announcement
 7. 🌅 Morning Night Echo Events (E01, E02, E06, E07, E08, E10, E13, E14)
 ```
 
-> **Κανόνας:** Οι ρόλοι των νεκρών δεν αποκαλύπτονται **ποτέ** δημόσια.
-
-### Discussion Phase (Συζήτηση)
-
-Το κύριο σώμα της ημέρας. Τρέχει η **Chat Loop** (Steps 1–5).
-
-- AI players αναλύουν τα Morning Report events
-- Η συζήτηση ξεκινάει βάσει Night Echo Events suspicion weights
-- **Mayor ×2 Vote:** Αν ο Mayor έχει αποκαλυφθεί, η ψήφος του μετράει διπλά
+### Discussion Phase
 
 ### 💬 Mid-Day Event Interrupts
-
-Κατά τη συζήτηση, μπορεί να εμφανιστούν **Mid-Day Night Echo Events** ως interrupts:
 
 ```
 Mid-Day Event Delivery:
@@ -294,39 +250,29 @@ Mid-Day Event Delivery:
     → Discussion continues
 ```
 
-### Trial & Vote (Δίκη & Ψηφοφορία)
+### Trial & Vote
 
 ```
 1. Accusation Phase → Players nominate suspects
 2. Defense Phase → Accused player speaks
 3. Vote Phase:
-   - Κάθε ζωντανός παίκτης ψηφίζει
-   - Mayor: vote weight = 2 (αν revealed)
-   - Lovers: δεν μπορούν να ψηφίσουν ο ένας τον άλλον
-   - Zombie victims: ΔΕΝ ψηφίζουν
+   - Mayor: vote weight = 2
    - AI vote logic → [[AI Decision Engine#Vote Decision Logic]]
 4. Lynch Resolution:
    - Majority → Lynch (role NOT revealed)
    - Tie → No lynch
-   - Jester Win Check: Αν ο Jester εκτελέστηκε → Jester wins
-   - Last Wish Event: 50% πιθανότητα να ενεργοποιηθεί
 5. Win Condition Check → [[Win Conditions]]
 ```
 
 ---
 
-## Night Phase Flow (Ροή Νύχτας)
+## Night Phase Flow
 
 ### Mafia Private Chat
 
-Οι Mafia παίκτες μπορούν να συζητήσουν σε private channel.
-- Chat Loop (Steps 1–5) τρέχει **μόνο για Mafia**
-- Αποφασίζουν στόχο kill
 - Godfather decides final target (overrides)
 
 ### Night Resolution Order (7 Phases)
-
-Όλες οι νυχτερινές ενέργειες εκτελούνται **ταυτόχρονα** αλλά επιλύονται σε **σειρά προτεραιότητας**:
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -371,8 +317,6 @@ Mid-Day Event Delivery:
 
 ### Full Moon Balance Check (Phase 6)
 
-Στο τέλος κάθε νύχτας, ελέγχεται το ισοζύγιο:
-
 ```
 balance_score = (town_alive / total_alive) - expected_town_ratio
 
@@ -407,16 +351,14 @@ Event Selection Engine:
 
 ## Win Condition Checks
 
-Ελέγχονται μετά από **κάθε** θάνατο (Lynch ή Night kill):
-
 | Condition                                      | Winner          |
 | ---------------------------------------------- | --------------- |
-| Κανένας Mafia δεν ζει                           | 🏘 Town          |
-| Mafia ≥ Town (ζωντανοί)                        | 🔪 Mafia         |
-| Jester εκτελέστηκε με Lynch                     | 🃏 Jester        |
-| Executioner πέτυχε lynch του target             | ⚖ Executioner   |
-| Survivor ζει στο τέλος (με οποιονδήποτε νικητή) | 🛡 Survivor (co-win) |
-| Zombie: αν zombie_victims ≥ 50% alive players   | 🧟 Zombie        |
+| Mafia | 🏘 Town          |
+| Mafia ≥ Town                        | 🔪 Mafia         |
+| Jester Lynch | 🃏 Jester        |
+| Executioner lynch target | ⚖ Executioner   |
+| Survivor | 🛡 Survivor (co-win) |
+| Zombie: zombie_victims ≥ 50% alive players | 🧟 Zombie        |
 
 **Detailed:** [[Win Conditions]]
 

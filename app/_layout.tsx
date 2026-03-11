@@ -16,7 +16,10 @@ export default function RootLayout() {
           }}
         >
           <Stack.Screen name="index" options={{ title: "Mafia AI Arena" }} />
-          <Stack.Screen name="settings" options={{ title: "Settings" }} />
+          <Stack.Screen
+            name="settings"
+            options={{ title: "Settings" }}
+          />
           <Stack.Screen name="game" options={{ headerShown: false }} />
         </Stack>
       </GameProvider>
